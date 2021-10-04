@@ -1,13 +1,5 @@
 #pragma once
 
-#define _USE_MATH_DEFINES
-
-#include <iostream>
-#include <math.h>
-#include "../../../lib/geometry/matrix/Matrix.h"
-#include "../../../lib/geometry/vector/Vector.h"
-#include "../../../lib/geometry/point/Point.h"
-#include "../../../lib/objects/planet/Planet.h"
 #include "../../../lib/objects/planetaryStation/PlanetaryStation.h"
 
 PlanetaryStation::PlanetaryStation(){};

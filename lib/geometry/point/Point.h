@@ -1,3 +1,9 @@
+#pragma once
+
+#include <iostream>
+#include <math.h>
+using namespace std;
+
 #ifndef _POINT
 #define _POINT
 
@@ -13,6 +19,11 @@ class Point{
          */
         Point();
         Point(float x, float y, float z);
+
+
+        // ---------------------------------------
+        // ------------- OPERACIONES -------------
+        // ---------------------------------------
 
         /*
          * Pre:

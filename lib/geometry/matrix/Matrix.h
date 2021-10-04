@@ -1,3 +1,11 @@
+#pragma once
+
+#include <iostream>
+#include <math.h>
+#include "../../../lib/geometry/vector/Vector.h"
+#include "../../../lib/geometry/point/Point.h"
+using namespace std;
+
 #ifndef _MATRIX
 #define _MATRIX
 
@@ -14,6 +22,11 @@ class Matrix{
             float f04, float f05, float f06, float f07,                                         
             float f08, float f09, float f10, float f11,
             float f12, float f13, float f14, float f15);
+
+
+        // ---------------------------------------
+        // ------------- OPERACIONES -------------
+        // ---------------------------------------
 
         /*
          * Pre:

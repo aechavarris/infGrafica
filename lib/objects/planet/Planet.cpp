@@ -1,10 +1,6 @@
 #pragma once
 
-#include <iostream>
-#include "../../../lib/geometry/vector/Vector.h"
-#include "../../../lib/geometry/point/Point.h"
 #include "Planet.h"
-using namespace std;
 
 Planet::Planet(){};
 

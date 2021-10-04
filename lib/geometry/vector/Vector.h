@@ -1,3 +1,9 @@
+#pragma once
+
+#include <iostream>
+#include <math.h>
+using namespace std;
+
 #ifndef _VECTOR
 #define _VECTOR
 
@@ -12,6 +18,11 @@ class Vector {
          */
         Vector();
         Vector(float x, float y, float z);
+
+
+        // ---------------------------------------
+        // ------------- OPERACIONES -------------
+        // ---------------------------------------
 
         /*
          * Pre:

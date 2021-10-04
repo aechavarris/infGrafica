@@ -1,11 +1,6 @@
 #pragma once
 
-#include <iostream>
-#include <math.h>
-#include "../../../lib/geometry/vector/Vector.h"
-#include "../../../lib/geometry/point/Point.h"
 #include "Matrix.h"
-using namespace std;
 
 Matrix::Matrix(){
     m[0][0] = 1;    m[0][1] = 0;    m[0][2] = 0;    m[0][3] = 0;

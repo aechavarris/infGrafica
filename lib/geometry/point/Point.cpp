@@ -1,9 +1,6 @@
 #pragma once
 
-#include <iostream>
-#include <math.h>
 #include "Point.h"
-using namespace std;
 
 Point::Point(){};
 
