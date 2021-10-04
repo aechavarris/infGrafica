@@ -3,7 +3,7 @@
 #include <iostream>
 #include <math.h>
 #include "../../../lib/geometry/vector/Vector.h"
-#include "../../lib/geometry/point/Point.h"
+#include "../../../lib/geometry/point/Point.h"
 #include "Matrix.h"
 using namespace std;
 

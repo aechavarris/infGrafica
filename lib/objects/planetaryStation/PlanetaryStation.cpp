@@ -8,7 +8,6 @@
 #include "../../../lib/geometry/vector/Vector.h"
 #include "../../../lib/geometry/point/Point.h"
 #include "../../../lib/objects/planet/Planet.h"
-
 #include "../../../lib/objects/planetaryStation/PlanetaryStation.h"
 
 PlanetaryStation::PlanetaryStation(){};
