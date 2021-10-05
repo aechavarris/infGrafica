@@ -67,6 +67,25 @@ void HDRFile::readFile(){
 	my_file.close();
 };
    
-void HDRFile::writeFile(){
+void HDRFile::writeFile(string path){
+    ofstream my_file{path + this->name};
 
+        my_file << this->format << '\n';
+        my_file << this->comments << '\n';
+        my_file << "# " << this->name << ".ppm" << '\n';
+        my_file << this->width << " " << this->height << '\n';
+        my_file << this->potentialColor << '\n';
+        for (int i = 0; i < this->height; i++){
+            for (int j = 0; j < this->width; j++){
+
+                my_file << this->RGBTuples.at(i*this->height+j).r << "  ";
+                my_file << this->RGBTuples.at(i*this->height+j).g << "  ";
+                my_file << this->RGBTuples.at(i*this->height+j).b << "      ";
+
+            }
+            my_file << '\n';
+        }
+
+		my_file.close();
+	
 };

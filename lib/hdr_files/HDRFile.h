@@ -44,7 +44,7 @@ class HDRFile{
          * Pre:
          * Post:
          */
-        void writeFile();
+        void writeFile(string path);
     
 };
 

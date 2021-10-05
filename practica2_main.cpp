@@ -9,20 +9,7 @@ int main(int argv,char* argc[]) {
     }
     HDRFile file=HDRFile("prueba1",argc[1]);
     file.readFile();
-    cout << file.path << endl;
-    cout << file.name << endl;
-    cout << file.format << endl;
-    cout << file.comments << endl;
-    cout << file.width << endl;
-    cout << file.height << endl;
-    cout << file.potentialColor << endl;  
-
-    for (int i = 0; i < 1; i++){
-        for (int j = 0; j < 5; j++){
-            cout << file.RGBTuples.at(i*file.height+j).r << "  ";
-            cout << file.RGBTuples.at(i*file.height+j).g << "  ";
-            cout << file.RGBTuples.at(i*file.height+j).b << endl;
-        }
-    }
+    string newPath;
+    file.writeFile(newPath);
     return 0;
 }
