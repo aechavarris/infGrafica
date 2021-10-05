@@ -21,7 +21,7 @@ class HDRFile{
         string comments;
         int width, height;
         int potentialColor;
-        vector< vector<RGB> > RGBTuples;
+        vector<RGB> RGBTuples;
 
         /*
          * Constructores de la clase HDRFile
@@ -38,13 +38,13 @@ class HDRFile{
          * Pre:
          * Post:
          */
-        void HDRFile::readFile();
+        void readFile();
 
         /*
          * Pre:
          * Post:
          */
-        void HDRFile::writeFile();
+        void writeFile();
     
 };
 

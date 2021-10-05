@@ -1,3 +1,5 @@
 
-hdr_files/forest_path.ppm
 *.ppm
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/settings.json

@@ -2,8 +2,8 @@
 #include "lib/geometry/vector/Vector.h"
 #include "lib/geometry/point/Point.h"
 #include "lib/geometry/matrix/Matrix.h"
-#include "objects/planet/Planet.h"
-#include "objects/planetaryStation/PlanetaryStation.h"
+#include "lib/objects/planet/Planet.h"
+#include "lib/objects/planetaryStation/PlanetaryStation.h"
 using namespace std;
 
 int main() {

@@ -2,7 +2,10 @@
 
 #include "HDRFile.h"
 
-HDRFile::HDRFile(){};
+HDRFile::HDRFile(string name,string path){
+    this->name = name;
+    this->path = path;
+};
 
 void HDRFile::readFile(){
     fstream my_file;
@@ -12,34 +15,35 @@ void HDRFile::readFile(){
 	}
 	else {
 		string line;
+        string tmp;
+        int w,h;
         for (int i = 0; i < 5; i++ ){
-            while (!my_file.eof()) {
-                getline(my_file,line);
                 switch (i)
                 {
                     // It takes the format of the file
                     case 0:
+                        getline(my_file,line);
                         this->format = line;
                         break;
 
                     // It takes the comments of the file
                     case 1:
-                        this->comments = line;
+                        
+                        getline(my_file,line,'\n');
+                        this->comments=line;
+                        getline(my_file,line,'\n');
                         break;
 
                     // It takes the resolution of the file
                     case 2:
-                        char* pch = strtok ((char*) line.c_str(), " ");
-                        while (pch != NULL) 
-                        {
-                            printf ("%s\n", pch);
-                            this->width = atoi(pch);
-                            pch = strtok (NULL, " ");
-                        }
+                        my_file >> w >>h;
+                        getline(my_file,line,'\n');
+                        this->width=w;
+                        this->height=h;
                         break;
-
                     // It takes the potential color of the file
                     case 3:
+                        getline(my_file,line,'\n');
                         this->potentialColor = atoi((char*) line.c_str());
                         break;
 
@@ -47,36 +51,17 @@ void HDRFile::readFile(){
                     case 4:
                         int r, g, b;
                         for (int n = 0; n < this->height; n++){
-                            
                             for (int m = 0; m < this->width; m++){
-                                for (int c = 0; c < 3; c++){
-                                    char* pch = strtok ((char*) line.c_str(), " ");
-                                    while (pch != NULL) 
-                                    {
-                                        printf ("%s\n", pch);
-                                        switch (c)
-                                        {
-                                        case 0:
-                                            r = atoi(pch);
-                                            break;
-                                        
-                                        case 1:
-                                            g = atoi(pch);
-                                            break;
-                                        case 2:
-                                            b = atoi(pch);
-                                            break;
-                                        }
-                                        pch = strtok (NULL, " ");
-                                    }
-                                }
+                                
+                                my_file >> r >> g >> b;
+                                
                                 RGB actual = RGB(r, g, b);
-                                this->RGBTuples[n][m] = actual;
+                                
+                                this->RGBTuples.push_back(actual);
                             }
                         }
                         break;
                 }
-            }
         }
 	}
 	my_file.close();
