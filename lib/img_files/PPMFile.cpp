@@ -81,7 +81,6 @@ void PPMFile::readFile(){
 };
 
 float hdr_function(float v, float m){
-    cout << v / m << endl;
     if (v / m < 1.0){
         return v / m;
     }
