@@ -3,7 +3,7 @@
 #include <iostream>
 #include <math.h>
 #include "ToneMapping.h"
-#include "../../lib/hdr_files/HDRFile.h"
+#include "../../lib/img_files/PPMFile.h"
 
 #ifndef _TONE_MAPPING
 #define _TONE_MAPPING
@@ -26,19 +26,19 @@ class ToneMapping{
          * Pre:
          * Post:
          */
-        void clamping(HDRFile &f);
+        void clamping(PPMFile &f);
 
         /*
          * Pre:
          * Post:
          */
-        void equalization(HDRFile &f, float maxValue);
+        void equalization(PPMFile &f, float maxValue);
 
         /*
          * Pre:
          * Post:
          */
-        void gammaCurve(HDRFile &f);
+        void gammaCurve(PPMFile &f);
     
 };
 

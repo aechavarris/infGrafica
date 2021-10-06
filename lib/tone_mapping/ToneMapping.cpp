@@ -5,14 +5,16 @@ using namespace std;
 
 ToneMapping::ToneMapping(){};
 
-void ToneMapping::clamping(HDRFile &f){
+void ToneMapping::clamping(PPMFile &f){
+    for (int i = 0; i < f.height; i++){
+
+    }
+};
+
+void ToneMapping::equalization(PPMFile &f, float maxValue){
 
 };
 
-void ToneMapping::equalization(HDRFile &f, float maxValue){
-
-};
-
-void ToneMapping::gammaCurve(HDRFile &f){
+void ToneMapping::gammaCurve(PPMFile &f){
 
 };
