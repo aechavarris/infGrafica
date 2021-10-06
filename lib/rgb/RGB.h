@@ -11,13 +11,13 @@ class RGB{
 
     public:
 
-        int r, g, b;
+        float r, g, b;
     
         /*
          * Constructores de la clase RGB
          */
         RGB();
-        RGB(int r, int g, int b);
+        RGB(float r, float g, float b);
 
 
         // ---------------------------------------
