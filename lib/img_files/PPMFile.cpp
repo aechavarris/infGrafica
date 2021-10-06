@@ -93,11 +93,7 @@ void PPMFile::writeFile(string path, string format){
     ofstream my_file(path + this->name+".ppm");
     const float LDR_RESOLUTION = 255.0f;
 
-<<<<<<< Updated upstream
     my_file << this->format << endl;
-=======
-    my_file << this->format << "\n";
->>>>>>> Stashed changes
     my_file << "#MAX=" << this->HDR_RESOLUTION << endl;
     my_file << "# " << this->name << ".ppm" << endl;
     my_file << this->width << " " << this->height << endl;
