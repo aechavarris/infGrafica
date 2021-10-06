@@ -21,8 +21,9 @@ int main(int argv,char* argc[]) {
         cout <<"El numero de argumentos no es valido"<<endl;
         exit(1);
     }
+    string path=argc[1];
     string name=getName(argc[1]);
-    PPMFile file = PPMFile(name,argc[1]);
+    PPMFile file = PPMFile(name,path);
     file.readFile();
     string newPath;
     file.writeFile(newPath,argc[2]);

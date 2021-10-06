@@ -22,7 +22,7 @@ void PPMFile::readFile(){
 		cout << "No such file";
 	}
 	else {
-		string line;
+        string line;
         string tmp;
         int w,h;
         for (int i = 0; i < 5; i++ ){
