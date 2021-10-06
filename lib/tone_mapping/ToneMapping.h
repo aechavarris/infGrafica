@@ -38,8 +38,7 @@ class ToneMapping{
          * Pre:
          * Post:
          */
-        void gammaCurve(PPMFile &f);
-    
+        void gammaCurve(PPMFile &f);   
 };
 
 #include  "ToneMapping.cpp"

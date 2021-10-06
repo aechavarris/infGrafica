@@ -81,6 +81,7 @@ void PPMFile::readFile(){
 };
 
 float hdr_function(float v, float m){
+    cout << v / m << endl;
     if (v / m < 1.0){
         return v / m;
     }
@@ -101,7 +102,7 @@ void PPMFile::writeFile(string path, string format){
         my_file << LDR_RESOLUTION << endl;
     }
     else {
-        my_file << this->HDR_RESOLUTION << endl;
+        my_file << this->potentialColor << endl;
     }
 
     float final_r = 0.0;
