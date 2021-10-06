@@ -101,7 +101,11 @@ void PPMFile::writeFile(string path, string format){
         my_file << LDR_RESOLUTION << endl;
     }
     else {
-        my_file << this->potentialColor << endl;
+        if(this->potentialColor>65535){
+            my_file << 65535 << endl;
+        }else{
+            my_file << this->potentialColor << endl;
+        }
     }
 
     float final_r = 0.0;
