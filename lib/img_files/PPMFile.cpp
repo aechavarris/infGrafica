@@ -90,7 +90,7 @@ float hdr_function(float v, float m){
 }
    
 void PPMFile::writeFile(string path, string format){
-    ofstream my_file(path + this->name+".ppm");
+    ofstream my_file(path + this->name+"_"+format+".ppm");
     const float LDR_RESOLUTION = 255.0f;
 
     my_file << this->format << endl;
