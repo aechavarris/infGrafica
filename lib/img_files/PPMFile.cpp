@@ -79,12 +79,21 @@ void PPMFile::readFile(){
 	}
 	my_file.close();
 };
+
+float hdr_function(float v, float m){
+    if (v / m < 1.0){
+        return v / m;
+    }
+    else{
+        return 1.0;
+    }
+}
    
 void PPMFile::writeFile(string path, string format){
     ofstream my_file(path + this->name+".ppm");
     const float LDR_RESOLUTION = 255.0f;
 
-    my_file << this->format << "\r\n";
+    my_file << this->format << endl;
     my_file << "#MAX=" << this->HDR_RESOLUTION << endl;
     my_file << "# " << this->name << ".ppm" << endl;
     my_file << this->width << " " << this->height << endl;
@@ -109,16 +118,20 @@ void PPMFile::writeFile(string path, string format){
                 final_r = final_r * LDR_RESOLUTION;
                 final_g = final_g * LDR_RESOLUTION;
                 final_b = final_b * LDR_RESOLUTION;
+
+                my_file << int(final_r) << "  ";
+                my_file << int(final_g) << "  ";
+                my_file << int(final_b) << "      ";
             }
             else {
-                final_r = final_r * this->HDR_RESOLUTION;
-                final_g = final_g * this->HDR_RESOLUTION;
-                final_b = final_b * this->HDR_RESOLUTION;
+                final_r = hdr_function(final_r, this->HDR_RESOLUTION);
+                final_g = hdr_function(final_g, this->HDR_RESOLUTION);
+                final_b = hdr_function(final_b, this->HDR_RESOLUTION);
+
+                my_file << final_r * this->potentialColor << "  ";
+                my_file << final_g * this->potentialColor  << "  ";
+                my_file << final_b * this->potentialColor << "      ";
             }
-            
-            my_file << int(final_r) << "  ";
-            my_file << int(final_g) << "  ";
-            my_file << int(final_b) << "      ";
         }
         my_file << '\n';
     }
