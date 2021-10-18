@@ -22,12 +22,13 @@ int main(int argv,char* argc[]) {
         cout <<"El numero de argumentos no es valido"<<endl;
         exit(1);
     }
-    string path=argc[1];
-    string name=getName(argc[1]);
+    string path = argc[1];
+    string name = getName(argc[1]);
     PPMFile file = PPMFile(name,path);
     file.readFile();
     string newPath;
-    ToneMapping().clamping(file);
+    ToneMapping TM = ToneMapping();
+    TM.gammaCurve(file, 1.0/1.8, 10.0);
     file.writeFile(newPath,argc[2]);
     return 0;
 }
