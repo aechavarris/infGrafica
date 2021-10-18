@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string.h>
 #include "lib/img_files/PPMFile.h"
+#include "lib/tone_mapping/ToneMapping.h"
 using namespace std;
 
 string getName(char path[]){
@@ -26,6 +27,7 @@ int main(int argv,char* argc[]) {
     PPMFile file = PPMFile(name,path);
     file.readFile();
     string newPath;
+    ToneMapping().clamping(file);
     file.writeFile(newPath,argc[2]);
     return 0;
 }
