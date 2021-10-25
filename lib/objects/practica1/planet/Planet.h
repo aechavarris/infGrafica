@@ -1,8 +1,8 @@
 #pragma once
 
 #include <iostream>
-#include "../../../lib/geometry/vector/Vector.h"
-#include "../../../lib/geometry/point/Point.h"
+#include "../../../../lib/geometry/vector/Vector.h"
+#include "../../../../lib/geometry/point/Point.h"
 using namespace std;
 
 #ifndef _PLANET

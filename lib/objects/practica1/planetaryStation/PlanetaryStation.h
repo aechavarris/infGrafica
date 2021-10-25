@@ -4,10 +4,10 @@
 
 #include <iostream>
 #include <math.h>
-#include "../../../lib/geometry/matrix/Matrix.h"
-#include "../../../lib/geometry/vector/Vector.h"
-#include "../../../lib/geometry/point/Point.h"
-#include "../../../lib/objects/planet/Planet.h"
+#include "../../../../lib/geometry/matrix/Matrix.h"
+#include "../../../../lib/geometry/vector/Vector.h"
+#include "../../../../lib/geometry/point/Point.h"
+#include "../../../../lib/objects/practica1/planet/Planet.h"
 
 #ifndef _PLANETARY_STATION
 #define _PLANETARY_STATION

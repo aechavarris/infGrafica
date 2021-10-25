@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../lib/objects/planetaryStation/PlanetaryStation.h"
+#include "PlanetaryStation.h"
 
 PlanetaryStation::PlanetaryStation(){};
 
