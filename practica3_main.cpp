@@ -49,7 +49,9 @@ int main(int argv,char* argc[]) {
     escena->addPrimitive(fondo);
     escena->addPrimitive(esfera);
     escena->addPrimitive(esfera2);
+    
     escena->shootingRays();
+
     PPMFile file = PPMFile("Escena1", "");
     file.width = width;
     file.height = height;

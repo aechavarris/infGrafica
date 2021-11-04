@@ -3,6 +3,7 @@
 #include <iostream>
 #include "../../lib/geometry/vector/Vector.h"
 #include "../../lib/geometry/point/Point.h"
+#include "../../lib/geometry/matrix/Matrix.h" 
 #include "../objects/figures/Primitive.h"
 #include "cameraModel/Camera.h"
 #include "../rgb/RGB.h"
@@ -19,6 +20,7 @@ class RayTracing {
     public:
         const Point ZERO = Point(0.0,0.0,0.0);
         Camera camera;
+        Matrix baseChange;
         vector<Primitive*> primitives;
         int width, height;
         vector<vector<RGB> > projection;
