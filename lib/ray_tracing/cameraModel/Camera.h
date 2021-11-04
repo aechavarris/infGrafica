@@ -19,7 +19,7 @@ class Camera {
          * Constructor de la clase Camera
          */
         Camera();
-        Camera (Point origin, Vector f, Vector u, Vector i, int width, int height);
+        Camera (Point origin, Vector f, Vector u, Vector i);
 };
 
 #include  "Camera.cpp"

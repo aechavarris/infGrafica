@@ -10,7 +10,7 @@ Sphere::Sphere(Point center, float radius, RGB rgb) {
     this->rgb = rgb;
 };
 
-bool Sphere::intersect(Ray &ray, float* t1, float *t2) {
+bool Sphere::intersect(Ray &ray, float* t,RGB* color) { 
     //solve for tc
 	Point L = Point(this->center.x - ray.origin.x, this->center.y - ray.origin.y, this->center.z - ray.origin.z);
 	float tc = L.dot(ray.direction);
@@ -25,8 +25,8 @@ bool Sphere::intersect(Ray &ray, float* t1, float *t2) {
 	float t1c = sqrt( radius2 - d2 );
 
 	//solve for intersection points
-	*t1 = tc - t1c;
-	*t2 = tc + t1c;
+	*t =abs( tc - t1c);
+	color = &this->rgb;
 	
 	return true;
 }

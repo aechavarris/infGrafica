@@ -8,7 +8,3 @@ Ray::Ray(Point origin, Vector dir) {
     this->origin = origin;
     this->direction = dir;
 };
-
-Point Ray::project(float distance) {
-
-};

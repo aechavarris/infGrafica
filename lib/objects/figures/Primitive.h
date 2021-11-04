@@ -2,7 +2,8 @@
 
 #include <iostream>
 #include "../../../lib/geometry/vector/Vector.h"
-#include "../ray/Ray.h"
+#include "../../../lib/ray_tracing/ray/Ray.h"
+#include "../../../lib/rgb/RGB.h"
 using namespace std;
 
 #ifndef _PRIMITIVE
@@ -17,7 +18,7 @@ class Primitive {
         Primitive();
 
         
-        virtual bool intersect(Ray &ray, float* t1, float *t2) = 0;
+        virtual bool intersect(Ray &ray, float* t,RGB* color) = 0;
 };
 
 #include  "Primitive.cpp"

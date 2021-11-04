@@ -122,7 +122,6 @@ void PPMFile::writeFile(string path, string format){
                 final_r = final_r * LDR_RESOLUTION;
                 final_g = final_g * LDR_RESOLUTION;
                 final_b = final_b * LDR_RESOLUTION;
-
                 my_file << int(final_r) << "  ";
                 my_file << int(final_g) << "  ";
                 my_file << int(final_b) << "      ";
@@ -137,6 +136,7 @@ void PPMFile::writeFile(string path, string format){
                 my_file << final_b * this->potentialColor << "      ";
             }
         }
+        cout<<endl;
         my_file << '\n';
     }
 
