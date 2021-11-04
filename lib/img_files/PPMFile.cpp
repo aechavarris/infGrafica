@@ -136,7 +136,6 @@ void PPMFile::writeFile(string path, string format){
                 my_file << final_b * this->potentialColor << "      ";
             }
         }
-        cout<<endl;
         my_file << '\n';
     }
 

@@ -19,12 +19,12 @@ void RayTracing::addPrimitive(Primitive *p){
     this->primitives.push_back(p);
 };
 
-void RayTracing::shootingRays(vector<Primitive*> primitives) {
+void RayTracing::shootingRays() {
     Point origen = this->camera.origin;
     Point image_start = Point(RayTracing::ZERO.x - this->width/2, RayTracing::ZERO.y + this->height/2, RayTracing::ZERO.z);
-    for (float i = 0; i < height; i++){
+    for (float i = 0; i < this->height; i++){
 
-        for (float j = 0; j < width; j++) {
+        for (float j = 0; j < this->width; j++) {
 
             RGB* color = new RGB(0.0, 0.0, 0.0);
 
@@ -37,8 +37,8 @@ void RayTracing::shootingRays(vector<Primitive*> primitives) {
                 float minDist = numeric_limits<float>::max();
                 float* t;
                 bool isIntersect = false;
-                for (int m = 0; m < primitives.size(); m++) {
-                    if (primitives[m]->intersect(actual_ray, t, colorPrimitive)){ 
+                for (int m = 0; m < this->primitives.size(); m++) {
+                    if (this->primitives[m]->intersect(actual_ray, t, colorPrimitive)){ 
                         if( *t < minDist){
                             minDist = *t; 
                             isIntersect = true;

@@ -31,7 +31,7 @@ class RayTracing {
         RayTracing();
         RayTracing (Camera camera, int ray_pixel,int width,int height);
         void addPrimitive(Primitive *p);    
-        void shootingRays(vector<Primitive*> primitives);
+        void shootingRays();
 };
 
 #include  "RayTracing.cpp"
