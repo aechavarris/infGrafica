@@ -17,8 +17,7 @@ class Primitive {
          */
         Primitive();
 
-        
-        virtual bool intersect(Ray &ray, float* t,RGB* color) = 0;
+        virtual bool intersect(Ray ray, float* t, RGB* color) = 0;
 };
 
 #include  "Primitive.cpp"

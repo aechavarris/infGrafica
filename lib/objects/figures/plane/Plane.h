@@ -25,7 +25,7 @@ class Plane :public Primitive{
         /*
          * This function has been taken https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-plane-and-ray-disk-intersection
          */
-        bool intersect(Ray &ray, float* t, RGB* color) override;
+        bool intersect(Ray ray, float* t, RGB* color) override;
 };
 
 #include  "Plane.cpp"

@@ -4,4 +4,4 @@
 
 Primitive::Primitive(){};
 
-bool Primitive::intersect(Ray &ray, float* t, RGB* color){return 0;}; 
+bool Primitive::intersect(Ray ray, float* t, RGB* color){return 0;}; 

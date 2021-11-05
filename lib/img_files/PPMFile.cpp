@@ -90,18 +90,23 @@ float hdr_function(float v, float m){
 }
    
 void PPMFile::writeFile(string path, string format){
-    ofstream my_file(path + this->name+"_"+format+".ppm");
+    ofstream my_file(path + this->name + "_" + format + ".ppm");
     const float LDR_RESOLUTION = 255.0f;
 
     my_file << this->format << endl;
-    my_file << "#MAX=" << this->HDR_RESOLUTION << endl;
+
+    if(this->HDR_RESOLUTION != 1.0){
+        my_file << "#MAX=" << this->HDR_RESOLUTION << endl;
+    }
+
     my_file << "# " << this->name << ".ppm" << endl;
     my_file << this->width << " " << this->height << endl;
+
     if (format == "LDR") {
         my_file << LDR_RESOLUTION << endl;
     }
     else {
-        if(this->potentialColor>65535){
+        if(this->potentialColor > 65535){
             my_file << 65535 << endl;
         }else{
             my_file << this->potentialColor << endl;

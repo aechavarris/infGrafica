@@ -25,7 +25,7 @@ class Sphere : public Primitive{
         /*
          * This function has been taken from http://kylehalladay.com/blog/tutorial/math/2013/12/24/Ray-Sphere-Intersection.html
          */
-        bool intersect(Ray &ray, float* t, RGB* color) override;
+        bool intersect(Ray ray, float* t, RGB* color) override;
 
 };
 

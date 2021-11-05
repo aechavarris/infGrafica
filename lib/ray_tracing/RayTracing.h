@@ -32,7 +32,7 @@ class RayTracing {
          */
         RayTracing();
         RayTracing (Camera camera, int ray_pixel,int width,int height);
-        void addPrimitive(Primitive *p);    
+   
         void shootingRays();
 };
 
