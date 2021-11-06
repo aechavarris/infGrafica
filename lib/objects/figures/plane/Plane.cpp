@@ -20,7 +20,7 @@ bool Plane::intersect(Ray ray, float* t, RGB* color) {
             color->r = this->rgb.r;
             color->g = this->rgb.g;
             color->b = this->rgb.b;
-            //cout << "Soy plano color "<<this->rgb.r<<" "<<this->rgb.g<<" "<<this->rgb.b<<endl;
+            cout << "Soy plano color "<<this->rgb.r<<" "<<this->rgb.g<<" "<<this->rgb.b<<endl;
             return true;
             
         } 

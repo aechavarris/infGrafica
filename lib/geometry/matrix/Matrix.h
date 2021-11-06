@@ -17,7 +17,7 @@ class Matrix{
          * Constructores de la clase Matrix
          */
         Matrix();
-        Matrix(Vector v, Vector v1, Vector v2, Point p);
+        Matrix(Vector v0, Vector v1, Vector v2, Point p);
         Matrix(float f[4][4]);
         Matrix(float f00, float f01, float f02, float f03,
             float f04, float f05, float f06, float f07,                                         
@@ -51,7 +51,7 @@ class Matrix{
          * Pre:
          * Post:
          */
-        Point productMatrixVector(Point v);
+        Vector productMatrixVector(Vector v);
 
         /*
          * Pre:

@@ -9,12 +9,12 @@ Matrix::Matrix(){
 	m[3][0] = 0;    m[3][1] = 0;    m[3][2] = 0;    m[3][3] = 1;
 };
 
-Matrix::Matrix(Vector v, Vector v1, Vector v2, Point p) {
-    m[0][0] = v.x; m[0][1] = v1.x; m[0][2] = v2.x ;m[0][3] = p.x;
-	m[1][0] = v.y; m[1][1] = v1.y; m[1][2] = v2.y ;m[1][3] = p.y;
-	m[2][0] = v.z; m[2][1] = v1.z; m[2][2] = v2.z ;m[2][3] = p.z;
-	m[3][0] = 0           ;m[3][1] = 0           ; m[3][2] = 0           ;m[3][3] = 1;
-}
+Matrix::Matrix(const Vector v0, const Vector v1, const Vector v2, const Point p) {
+	m[0][0] = v0.x; m[0][1] = v1.x; m[0][2] = v2.x ;m[0][3] = p.x;
+	m[1][0] = v0.y; m[1][1] = v1.y; m[1][2] = v2.y ;m[1][3] = p.y;
+	m[2][0] = v0.z; m[2][1] = v1.z; m[2][2] = v2.z ;m[2][3] = p.z;
+	m[3][0] = 0;    m[3][1] = 0;    m[3][2] = 0;    m[3][3] = 1;
+};
 
 Matrix::Matrix(float f[4][4]){
     m[0][0] = f[0][0];  m[0][1] = f[0][1];  m[0][2] = f[0][2];   m[0][3] = f[0][3];
@@ -51,37 +51,37 @@ Matrix Matrix::productMatrixMatrix(Matrix p) {
 }
 
 Point Matrix::productMatrixPoint(Point p) {
-    Point mp = Point(0.0,0.0,0.0);
+    Point mp = Point(0.0, 0.0, 0.0);
+    
+    mp.x = mp.x + this->m[0][0] * p.x;
+    mp.x = mp.x + this->m[0][1] * p.y;
+    mp.x = mp.x + this->m[0][2] * p.z;
+    
+    mp.y = mp.y + this->m[1][0] * p.x;
+    mp.y = mp.y + this->m[1][1] * p.y;
+    mp.y = mp.y + this->m[1][2] * p.z;
 
-    mp.x = mp.x + p.x * this->m[0][0];
-    mp.x = mp.x + p.x * this->m[0][1];
-    mp.x = mp.x + p.x * this->m[0][2];
-
-    mp.y = mp.y + p.y * this->m[1][0];
-    mp.y = mp.y + p.y * this->m[1][1];
-    mp.y = mp.y + p.y * this->m[1][2];
-
-    mp.z = mp.z + p.z * this->m[2][0];
-    mp.z = mp.z + p.z * this->m[2][1];
-    mp.z = mp.z + p.z * this->m[2][2];
+    mp.z = mp.z + this->m[2][0] * p.x;
+    mp.z = mp.z + this->m[2][1] * p.y;
+    mp.z = mp.z + this->m[2][2] * p.z;
 
     return mp;
 }
 
-Point Matrix::productMatrixVector(Point p) {
-    Point mv = Point();
+Vector Matrix::productMatrixVector(Vector v) {
+    Vector mv = Vector();
 
-    mv.x = mv.x + p.x * this->m[0][0];
-    mv.x = mv.x + p.y * this->m[0][1];
-    mv.x = mv.x + p.z * this->m[0][2];
+    mv.x = mv.x + this->m[0][0] * v.x;
+    mv.x = mv.x + this->m[0][1] * v.y;
+    mv.x = mv.x + this->m[0][2] * v.z;
+    
+    mv.y = mv.y + this->m[1][0] * v.x;
+    mv.y = mv.y + this->m[1][1] * v.y;
+    mv.y = mv.y + this->m[1][2] * v.z;
 
-    mv.y = mv.y + p.x * this->m[1][0];
-    mv.y = mv.y + p.y * this->m[1][1];
-    mv.y = mv.y + p.z * this->m[1][2];
-
-    mv.z = mv.z + p.x * this->m[2][0];
-    mv.z = mv.z + p.y * this->m[2][1];
-    mv.z = mv.z + p.z * this->m[2][2];
+    mv.z = mv.z + this->m[2][0] * v.x;
+    mv.z = mv.z + this->m[2][1] * v.y;
+    mv.z = mv.z + this->m[2][2] * v.z;
 
     return mv;
 }

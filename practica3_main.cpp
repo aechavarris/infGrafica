@@ -25,21 +25,21 @@ int main(int argv,char* argc[]) {
     RGB color_b = RGB(0.0, 0.0, 1.0);
     RGB color_w = RGB(1.0, 1.0, 1.0);
 
-    Plane techo = Plane(Point(0.0, 20.0, 0.0), n_techo, color_w);
-    Plane suelo = Plane(Point(0.0, -20.0, 0.0), n_suelo, color_w);
-    Plane pIz = Plane(Point(0.0, 0.0, 15.0), n_pIz, color_r);
-    Plane pDe = Plane(Point(0.0, 0.0, -15.0), n_pDe, color_g);
-    Plane fondo = Plane(Point(-1550.0, 0.0, 0.0), n_fondo, color_w);
+    //Plane techo = Plane(Point(0.0, 20.0, 0.0), n_techo, color_w);
+    //Plane suelo = Plane(Point(0.0, -20.0, 0.0), n_suelo, color_w);
+    //Plane pIz = Plane(Point(0.0, 0.0, 15.0), n_pIz, color_r);
+    //Plane pDe = Plane(Point(0.0, 0.0, -15.0), n_pDe, color_g);
+    //Plane fondo = Plane(Point(5.0, 0.0, 0.0), n_fondo, color_w);
 
-    Sphere esfera = Sphere(Point(0.0, 0.0, 0.0), 50, RGB(0.0, 1.0, 1.0));
-    Sphere esfera2 = Sphere(Point(0, 0.0, 0.0), 50, RGB(1.0, 0.5, 0.2));
+    Sphere esfera(Point(0, 0, 10), 3, RGB(0.0, 1.0, 1.0));
+    //Sphere esfera2 = Sphere(Point(0.0, 0.0, 0.0), 5.0, RGB(1.0, 0.5, 0.2));
 
-    Point origin = Point(0, 0, -1600);
-    Vector f = Vector(0, 0, 1 );
-    Vector u = Vector(0, -1, 0);
-    Vector r = Vector(-1, 0, 0);
+    Point origin = Point(0, 0, 0);
+    Vector f = Vector(0, 0, 1);
+    Vector u = Vector(0, 1, 0);
+    Vector i = Vector(1, 0, 0);
 
-    Camera camera = Camera(origin, f, u, r); 
+    Camera camera = Camera(origin, f, u, i); 
 
     RayTracing escena = RayTracing(camera,  1, width, height);
     //escena.primitives.push_back(&techo);
@@ -48,7 +48,7 @@ int main(int argv,char* argc[]) {
     //escena.primitives.push_back(&pDe);
     //escena.primitives.push_back(&fondo);
     escena.primitives.push_back(&esfera);
-    escena.primitives.push_back(&esfera2);
+    //escena.primitives.push_back(&esfera2);
  
     escena.shootingRays();
 

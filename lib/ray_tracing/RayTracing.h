@@ -9,6 +9,7 @@
 #include "../rgb/RGB.h"
 #include "ray/Ray.h"
 #include "../img_files/PPMFile.h"
+#include <random>
 #include <vector>
 #include <limits>
 using namespace std;
@@ -18,7 +19,7 @@ using namespace std;
 
 class RayTracing {
     public:
-        const Point ZERO = Point(0.0,0.0,0.0);
+        const Point ZERO = Point(0.0, 0.0, 0.0);
         Camera camera;
         Matrix baseChange;
         vector<Primitive*> primitives;
@@ -32,7 +33,16 @@ class RayTracing {
          */
         RayTracing();
         RayTracing (Camera camera, int ray_pixel,int width,int height);
-   
+        
+
+        // ---------------------------------------
+        // ------------- OPERACIONES -------------
+        // ---------------------------------------
+
+        /*
+         * Pre:
+         * Post:
+         */
         void shootingRays();
 };
 

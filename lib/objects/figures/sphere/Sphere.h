@@ -23,7 +23,7 @@ class Sphere : public Primitive{
         Sphere (Point center, float radius, RGB rgb);
 
         /*
-         * This function has been taken from http://kylehalladay.com/blog/tutorial/math/2013/12/24/Ray-Sphere-Intersection.html
+         * This function has been taken from https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
          */
         bool intersect(Ray ray, float* t, RGB* color) override;
 
