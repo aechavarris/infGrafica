@@ -31,13 +31,13 @@ int main(int argv,char* argc[]) {
     Plane pDe = Plane(Point(0.0, 0.0, -15.0), n_pDe, color_g);
     Plane fondo = Plane(Point(-1550.0, 0.0, 0.0), n_fondo, color_w);
 
-    Sphere esfera = Sphere(Point(-1850, 0.0, 0.0), 6.5, RGB(0.0, 1.0, 1.0));
-    Sphere esfera2 = Sphere(Point(-1550.0, -8.0, -9.0), 6.5, RGB(1.0, 0.5, 0.2));
+    Sphere esfera = Sphere(Point(0.0, 0.0, 0.0), 50, RGB(0.0, 1.0, 1.0));
+    Sphere esfera2 = Sphere(Point(0, 0.0, 0.0), 50, RGB(1.0, 0.5, 0.2));
 
-    Point origin = Point(-1600, 0, 0);
-    Vector f = Vector(-1, 0 - origin.y, 0 - origin.z);
-    Vector u = Vector(-1600 - origin.x, 0 - origin.y, height - origin.z);
-    Vector r = Vector(-1600 - origin.x, width - origin.y, 0 - origin.z);
+    Point origin = Point(0, 0, -1600);
+    Vector f = Vector(0, 0, 1 );
+    Vector u = Vector(0, -1, 0);
+    Vector r = Vector(-1, 0, 0);
 
     Camera camera = Camera(origin, f, u, r); 
 
@@ -48,7 +48,7 @@ int main(int argv,char* argc[]) {
     //escena.primitives.push_back(&pDe);
     //escena.primitives.push_back(&fondo);
     escena.primitives.push_back(&esfera);
-    //escena.primitives.push_back(&esfera2);
+    escena.primitives.push_back(&esfera2);
  
     escena.shootingRays();
 

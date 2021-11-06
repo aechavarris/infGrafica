@@ -18,7 +18,7 @@ RayTracing::RayTracing (Camera camera, int numRaysPerPixel, int width, int heigh
 
 void RayTracing::shootingRays() {
     Point origen = this->camera.origin;
-    Point image_start = Point(RayTracing::ZERO.x - this->width/2, RayTracing::ZERO.y + this->height/2, RayTracing::ZERO.z);
+    Point image_start = Point(-1000 , 1000, 0);
     RGB color = RGB(0.0, 0.0, 0.0);
     RGB* colorPrimitive = new RGB(0.0,0.0,0.0);
     RGB countColor = RGB(0.0,0.0,0.0);
@@ -33,12 +33,12 @@ void RayTracing::shootingRays() {
             countColor.r = 0.0;
             countColor.g = 0.0;
             countColor.b = 0.0;
-            Point image_point = Point(image_start.x + j, image_start.y + i, image_start.z);
+            Point image_point = Point(image_start.x+j , image_start.y+i , 1.0);
             Point p = this->baseChange.productMatrixPoint(image_point);
-            Vector dir = Vector(image_point.x - origen.x, image_point.y - origen.y, image_point.z - origen.z);
-            Ray actual_ray = Ray(origen, Vector(dir.x/dir.module(),dir.y/dir.module(),dir.z/dir.module()));
-            cout<<actual_ray.direction.x<<"  "<<actual_ray.direction.y << "  " << actual_ray.direction.z << endl;
-            
+            Vector dir = Vector(p.x - origen.x, p.y - origen.y, p.z);
+            Ray actual_ray = Ray(origen, Vector(dir.x,dir.y,dir.z));
+            //cout<<"Imagen: "<<actual_ray.direction.x<<"  "<<actual_ray.direction.y << "  " << actual_ray.direction.z << endl;
+            //cout<<"Direccion: "<<dir.x<<"  "<<dir.y << "  " << dir.z << endl;
             float minDist = numeric_limits<float>::max();
             for (int n = 0; n < this->numRaysPerPixel; n++) {
                 float* t;
