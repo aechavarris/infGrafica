@@ -8,6 +8,7 @@
 #include "lib/objects/figures/Primitive.h"
 #include "lib/objects/figures/plane/Plane.h"
 #include "lib/objects/figures/sphere/Sphere.h"
+
 using namespace std;
 
 int main(int argv,char* argc[]) {

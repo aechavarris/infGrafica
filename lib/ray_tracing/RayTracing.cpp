@@ -27,6 +27,11 @@ void RayTracing::shootingRays() {
 
     srand(time(0));
     cout <<"Starting ray tracing..."<<endl;
+    progressbar bar(this->width * this->height * this->numRaysPerPixel);
+    bar.set_todo_char(" ");
+    bar.set_done_char("█");
+    bar.set_opening_bracket_char("[");
+    bar.set_closing_bracket_char("]");
     for (float i = 0; i < this->height; i++){
 
         for (float j = 0; j < this->width; j++) {
@@ -43,7 +48,7 @@ void RayTracing::shootingRays() {
             
             float minDist = numeric_limits<float>::max();
             for (int n = 0; n < this->numRaysPerPixel; n++) {
-
+                
                 // This two lines have been taken from https://stackoverflow.com/questions/686353/random-float-number-generation
                 float xIter = x + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((x + pixelXSide) - x)));
                 float yIter = y + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((y + pixelYSide) - y)));
@@ -73,6 +78,7 @@ void RayTracing::shootingRays() {
                     isIntersect = false;
                 }
                 minDist = numeric_limits<float>::max();
+                bar.update();
             }
             this->projection[i][j].r = color.r / numRaysPerPixel;
             this->projection[i][j].g = color.g / numRaysPerPixel;

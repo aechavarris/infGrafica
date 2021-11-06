@@ -9,6 +9,8 @@
 #include "../rgb/RGB.h"
 #include "ray/Ray.h"
 #include "../img_files/PPMFile.h"
+#include "../../lib/progress_bar/progressbar.hpp"
+#include <time.h>
 #include <random>
 #include <vector>
 #include <limits>
