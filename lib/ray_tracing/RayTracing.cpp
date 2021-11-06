@@ -21,13 +21,12 @@ void RayTracing::shootingRays() {
     RGB color = RGB(0.0, 0.0, 0.0);
     RGB* colorPrimitive = new RGB(0.0,0.0,0.0);
     RGB countColor = RGB(0.0,0.0,0.0);
-    int countIntersect=0;
 
     float pixelXSide = (float)2 / this->height;
     float pixelYSide = (float)2 / this->width;
 
     srand(time(0));
-    
+    cout <<"Starting ray tracing..."<<endl;
     for (float i = 0; i < this->height; i++){
 
         for (float j = 0; j < this->width; j++) {
@@ -42,24 +41,22 @@ void RayTracing::shootingRays() {
             float x = i * pixelXSide - 1.0; 
             float y = j * pixelYSide - 1.0;
             
-            // This two lines have been taken from https://stackoverflow.com/questions/686353/random-float-number-generation
-            //x = x + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((x + pixelXSide) - x)));
-            //y = y + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((y + pixelYSide) - y)));
-            
-            //Point image_point = Point(i + x, j + y, 1); 
-
-            Point image_point = Point(i, j, 1);
-            Point p = this->baseChange.productMatrixPoint(image_point);
-            Vector dir = Vector(p.x - origen.x, p.y - origen.y, p.z - origen.z);
-            Ray actual_ray = Ray(origen, dir);
-            //cout << image_point.x <<"  "<<image_point.y<<"  "<<image_point.z<<endl;
             float minDist = numeric_limits<float>::max();
             for (int n = 0; n < this->numRaysPerPixel; n++) {
+
+                // This two lines have been taken from https://stackoverflow.com/questions/686353/random-float-number-generation
+                float xIter = x + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((x + pixelXSide) - x)));
+                float yIter = y + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((y + pixelYSide) - y)));
+                Point image_point = Point(xIter, yIter, 1); 
+                
+                Point p = this->baseChange.productMatrixPoint(image_point);
+                Vector dir = Vector(p.x - origen.x, p.y - origen.y, p.z - origen.z);
+                Ray actual_ray = Ray(origen, dir);
+                
                 float* t = new float;
                 bool isIntersect = false;
                 for (int m = 0; m < this->primitives.size(); m++) {
                     if (this->primitives[m]->intersect(actual_ray, t, colorPrimitive)){ 
-                        countIntersect++;
                         if( *t < minDist){
                             minDist = *t; 
                             countColor.r = colorPrimitive->r;
@@ -83,5 +80,4 @@ void RayTracing::shootingRays() {
         }
 
     }
-    cout<<countIntersect<<endl;
 };

@@ -10,15 +10,14 @@ Sphere::Sphere(Point center, float radius, RGB rgb) {
     this->rgb = rgb;
 };
 
+/*
 bool Sphere::intersect(Ray ray, float* t, RGB* color) { 
         float t0, t1; // solutions for t if the ray intersects  
-		string a;
+
         // geometric solution
         Vector L = Vector(this->center.x - ray.origin.x, this->center.y - ray.origin.y, this->center.z - ray.origin.z); 
         float tca = L.dot(ray.direction); 
-		//cout<< L.x<<"  "<<L.y<<"  "<<L.z<<endl;
-		//cout<< ray.direction.x<<"  "<<ray.direction.y<<"  "<<ray.direction.z<<endl;
-		//cin >> a;
+		cout<< ray.direction.x<<"  "<<ray.direction.y<<"  "<<ray.direction.z<<endl;
         if (tca < 0) return false;
 
         float d2 = L.dot(L) - tca * tca; 
@@ -43,3 +42,34 @@ bool Sphere::intersect(Ray ray, float* t, RGB* color) {
  
         return true; 
 } 
+*/
+
+bool Sphere::intersect(Ray ray, float* t, RGB* color) { 
+    Vector d = ray.direction;
+    Point o = ray.origin;
+
+    Point oc = this->center;
+
+    float t_min = -1;
+    float t_max = 999999999999999;
+
+    float a = d.dot(d);
+    float b = oc.dot(d);
+    float c = oc.dot(oc) - (this->radius * this->radius);
+    float discriminant = (b * b) - ((a * c));
+    if (discriminant > 0) {
+        float temp = fabs((-b - sqrt(discriminant)) / a);
+        float temp2 = fabs((-b + sqrt(discriminant)) / a);
+        color->r = this->rgb.r;
+        color->g = this->rgb.g;
+        color->b = this->rgb.b;
+
+        if (temp > temp2) {
+            t = &temp2;
+            return true;
+        }
+        t = &temp;
+        return true;
+    } 
+    return false;
+}
