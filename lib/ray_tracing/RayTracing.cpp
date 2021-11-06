@@ -26,12 +26,14 @@ void RayTracing::shootingRays() {
     float pixelYSide = (float)2 / this->width;
 
     srand(time(0));
+
     cout <<"Starting ray tracing..."<<endl;
     progressbar bar(this->width * this->height * this->numRaysPerPixel);
     bar.set_todo_char(" ");
     bar.set_done_char("█");
     bar.set_opening_bracket_char("[");
     bar.set_closing_bracket_char("]");
+    
     for (float i = 0; i < this->height; i++){
 
         for (float j = 0; j < this->width; j++) {
@@ -84,6 +86,7 @@ void RayTracing::shootingRays() {
             this->projection[i][j].g = color.g / numRaysPerPixel;
             this->projection[i][j].b = color.b / numRaysPerPixel;
         }
-
     }
+    cout << endl;
+    cout << endl;
 };

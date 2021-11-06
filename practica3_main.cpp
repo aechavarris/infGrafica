@@ -26,23 +26,23 @@ int main(int argv,char* argc[]) {
     RGB color_b = RGB(0.0, 0.0, 1.0);
     RGB color_w = RGB(1.0, 1.0, 1.0);
 
-    Plane techo = Plane(Point(0.0, 20.0, 0.0), n_techo, color_r);
-    Plane suelo = Plane(Point(0.0, -20.0, 0.0), n_suelo, color_r);
+    Plane techo = Plane(Point(0.0, 20.0, 0.0), n_techo, color_w);
+    Plane suelo = Plane(Point(0.0, -20.0, 0.0), n_suelo, color_w);
     Plane pIz = Plane(Point(0.0, 0.0, 15.0), n_pIz, color_r);
-    Plane pDe = Plane(Point(0.0, 0.0, -15.0), n_pDe, color_r);
+    Plane pDe = Plane(Point(0.0, 0.0, -15.0), n_pDe, color_g);
     Plane fondo = Plane(Point(-1550.0,0.0,0.0), n_fondo, color_w);
 
     Sphere esfera(Point(-1560.0,8.0,9.0), 6.5, RGB(0.0,1.0,1.0));
     Sphere esfera2(Point(-1550.0,-8.0,-9.0), 6.5, RGB(1.0,0.5,0.2));
 
     Point origin = Point(-1600, 0, 0);
-    Vector f = Vector(-1500, 0 - origin.y, 0 - origin.z);
+    Vector f = Vector(1500 - origin.x, 0 - origin.y, 0 - origin.z);
     Vector u = Vector(-1600 - origin.x, 0 - origin.y, height - origin.z);
     Vector r = Vector(-1600 - origin.x, width - origin.y, 0 - origin.z);
 
     Camera camera = Camera(origin, f, u, r); 
 
-    RayTracing escena = RayTracing(camera,  140, width, height);
+    RayTracing escena = RayTracing(camera,  1, width, height);
     escena.primitives.push_back(&techo);
     escena.primitives.push_back(&suelo);
     escena.primitives.push_back(&pIz);
