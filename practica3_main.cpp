@@ -12,9 +12,13 @@
 using namespace std;
 
 int main(int argv,char* argc[]) {
-    int width = 2000;
-    int height = 2000;
-    
+    if(argv < 3){
+        cout <<"El numero de argumentos no es valido"<<endl;
+        exit(1);
+    }
+    int width = atoi(argc[1]);
+    int height = atoi(argc[2]);
+    int raysPerPixel=atoi(argc[3]);
     Vector n_techo = Vector(0.0, 1.0, 0.0);
     Vector n_suelo = Vector(0.0, -1.0, 0.0);
     Vector n_pIz = Vector(0.0, 0.0, 1.0);
@@ -32,8 +36,8 @@ int main(int argv,char* argc[]) {
     Plane pDe = Plane(Point(0.0, 0.0, -15.0), n_pDe, color_g);
     Plane fondo = Plane(Point(-1550.0,0.0,0.0), n_fondo, color_w);
 
-    Sphere esfera(Point(-1560.0,8.0,9.0), 6.5, RGB(0.0,1.0,1.0));
-    Sphere esfera2(Point(-1550.0,-8.0,-9.0), 6.5, RGB(1.0,0.5,0.2));
+    Sphere esfera(Point(-1580.0,15.0,25.0), 10.5, RGB(0.0,1.0,1.0));
+    Sphere esfera2(Point(-1570.0,-20.0,-18.0), 8.5, RGB(1.0,0.5,0.2));
 
     Point origin = Point(-1600, 0, 0);
     Vector f = Vector(1500 - origin.x, 0 - origin.y, 0 - origin.z);
@@ -42,12 +46,12 @@ int main(int argv,char* argc[]) {
 
     Camera camera = Camera(origin, f, u, r); 
 
-    RayTracing escena = RayTracing(camera,  1, width, height);
-    escena.primitives.push_back(&techo);
-    escena.primitives.push_back(&suelo);
-    escena.primitives.push_back(&pIz);
-    escena.primitives.push_back(&pDe);
-    escena.primitives.push_back(&fondo);
+    RayTracing escena = RayTracing(camera,  raysPerPixel, width, height);
+    //escena.primitives.push_back(&techo);
+    //escena.primitives.push_back(&suelo);
+    //escena.primitives.push_back(&pIz);
+    //escena.primitives.push_back(&pDe);
+    //escena.primitives.push_back(&fondo);
     escena.primitives.push_back(&esfera);
     escena.primitives.push_back(&esfera2);
  
