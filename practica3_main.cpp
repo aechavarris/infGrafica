@@ -43,8 +43,8 @@ int main(int argv,char* argc[]) {
 
     Point origin = Point(0, 0, 0);
     Vector f = Vector(0, 0, 1);
-    Vector u = Vector(0, 1, 0);
-    Vector r = Vector(1, 0, 0);
+    Vector u = Vector(0, -1, 0);
+    Vector r = Vector(-1, 0, 0);
 
     Camera camera = Camera(origin, f, u, r); 
 

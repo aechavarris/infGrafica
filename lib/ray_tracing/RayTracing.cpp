@@ -16,7 +16,7 @@ RayTracing::RayTracing (Camera camera, int numRaysPerPixel, int width, int heigh
     }
 };
 
-void RayTracing::shootingRaysAux(int start, int end) {
+void RayTracing::shootingRays() {
     Point origen = this->camera.origin;
     RGB color = RGB(0.0, 0.0, 0.0);
     RGB* colorPrimitive = new RGB(0.0,0.0,0.0);
@@ -31,7 +31,7 @@ void RayTracing::shootingRaysAux(int start, int end) {
     
     int total=width*height*numRaysPerPixel;
     int progress=0;
-    for (float i = start; i < end; i++){
+    for (float i = 0; i < this->height; i++){
 
         for (float j = 0; j < this->width; j++) {
 
@@ -96,7 +96,7 @@ void RayTracing::shootingRaysAux(int start, int end) {
     }
     cout<<"100% of pixels processed"<<endl;
 };
-
+/*
 void RayTracing::shootingRays() {
 
     // The info to use thread has been taken from https://www.bogotobogo.com/cplusplus/C11/1_C11_creating_thread.php
@@ -117,3 +117,4 @@ void RayTracing::shootingRays() {
         threads[i].join();
     }
 }
+*/
