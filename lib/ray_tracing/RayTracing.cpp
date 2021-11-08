@@ -71,6 +71,7 @@ void RayTracing::shootingRays() {
                         }
                     }
                 }
+                delete t;
                 if(isIntersect){
                     color.r = color.r + countColor.r;
                     color.g = color.g + countColor.g;
