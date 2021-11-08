@@ -64,7 +64,7 @@ void RayTracing::shootingRays() {
                 bool isIntersect = false;
                 for (int m = 0; m < this->primitives.size(); m++) {
                     if (this->primitives[m]->intersect(actual_ray, t, colorPrimitive)){ 
-                        cout<<" Distancia: "<<*t<<endl;
+                        //cout<<" Distancia: "<<*t<<endl;
                         if( abs(*t) < minDist){
                             minDist = abs(*t); 
                             countColor.r = colorPrimitive->r;
@@ -81,9 +81,9 @@ void RayTracing::shootingRays() {
                     isIntersect = false;
                 }
                 minDist = numeric_limits<float>::max();
-                //bar.update();
+                bar.update();
             }
-            cout<<"Pixel: "<<i<<" "<<j<<"  Color: "<<color.r<<" "<<color.g<<" "<<color.b<<endl;
+            //cout<<"Pixel: "<<i<<" "<<j<<"  Color: "<<color.r<<" "<<color.g<<" "<<color.b<<endl;
             this->projection[i][j].r = color.r / numRaysPerPixel;
             this->projection[i][j].g = color.g / numRaysPerPixel;
             this->projection[i][j].b = color.b / numRaysPerPixel;

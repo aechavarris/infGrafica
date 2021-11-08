@@ -69,7 +69,7 @@ bool Sphere::intersect(Ray ray, float* t, RGB* color) {
             return true;
         }
         *t = temp;
-        cout <<"Soy esfera "<<color->r<<" "<<color->g<<" "<<color->b<<endl;
+        //cout <<"Soy esfera "<<color->r<<" "<<color->g<<" "<<color->b<<endl;
         return true;
     } 
     return false;
