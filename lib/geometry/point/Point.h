@@ -41,12 +41,6 @@ class Point{
          * Pre:
          * Post:
          */
-        float dot(Vector p);
-
-        /*
-         * Pre:
-         * Post:
-         */
         Point pointBetweenPoint(Point p);
 
         /*

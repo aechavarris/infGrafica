@@ -14,7 +14,7 @@ bool Plane::intersect(Ray ray, float* t, RGB* color) {
     float denom = this->normal.dot(ray.direction);
     if (abs(denom) > 0.0001f) {
         Point p = Point(this->p.x - ray.origin.x, this->p.y - ray.origin.y, this->p.z - ray.origin.z);
-        float tAux = p.dot(this->normal) / denom;
+        float tAux = (p.x * this->normal.x + p.y * this->normal.y + p.z * this->normal.z) / denom;
         if (tAux > 0) {
             *t = tAux;
             color->r = this->rgb.r;

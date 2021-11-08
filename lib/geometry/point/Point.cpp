@@ -19,10 +19,6 @@ float Point::dot(Point p) {
     return (this->x * p.x + this->y * p.y + this->z * p.z);
 }
 
-float Point::dot(Vector p) {
-    return (this->x * p.x + this->y * p.y + this->z * p.z);
-}
-
 Point Point::pointBetweenPoint(Point p) {
     return Point();
 }

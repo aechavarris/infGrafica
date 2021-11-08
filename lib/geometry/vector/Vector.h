@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <math.h>
+#include "../../../lib/geometry/point/Point.h"
 using namespace std;
 
 #ifndef _VECTOR
@@ -35,6 +36,12 @@ class Vector {
          * Post:
          */
         float dot(Vector v);
+
+        /*
+         * Pre:
+         * Post:
+         */
+        float dot(Point p);
 
         /*
          * Pre:

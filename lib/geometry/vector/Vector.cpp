@@ -18,6 +18,10 @@ float Vector::dot(Vector v) {
     return (this->x * v.x + this->y * v.y + this->z * v.z);
 }
 
+float Vector::dot(Point p) {
+    return (this->x * p.x + this->y * p.y + this->z * p.z);
+}
+
 Vector Vector::cross(Vector v) {
     float x = this->y * v.z - this->z * v.y;
     float y = this->z * v.x - this->x * v.z;
