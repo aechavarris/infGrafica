@@ -54,7 +54,7 @@ void RayTracing::shootingRays() {
                 // This two lines have been taken from https://stackoverflow.com/questions/686353/random-float-number-generation
                 float xIter = x + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((x + pixelXSide) - x)));
                 float yIter = y + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/((y + pixelYSide) - y)));
-                Point image_point = Point(xIter, yIter, 1); 
+                Point image_point = Point(xIter, -yIter, 1); 
                 
                 Point p = this->baseChange.productMatrixPoint(image_point);
                 Vector dir = Vector(p.x - origen.x, p.y - origen.y, p.z - origen.z);
