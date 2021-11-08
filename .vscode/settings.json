@@ -67,6 +67,7 @@
         "utility": "cpp",
         "xstring": "cpp",
         "*.tcc": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "thread": "cpp"
     }
 }

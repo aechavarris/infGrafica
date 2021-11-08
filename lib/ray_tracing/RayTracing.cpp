@@ -16,7 +16,7 @@ RayTracing::RayTracing (Camera camera, int numRaysPerPixel, int width, int heigh
     }
 };
 
-void RayTracing::shootingRays() {
+void RayTracing::shootingRaysAux(int start, int end) {
     Point origen = this->camera.origin;
     RGB color = RGB(0.0, 0.0, 0.0);
     RGB* colorPrimitive = new RGB(0.0,0.0,0.0);
@@ -28,13 +28,8 @@ void RayTracing::shootingRays() {
     srand(time(0));
 
     cout <<"Starting ray tracing..."<<endl;
-    progressbar bar(this->width * this->height * this->numRaysPerPixel);
-    bar.set_todo_char(" ");
-    bar.set_done_char("█");
-    bar.set_opening_bracket_char("[");
-    bar.set_closing_bracket_char("]");
     
-    for (float i = 0; i < this->height; i++){
+    for (float i = start; i < end; i++){
 
         for (float j = 0; j < this->width; j++) {
 
@@ -81,7 +76,6 @@ void RayTracing::shootingRays() {
                     isIntersect = false;
                 }
                 minDist = numeric_limits<float>::max();
-                bar.update();
             }
             //cout<<"Pixel: "<<i<<" "<<j<<"  Color: "<<color.r<<" "<<color.g<<" "<<color.b<<endl;
             this->projection[i][j].r = color.r / numRaysPerPixel;
@@ -92,3 +86,24 @@ void RayTracing::shootingRays() {
     cout << endl;
     cout << endl;
 };
+
+void RayTracing::shootingRays() {
+
+    // The info to use thread has been taken from https://www.bogotobogo.com/cplusplus/C11/1_C11_creating_thread.php
+    //int nThreadsSupported = (int) std::thread::hardware_concurrency();
+    int nThreadsSupported = 4;
+    vector<thread> threads;
+
+    int start = 0;
+    int end = this->height / nThreadsSupported;
+
+    for ( int i = 0; i < nThreadsSupported; i++) {
+        threads[i] = thread(&RayTracing::shootingRaysAux, this, start, end);
+        start = end;
+        end = (i == nThreadsSupported - 2) ? this->height : end + this->height / nThreadsSupported;
+    }
+
+    for ( int i = 0; i < nThreadsSupported; i++) {
+        threads[i].join();
+    }
+}
