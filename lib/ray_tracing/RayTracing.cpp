@@ -16,7 +16,7 @@ RayTracing::RayTracing (Camera camera, int numRaysPerPixel, int width, int heigh
     }
 };
 
-void RayTracing::shootingRays() {
+void RayTracing::shootingRaysAux(int start, int end) {
     Point origen = this->camera.origin;
     RGB color = RGB(0.0, 0.0, 0.0);
     RGB* colorPrimitive = new RGB(0.0,0.0,0.0);
@@ -26,12 +26,12 @@ void RayTracing::shootingRays() {
     float pixelYSide = (float)2 / this->width;
 
     srand(time(0));
-
-    cout <<"Starting ray tracing..."<<endl;
     cout<<endl;
+    cout <<"Starting ray tracing..."<<endl;
+    
     int total=width*height*numRaysPerPixel;
     int progress=0;
-    for (float i = 0; i < this->height; i++){
+    for (float i = start; i < end; i++){
 
         for (float j = 0; j < this->width; j++) {
 
@@ -96,3 +96,24 @@ void RayTracing::shootingRays() {
     }
     cout<<"100% of pixels processed"<<endl;
 };
+
+void RayTracing::shootingRays() {
+
+    // The info to use thread has been taken from https://www.bogotobogo.com/cplusplus/C11/1_C11_creating_thread.php
+    //int nThreadsSupported = (int) std::thread::hardware_concurrency();
+    int nThreadsSupported = 4;
+    vector<thread> threads;
+
+    int start = 0;
+    int end = this->height / nThreadsSupported;
+
+    for ( int i = 0; i < nThreadsSupported; i++) {
+        threads[i] = thread(&RayTracing::shootingRaysAux, this, start, end);
+        start = end;
+        end = (i == nThreadsSupported - 2) ? this->height : end + this->height / nThreadsSupported;
+    }
+
+    for ( int i = 0; i < nThreadsSupported; i++) {
+        threads[i].join();
+    }
+}

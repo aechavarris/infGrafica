@@ -8,6 +8,7 @@
 #include "lib/objects/figures/Primitive.h"
 #include "lib/objects/figures/plane/Plane.h"
 #include "lib/objects/figures/sphere/Sphere.h"
+#include "thread"
 
 using namespace std;
 
@@ -16,6 +17,7 @@ int main(int argv,char* argc[]) {
         cout <<"El numero de argumentos no es valido"<<endl;
         exit(1);
     }
+
     int width = atoi(argc[1]);
     int height = atoi(argc[2]);
     int raysPerPixel=atoi(argc[3]);

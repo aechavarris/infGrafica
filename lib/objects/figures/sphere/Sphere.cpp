@@ -17,17 +17,18 @@ bool Sphere::intersect(Ray ray, float* t, RGB* color) {
     
     float discriminant = (b * b) - ((a * c));
     if (discriminant > 0) {
-        float temp = fabs((-b - sqrt(discriminant)) / a);
-        float temp2 = fabs((-b + sqrt(discriminant)) / a);
+        float t1 = fabs((-b - sqrt(discriminant)) / a);
+        float t2 = fabs((-b + sqrt(discriminant)) / a);
+        
         color->r = this->rgb.r;
         color->g = this->rgb.g;
         color->b = this->rgb.b;
 
-        if (temp > temp2) {
-            t = &temp2;
+        if (t1 > t2) {
+            t = &t2;
             return true;
         }
-        *t = temp;
+        *t = t1;
         return true;
     } 
     return false;

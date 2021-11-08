@@ -13,6 +13,8 @@
 #include <random>
 #include <vector>
 #include <limits>
+#include<thread>
+
 using namespace std;
 
 #ifndef _RAYTRACING
@@ -39,6 +41,12 @@ class RayTracing {
         // ---------------------------------------
         // ------------- OPERACIONES -------------
         // ---------------------------------------
+
+        /*
+         * Pre:
+         * Post:
+         */
+        void shootingRaysAux(int start, int end);
 
         /*
          * Pre:
