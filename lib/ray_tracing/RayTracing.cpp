@@ -28,6 +28,7 @@ void RayTracing::shootingRays() {
     srand(time(0));
 
     cout <<"Starting ray tracing..."<<endl;
+    cout<<endl;
     int total=width*height*numRaysPerPixel;
     int progress=0;
     for (float i = 0; i < this->height; i++){
@@ -92,6 +93,5 @@ void RayTracing::shootingRays() {
             this->projection[i][j].b = color.b / numRaysPerPixel;
         }
     }
-    cout << endl;
-    cout << endl;
+    cout<<"100% of pixels processed"<<endl;
 };
