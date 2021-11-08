@@ -27,24 +27,24 @@ int main(int argv,char* argc[]) {
     Vector n_pDe = Vector(1.0, 0.0, 0.0);
     Vector n_fondo = Vector(0.0, 0.0, 1.0);
 
-    RGB color_r = RGB(1.0, 0.0, 0.0);
-    RGB color_g = RGB(0.0, 1.0,0.0);
+    RGB color_gris = RGB(47.0, 47.0, 47.0);
+    RGB color_marron = RGB(74.0, 51.0,10.0);
     RGB color_b = RGB(0.0, 0.0, 1.0);
     RGB color_w = RGB(1.0, 1.0, 1.0);
 
-    Plane techo = Plane(Point(0.0, 35, 0.0), n_techo, color_g);
-    Plane suelo = Plane(Point(0.0, -35, 0.0), n_suelo, color_g);
-    Plane pIz = Plane(Point(35, 0.0, 0.0), n_pIz, color_r);
-    Plane pDe = Plane(Point(-35, 0.0, 0.0), n_pDe, color_r);
-    Plane fondo = Plane(Point(0.0,0.0,1.0), n_fondo, color_w);
+    Plane techo = Plane(Point(0.0, -20, 0.0), n_techo, color_marron);
+    Plane suelo = Plane(Point(0.0, 20, 0.0), n_suelo, color_marron);
+    Plane pIz = Plane(Point(-20, 0.0, 0.0), n_pIz, color_gris);
+    Plane pDe = Plane(Point(20, 0.0, 0.0), n_pDe, color_gris);
+    Plane fondo = Plane(Point(0.0,0.0,-100.0), n_fondo, color_w);
 
-    Sphere esfera(Point(15,30.0,10.0), 4.5, RGB(0.0,1.0,1.0));
-    Sphere esfera2(Point(-15.0,-15.0,20.0), 6.5, RGB(1.0,0.5,0.2));
+    Sphere esfera(Point(8,6.0,40.0), 4.5, RGB(0.0,1.0,1.0));
+    Sphere esfera2(Point(-2,-3,10.0), 1.5, RGB(1.0,0.5,0.2));
 
     Point origin = Point(0, 0, 0);
-    Vector f = Vector(0, 0, 1);
-    Vector u = Vector(0, -1, 0);
-    Vector r = Vector(-1, 0, 0);
+    Vector f = Vector(0, 0, 1.5);
+    Vector u = Vector(0, 1, 0);
+    Vector r = Vector(1, 0, 0);
 
     Camera camera = Camera(origin, f, u, r); 
 
