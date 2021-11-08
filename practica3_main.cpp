@@ -30,14 +30,14 @@ int main(int argv,char* argc[]) {
     RGB color_b = RGB(0.0, 0.0, 1.0);
     RGB color_w = RGB(1.0, 1.0, 1.0);
 
-    Plane techo = Plane(Point(0.0, 0.0, 35.0), n_techo, color_g);
-    Plane suelo = Plane(Point(0.0, 0.0, -35.0), n_suelo, color_g);
-    Plane pIz = Plane(Point(0.0, 35.0, 0.0), n_pIz, color_r);
-    Plane pDe = Plane(Point(0.0, -35.0, 0.0), n_pDe, color_r);
+    Plane techo = Plane(Point(0.0, 0.0, 900.0), n_techo, color_g);
+    Plane suelo = Plane(Point(0.0, 0.0, -900.0), n_suelo, color_g);
+    Plane pIz = Plane(Point(0.0, 900.0, 0.0), n_pIz, color_r);
+    Plane pDe = Plane(Point(0.0, -900.0, 0.0), n_pDe, color_r);
     Plane fondo = Plane(Point(0.0,0.0,0.0), n_fondo, color_w);
 
-    Sphere esfera(Point(-1000.0,15.0,30.0), 15, RGB(0.0,1.0,1.0));
-    Sphere esfera2(Point(-650.0,-15.0,-15.0), 10.5, RGB(1.0,0.5,0.2));
+    Sphere esfera(Point(-1000.0,300.0,600.0), 300, RGB(0.0,1.0,1.0));
+    Sphere esfera2(Point(-650.0,-300.0,-300.0), 200.5, RGB(1.0,0.5,0.2));
 
     Point origin = Point(-1600, 0, 0);
     Vector f = Vector(1500 - origin.x, 0 - origin.y, 0 - origin.z);
