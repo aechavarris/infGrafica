@@ -21,7 +21,7 @@ class Sphere : public Primitive{
          * Constructor de la clase Sphere
          */
         Sphere();
-        Sphere (Point center, float radius, RGB rgb, Property prop);
+        Sphere (Point center, float radius, RGB rgb, Property propl,bool light);
         
 
         // ---------------------------------------
@@ -31,7 +31,13 @@ class Sphere : public Primitive{
         /*
          * To program this function, we have been inspired from https://viclw17.github.io/2018/07/16/raytracing-ray-sphere-intersection/
          */
-        bool intersect(Ray ray, float* t, RGB* color, bool* end) override;
+        bool intersect(Ray ray, float* t, RGB* color) override;
+
+        /*
+         * Pre:
+         * Post:
+         */
+        Vector getNormal(Ray ray, float distancia) override;
 
 };
 

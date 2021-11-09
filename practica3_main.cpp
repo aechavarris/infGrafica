@@ -31,15 +31,17 @@ int main(int argv,char* argc[]) {
     RGB color_marron = RGB(74.0, 51.0,10.0);
     RGB color_b = RGB(0.0, 0.0, 1.0);
     RGB color_w = RGB(1.0, 1.0, 1.0);
+    Property plastico=Property(0.25,0.5,0.0);
+    Property dielectrico=Property(0.0,0.25,0.5);
+    Property difuso=Property(0.5,0.0,0.25); 
+    Plane techo = Plane(Point(0.0, -20, 0.0), n_techo, color_marron,dielectrico,true);
+    Plane suelo = Plane(Point(0.0, 20, 0.0), n_suelo, color_marron,difuso,false);
+    Plane pIz = Plane(Point(-20, 0.0, 0.0), n_pIz, color_gris,difuso,false);
+    Plane pDe = Plane(Point(20, 0.0, 0.0), n_pDe, color_gris,difuso,false);
+    Plane fondo = Plane(Point(0.0,0.0,-100.0), n_fondo, color_w,difuso,false);
 
-    Plane techo = Plane(Point(0.0, -20, 0.0), n_techo, color_marron);
-    Plane suelo = Plane(Point(0.0, 20, 0.0), n_suelo, color_marron);
-    Plane pIz = Plane(Point(-20, 0.0, 0.0), n_pIz, color_gris);
-    Plane pDe = Plane(Point(20, 0.0, 0.0), n_pDe, color_gris);
-    Plane fondo = Plane(Point(0.0,0.0,-100.0), n_fondo, color_w);
-
-    Sphere esfera(Point(8,6.0,40.0), 4.5, RGB(0.0,1.0,1.0));
-    Sphere esfera2(Point(-2,-3,10.0), 1.5, RGB(1.0,0.5,0.2));
+    Sphere esfera(Point(8,6.0,40.0), 4.5, RGB(0.0,1.0,1.0),dielectrico,false);
+    Sphere esfera2(Point(-2,-3,10.0), 1.5, RGB(1.0,0.5,0.2),plastico,false);
 
     Point origin = Point(0, 0, 0);
     Vector f = Vector(0, 0, 1.5);
@@ -59,7 +61,7 @@ int main(int argv,char* argc[]) {
  
     escena.shootingRays();
 
-    PPMFile file = PPMFile("Escena1", "");
+    PPMFile file = PPMFile("Escena2", "");
     ToneMapping mapping;
     file.width = width;
     file.height = height;

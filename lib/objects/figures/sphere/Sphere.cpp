@@ -4,11 +4,12 @@
 
 Sphere::Sphere(){};
 
-Sphere::Sphere(Point center, float radius, RGB rgb,Property prop) {
+Sphere::Sphere(Point center, float radius, RGB rgb,Property prop,bool light) {
     this->center = center;
     this->radius = radius;
     this->rgb = rgb;
     this->matProperties=prop;
+    this->isLight = light;
 };
 
 bool Sphere::intersect(Ray ray, float* t, RGB* color) { 
@@ -33,4 +34,11 @@ bool Sphere::intersect(Ray ray, float* t, RGB* color) {
         return true;
     } 
     return false;
+}
+Vector Sphere::getNormal(Ray ray,float distancia){
+    Point p = Point(ray.origin.x + ray.direction.x * distancia,
+                    ray.origin.y + ray.direction.y * distancia,
+                    ray.origin.z + ray.direction.z * distancia);
+    Vector normal = Vector(p.x - this->center.x, p.y - this->center.y, p.z - this->center.z);
+    return Vector(normal.x / normal.module(), normal.y / normal.module(), normal.z / normal.module());
 }

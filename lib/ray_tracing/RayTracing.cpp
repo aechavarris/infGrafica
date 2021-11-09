@@ -56,21 +56,22 @@ void RayTracing::shootingRays() {
                 
                 Point p = this->baseChange.productMatrixPoint(image_point);
                 Vector dir = Vector(p.x - origen.x, p.y - origen.y, p.z - origen.z);
-                Ray actual_ray = Ray(origen, dir); 
-                int saliente-1;
-                bool* end = new bool;
-                *end=false;
+                Ray actual_ray = Ray(origen, Vector(dir.x / dir.module(), dir.y / dir.module(), dir.z / dir.module())); 
+                int saliente=-1;
                 float* t = new float;
                 bool isIntersect = false;
-                while(!end){
+                while(true){
                     for (int m = 0; m < this->primitives.size(); m++) {
                         if(saliente != m){
-                            if (this->primitives[m]->intersect(actual_ray, t, colorPrimitive,end)){ 
+                            if (this->primitives[m]->intersect(actual_ray, t, colorPrimitive)){ 
                                 //cout<<" Distancia: "<<*t<<endl;
                                 if( abs(*t) < minDist){
-                                    saliente=m;
+                                    saliente = m;
                                     minDist = abs(*t); 
-                                    masCercano=this->primitives[m];
+                                    masCercano = this->primitives[m];
+                                    countColor.r = colorPrimitive->r;
+                                    countColor.r = colorPrimitive->g;
+                                    countColor.r = colorPrimitive->b;
                                     isIntersect = true;
                                 }
                             }
@@ -78,15 +79,35 @@ void RayTracing::shootingRays() {
                     }
                     delete t;
                     if(isIntersect){
-                        masCercano->intersect(actual_ray,t,colorPrimitive,end);
-                        color.r = color.r + colorPrimitive->r;
-                        color.g = color.g + colorPrimitive->g;
-                        color.b = color.b + colorPrimitive->b;
-                        isIntersect = false;
+                        if(masCercano->isLight){ // Si emite luz
+                            color.r = color.r + countColor.r;
+                            color.g = color.g + countColor.g;
+                            color.b = color.b + countColor.b;
+                            break;
+                        }
+                        else {
+                            string accion = masCercano->russianRoulette();
+                            if (accion == "termina"){
+                                color.r = color.r + 0.0;
+                                color.g = color.g + 0.0;
+                                color.b = color.b + 0.0;
+                                isIntersect = false;
+                                break;
+                            }
+                            else if(accion == "difusion"){
+                                actual_ray = Ray(origen, dir);
+                            }else if(accion == "especular"){
+                                actual_ray = Ray(origen, dir);
+                            }else if(accion == "refraccion"){
+                                actual_ray = Ray(origen, dir);
+                            }
+                             
+                            
+                        }
+                        
                     }
                     minDist = numeric_limits<float>::max();
                 }
-                delete end;
                 progress++;
                 if(progress == total / 4){
                     cout<<"25% of pixels processed"<<endl;
