@@ -4,10 +4,11 @@
 
 Sphere::Sphere(){};
 
-Sphere::Sphere(Point center, float radius, RGB rgb) {
+Sphere::Sphere(Point center, float radius, RGB rgb,Property prop) {
     this->center = center;
     this->radius = radius;
     this->rgb = rgb;
+    this->matProperties=prop;
 };
 
 bool Sphere::intersect(Ray ray, float* t, RGB* color) { 

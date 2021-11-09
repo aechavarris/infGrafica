@@ -69,5 +69,6 @@
         "*.tcc": "cpp",
         "random": "cpp",
         "thread": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }
