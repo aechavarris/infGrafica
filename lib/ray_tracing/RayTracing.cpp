@@ -59,6 +59,7 @@ void RayTracing::shootingRays() {
                 Ray actual_ray = Ray(origen, Vector(dir.x / dir.module(), dir.y / dir.module(), dir.z / dir.module())); 
                 int saliente=-1;
                 float* t = new float;
+                Point* newOrigen = new Point();
                 bool isIntersect = false;
                 while(true){
                     for (int m = 0; m < this->primitives.size(); m++) {
@@ -78,6 +79,7 @@ void RayTracing::shootingRays() {
                         }
                     }
                     delete t;
+
                     if(isIntersect){
                         if(masCercano->isLight){ // Si emite luz
                             color.r = color.r + countColor.r;
@@ -95,19 +97,20 @@ void RayTracing::shootingRays() {
                                 break;
                             }
                             else if(accion == "difusion"){
-                                actual_ray = Ray(origen, dir);
+                                dir = masCercano->difusion(actual_ray, minDist, newOrigen);
+                                actual_ray = Ray(*newOrigen, dir);
                             }else if(accion == "especular"){
                                 actual_ray = Ray(origen, dir);
                             }else if(accion == "refraccion"){
                                 actual_ray = Ray(origen, dir);
                             }
                              
-                            
                         }
                         
                     }
                     minDist = numeric_limits<float>::max();
                 }
+                delete newOrigen;
                 progress++;
                 if(progress == total / 4){
                     cout<<"25% of pixels processed"<<endl;

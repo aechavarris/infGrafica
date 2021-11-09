@@ -60,7 +60,10 @@ Vector Primitive::difusion(Ray ray,float distancia, Point* o) {
     Point p = Point(ray.origin.x + ray.direction.x * distancia,
                     ray.origin.y + ray.direction.y * distancia,
                     ray.origin.z + ray.direction.z * distancia);
-    
+    o->x = p.x;
+    o->x = p.y;
+    o->x = p.z;
+
     Matrix baseChange = Matrix(x, y, z, p);
     dirRebote = baseChange.productMatrixVector(dirRebote);
     

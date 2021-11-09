@@ -31,9 +31,11 @@ int main(int argv,char* argc[]) {
     RGB color_marron = RGB(74.0, 51.0,10.0);
     RGB color_b = RGB(0.0, 0.0, 1.0);
     RGB color_w = RGB(1.0, 1.0, 1.0);
+    
     Property plastico=Property(0.25,0.5,0.0);
     Property dielectrico=Property(0.0,0.25,0.5);
-    Property difuso=Property(0.5,0.0,0.25); 
+    Property difuso=Property(0.5,0.0,0.25);
+
     Plane techo = Plane(Point(0.0, -20, 0.0), n_techo, color_marron,dielectrico,true);
     Plane suelo = Plane(Point(0.0, 20, 0.0), n_suelo, color_marron,difuso,false);
     Plane pIz = Plane(Point(-20, 0.0, 0.0), n_pIz, color_gris,difuso,false);
