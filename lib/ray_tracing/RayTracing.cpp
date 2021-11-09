@@ -19,6 +19,7 @@ RayTracing::RayTracing (Camera camera, int numRaysPerPixel, int width, int heigh
 void RayTracing::shootingRays() {
     Point origen = this->camera.origin;
     RGB color = RGB(0.0, 0.0, 0.0);
+    Primitive* masCercano;
     RGB* colorPrimitive = new RGB(0.0,0.0,0.0);
     RGB countColor = RGB(0.0,0.0,0.0);
 
@@ -55,38 +56,46 @@ void RayTracing::shootingRays() {
                 
                 Point p = this->baseChange.productMatrixPoint(image_point);
                 Vector dir = Vector(p.x - origen.x, p.y - origen.y, p.z - origen.z);
-                Ray actual_ray = Ray(origen, dir);
-                
+                Ray actual_ray = Ray(origen, dir); 
+                int saliente-1;
+                bool* end = new bool;
+                *end=false;
                 float* t = new float;
                 bool isIntersect = false;
-                for (int m = 0; m < this->primitives.size(); m++) {
-                    if (this->primitives[m]->intersect(actual_ray, t, colorPrimitive)){ 
-                        //cout<<" Distancia: "<<*t<<endl;
-                        if( abs(*t) < minDist){
-                            minDist = abs(*t); 
-                            countColor.r = colorPrimitive->r;
-                            countColor.g = colorPrimitive->g;
-                            countColor.b = colorPrimitive->b;
-                            isIntersect = true;
+                while(!end){
+                    for (int m = 0; m < this->primitives.size(); m++) {
+                        if(saliente != m){
+                            if (this->primitives[m]->intersect(actual_ray, t, colorPrimitive,end)){ 
+                                //cout<<" Distancia: "<<*t<<endl;
+                                if( abs(*t) < minDist){
+                                    saliente=m;
+                                    minDist = abs(*t); 
+                                    masCercano=this->primitives[m];
+                                    isIntersect = true;
+                                }
+                            }
                         }
                     }
+                    delete t;
+                    if(isIntersect){
+                        masCercano->intersect(actual_ray,t,colorPrimitive,end);
+                        color.r = color.r + colorPrimitive->r;
+                        color.g = color.g + colorPrimitive->g;
+                        color.b = color.b + colorPrimitive->b;
+                        isIntersect = false;
+                    }
+                    minDist = numeric_limits<float>::max();
                 }
-                delete t;
-                if(isIntersect){
-                    color.r = color.r + countColor.r;
-                    color.g = color.g + countColor.g;
-                    color.b = color.b + countColor.b;
-                    isIntersect = false;
-                }
+                delete end;
                 progress++;
-                if(progress==total/4){
+                if(progress == total / 4){
                     cout<<"25% of pixels processed"<<endl;
-                }else if(progress==total/2){
+                }else if(progress == total / 2){
                     cout<<"50% of pixels processed"<<endl;
-                }else if(progress==3*total/4){
+                }else if(progress == 3 * total / 4){
                     cout<<"75% of pixels processed"<<endl;
                 }
-                minDist = numeric_limits<float>::max();
+                
             }
             //cout<<"Pixel: "<<i<<" "<<j<<"  Color: "<<color.r<<" "<<color.g<<" "<<color.b<<endl;
             this->projection[i][j].r = color.r / numRaysPerPixel;
