@@ -13,7 +13,7 @@
 #include <random>
 #include <vector>
 #include <limits>
-#include<thread>
+#include <thread>
 
 using namespace std;
 

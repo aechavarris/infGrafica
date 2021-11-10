@@ -8,22 +8,21 @@ bool Primitive::intersect(Ray ray, float *t, RGB *color) { return 0; };
 
 string Primitive::russianRoulette()
 {
-    srand(time(0)); 
     float lambertianDiffuse = this->matProperties.lambertianDiffuse;
     float deltaBRDF = this->matProperties.deltaBRDF;
     float deltaBTDF = this->matProperties.deltaBTDF;
 
     float sum = lambertianDiffuse + deltaBRDF + deltaBTDF;
-
+    //cout<<"Rusian sumatorio: "<<sum<<endl;
     if (sum > 0.9f)
     { // Si el sumatorio es mayor que la probabilidad de matar el rayo
         lambertianDiffuse = 0.9f / sum;
         deltaBRDF = 0.9f / sum;
         deltaBTDF = 0.9f / sum;
     }
-
-    float randomNumber = static_cast<float>(rand()); // Genera un número entre 0.0 y 1.0
-
+    
+    float randomNumber = floatRand(0.0f,1.0f); // Genera un número entre 0.0 y 1.0
+    //cout<<"Rusian random: "<<randomNumber<<endl;
     randomNumber = randomNumber - lambertianDiffuse;
     if (randomNumber < 0.0) return "difusion";
 
@@ -42,7 +41,7 @@ Vector Primitive::difusion(Ray ray, float distancia, Point p)
     float randomNumber2 = static_cast<float>(rand()); // Genera un número entre 0.0 y 1.0
 
     float inclination = acos(sqrt(randomNumber));
-    float azimuth = randomNumber2 * M_PI * 2.0f; 
+    float azimuth = randomNumber2 * PI * 2.0f; 
     Vector dirRebote = Vector(sin(inclination) * cos(azimuth), sin(inclination) * sin(azimuth), cos(inclination));
 
     Vector z = this->getNormal(ray, distancia);
@@ -63,7 +62,7 @@ Vector Primitive::difusion(Ray ray, float distancia, Point p)
 
 Vector Primitive::refraccion(Ray ray, float distancia, Point o)
 {
-    
+    return Vector();
 }
 
 Vector Primitive::especular(Ray ray, float distancia)
@@ -78,4 +77,10 @@ Vector Primitive::especular(Ray ray, float distancia)
     dirRebote.y = dirRebote.z / dirRebote.module();
     
     return dirRebote;
+}
+
+float Primitive::floatRand(const float & min, const float & max) {
+    static thread_local mt19937 generator;
+    uniform_real_distribution<float> distribution(min,max);
+    return distribution(generator);
 }

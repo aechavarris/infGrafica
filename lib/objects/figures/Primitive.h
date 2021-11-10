@@ -2,16 +2,18 @@
 
 #include <iostream>
 #include <math.h>
+#include <random>
+#include <string.h>
+#include <time.h>
 #include "../../../lib/geometry/vector/Vector.h"
 #include "../../../lib/geometry/matrix/Matrix.h"
 #include "../../../lib/ray_tracing/ray/Ray.h"
 #include "../../../lib/rgb/RGB.h"
 #include "../../../lib/objects/figures/property/Property.h"
-#include <string.h>
-#include <time.h>
+
 
 using namespace std;
-const float M_PI = 3.14159265358979323846;
+const float PI = 3.14159265358979323846;
 
 #ifndef _PRIMITIVE
 #define _PRIMITIVE
@@ -67,7 +69,7 @@ class Primitive {
          */
         virtual Vector getNormal(Ray ray,float distancia) = 0;
 
-
+        float floatRand(const float & min, const float & max);
 };
 
 #include  "Primitive.cpp"

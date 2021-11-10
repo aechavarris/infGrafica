@@ -18,9 +18,9 @@ RayTracing::RayTracing(Camera camera, int numRaysPerPixel, int width, int height
     }
 };
 
-void RayTracing::shootingRaysAux(int start, int end)
+void RayTracing::shootingRays()
 {
-    Point origen = this->camera.origin;
+    Point origen = this->camera.origin; 
     Primitive *masCercano;
 
     RGB colorAcumulado = RGB(0.0, 0.0, 0.0);
@@ -38,7 +38,7 @@ void RayTracing::shootingRaysAux(int start, int end)
 
     int total = width * height * numRaysPerPixel;
     int progress = 0;
-    for (float i = start; i < end; i++)
+    for (float i = 0; i < this->height; i++)
     {
 
         for (float j = 0; j < this->width; j++)
@@ -63,7 +63,7 @@ void RayTracing::shootingRaysAux(int start, int end)
                 Ray actual_ray = Ray(origen, Vector(dir.x / dir.module(), dir.y / dir.module(), dir.z / dir.module()));
 
                 int nRebotes = 1;
-                float *t = new float;
+                
                 bool isIntersect = false;
                 bool end = false;
 
@@ -72,12 +72,13 @@ void RayTracing::shootingRaysAux(int start, int end)
 
                 while (!end)
                 {
+                    float *t = new float;
                     for (int m = 0; m < this->primitives.size(); m++)
                     {
 
                         if (this->primitives[m]->intersect(actual_ray, t, colorPrimitive))
                         {
-                            // cout<<" Distancia: "<<*t<<endl;
+                            //cout<<" Distancia: "<<*t<<endl;
                             if (abs(*t) < minDist)
                             {
                                 minDist = abs(*t);
@@ -85,6 +86,7 @@ void RayTracing::shootingRaysAux(int start, int end)
                                 actualColor = *colorPrimitive;              
                                 isIntersect = true;
                             }
+                        }
                     }
                     delete t;
 
@@ -96,6 +98,7 @@ void RayTracing::shootingRaysAux(int start, int end)
                             rayColor.g = rayColor.g * actualColor.g;
                             rayColor.b = rayColor.b * actualColor.b;
                             minDist = numeric_limits<float>::max();
+
                             break;
                         }
                         else
@@ -105,22 +108,25 @@ void RayTracing::shootingRaysAux(int start, int end)
                                                     actual_ray.origin.y + actual_ray.direction.y * minDist,
                                                     actual_ray.origin.z + actual_ray.direction.z * minDist);
 
-                            if (accion == "termina")
+                            if (accion == "fin")
                             {
                                 // Color negro
                                 rayColor = RGB(0.0, 0.0, 0.0);
                                 end = true;
+                                //cout<<"C muere"<<endl;
                             }
                             else if (accion == "difusion")
                             {
                                 dir = masCercano->difusion(actual_ray, minDist, newOrigen);
                                 actual_ray = Ray(newOrigen, dir);
+                                //cout<<"Rayo difusion: "<<actual_ray.direction.x<<actual_ray.direction.y<<actual_ray.direction.z<<endl;
                                 nRebotes++;
                             }
                             else if (accion == "especular")
                             {
                                 dir = masCercano->especular(actual_ray, minDist);
                                 actual_ray = Ray(origen, dir);
+                                //cout<<"Rayo especular: "<<actual_ray.direction.x<<actual_ray.direction.y<<actual_ray.direction.z<<endl;
                                 nRebotes++;
                             }
                             else if (accion == "refraccion")
@@ -128,17 +134,21 @@ void RayTracing::shootingRaysAux(int start, int end)
                                 dir = masCercano->refraccion(actual_ray, minDist,newOrigen);
                                 actual_ray = Ray(origen, dir);
                             }
+                            
+                            if ( accion != "fin") {
+                                rayColor.r = rayColor.r * actualColor.r;
+                                rayColor.g = rayColor.g * actualColor.g;
+                                rayColor.b = rayColor.b * actualColor.b;
+                            }
                         }
-                        rayColor.r = rayColor.r * actualColor.r;
-                        rayColor.g = rayColor.g * actualColor.g;
-                        rayColor.b = rayColor.b * actualColor.b;
+                        
                         isIntersect = false;
+                        minDist = numeric_limits<float>::max();
                     }
                     else {
                         rayColor = RGB(0.0, 0.0, 0.0);
                         end = true;
                     }
-                    minDist = numeric_limits<float>::max();
                 }
                 
                 rayColor.r = rayColor.r + colorLuzDirecta.r / (float)nRebotes;
@@ -163,7 +173,7 @@ void RayTracing::shootingRaysAux(int start, int end)
                     cout << "75% of pixels processed" << endl;
                 }
             }
-            // cout<<"Pixel: "<<i<<" "<<j<<"  Color: "<<color.r<<" "<<color.g<<" "<<color.b<<endl;
+            //cout<<"Pixel: "<<i<<" "<<j<<"  Color: "<<colorAcumulado.r<<" "<<colorAcumulado.g<<" "<<colorAcumulado.b<<endl;
             this->projection[i][j].r = colorAcumulado.r / numRaysPerPixel;
             this->projection[i][j].g = colorAcumulado.g / numRaysPerPixel;
             this->projection[i][j].b = colorAcumulado.b / numRaysPerPixel;
@@ -172,7 +182,7 @@ void RayTracing::shootingRaysAux(int start, int end)
     cout << "100% of pixels processed" << endl;
 };
 
-void RayTracing::shootingRays()
+/*void RayTracing::shootingRays()
 {
 
     // The info to use thread has been taken from https://www.bogotobogo.com/cplusplus/C11/1_C11_creating_thread.php
@@ -193,4 +203,4 @@ void RayTracing::shootingRays()
     {
         threads[i].join();
     }
-};
+};*/
