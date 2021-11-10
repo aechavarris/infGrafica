@@ -20,7 +20,7 @@ int main(int argv,char* argc[]) {
 
     int width = atoi(argc[1]);
     int height = atoi(argc[2]);
-    int raysPerPixel=atoi(argc[3]);
+    int raysPerPixel = atoi(argc[3]);
     Vector n_techo = Vector(0.0, 1.0, 0.0);
     Vector n_suelo = Vector(0.0, -1.0, 0.0);
     Vector n_pIz = Vector(-1.0, 0.0, 0.0);

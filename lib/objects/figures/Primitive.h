@@ -8,7 +8,6 @@
 #include "../../../lib/objects/figures/property/Property.h"
 #include <string.h>
 
-# define M_PI           3.14159265358979323846  /* pi */
 using namespace std;
 
 #ifndef _PRIMITIVE
