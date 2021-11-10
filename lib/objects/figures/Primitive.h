@@ -1,14 +1,17 @@
 #pragma once
 
 #include <iostream>
-#include <cmath>
+#include <math.h>
 #include "../../../lib/geometry/vector/Vector.h"
+#include "../../../lib/geometry/matrix/Matrix.h"
 #include "../../../lib/ray_tracing/ray/Ray.h"
 #include "../../../lib/rgb/RGB.h"
 #include "../../../lib/objects/figures/property/Property.h"
 #include <string.h>
+#include <time.h>
 
 using namespace std;
+const float M_PI = 3.14159265358979323846;
 
 #ifndef _PRIMITIVE
 #define _PRIMITIVE
@@ -44,19 +47,19 @@ class Primitive {
          * Pre:
          * Post:
          */
-        Vector difusion(Ray ray, float distancia, Point* o);
+        Vector difusion(Ray ray, float distancia, Point p);
 
         /*
          * Pre:
          * Post:
          */
-        Vector refraccion(Ray ray, float distancia, Point* o);
+        Vector refraccion(Ray ray, float distancia, Point o);
 
         /*
          * Pre:
          * Post:
          */
-        Vector especular(Ray ray, float distancia, Point* o);
+        Vector especular(Ray ray, float distancia);
 
         /*
          * Pre:

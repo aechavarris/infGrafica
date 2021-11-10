@@ -21,11 +21,14 @@ RayTracing::RayTracing(Camera camera, int numRaysPerPixel, int width, int height
 void RayTracing::shootingRaysAux(int start, int end)
 {
     Point origen = this->camera.origin;
-    RGB color = RGB(0.0, 0.0, 0.0);
     Primitive *masCercano;
-    RGB *colorPrimitive = new RGB(0.0, 0.0, 0.0);
-    RGB countColor = RGB(0.0, 0.0, 0.0);
 
+    RGB colorAcumulado = RGB(0.0, 0.0, 0.0);
+    RGB colorLuzDirecta = RGB(0.0, 0.0, 0.0);
+    RGB *colorPrimitive = new RGB(0.0, 0.0, 0.0);
+    RGB actualColor = RGB(0.0, 0.0, 0.0);
+    RGB rayColor = RGB(1.0, 1.0, 1.0);
+    
     float pixelXSide = (float)2 / this->height;
     float pixelYSide = (float)2 / this->width;
 
@@ -41,20 +44,15 @@ void RayTracing::shootingRaysAux(int start, int end)
         for (float j = 0; j < this->width; j++)
         {
 
-            color.r = 0.0;
-            color.g = 0.0;
-            color.b = 0.0;
-            countColor.r = 0.0;
-            countColor.g = 0.0;
-            countColor.b = 0.0;
-
+            colorAcumulado = RGB(0.0, 0.0, 0.0);         //This variable save the final color of each pixel.    
+            
             float x = i * pixelXSide - 1.0;
             float y = j * pixelYSide - 1.0;
 
             float minDist = numeric_limits<float>::max();
             for (int n = 0; n < this->numRaysPerPixel; n++)
             {
-
+                
                 // This two lines have been taken from https://stackoverflow.com/questions/686353/random-float-number-generation
                 float xIter = x + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / ((x + pixelXSide) - x)));
                 float yIter = y + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / ((y + pixelYSide) - y)));
@@ -63,75 +61,94 @@ void RayTracing::shootingRaysAux(int start, int end)
                 Point p = this->baseChange.productMatrixPoint(image_point);
                 Vector dir = Vector(p.x - origen.x, p.y - origen.y, p.z - origen.z);
                 Ray actual_ray = Ray(origen, Vector(dir.x / dir.module(), dir.y / dir.module(), dir.z / dir.module()));
-                int saliente = -1;
+
+                int nRebotes = 1;
                 float *t = new float;
-                Point *newOrigen = new Point();
                 bool isIntersect = false;
-                while (true)
+                bool end = false;
+
+                rayColor = RGB(1.0, 1.0, 1.0);          //This variable save the color of the actual ray.
+                colorLuzDirecta = RGB(0.0, 0.0, 0.0);   //This variable save the color of the direct light.
+
+                while (!end)
                 {
                     for (int m = 0; m < this->primitives.size(); m++)
                     {
-                        if (saliente != m)
+
+                        if (this->primitives[m]->intersect(actual_ray, t, colorPrimitive))
                         {
-                            if (this->primitives[m]->intersect(actual_ray, t, colorPrimitive))
+                            // cout<<" Distancia: "<<*t<<endl;
+                            if (abs(*t) < minDist)
                             {
-                                // cout<<" Distancia: "<<*t<<endl;
-                                if (abs(*t) < minDist)
-                                {
-                                    saliente = m;
-                                    minDist = abs(*t);
-                                    masCercano = this->primitives[m];
-                                    countColor.r = colorPrimitive->r;
-                                    countColor.r = colorPrimitive->g;
-                                    countColor.r = colorPrimitive->b;
-                                    isIntersect = true;
-                                }
+                                minDist = abs(*t);
+                                masCercano = this->primitives[m];
+                                actualColor = *colorPrimitive;              
+                                isIntersect = true;
                             }
-                        }
                     }
                     delete t;
 
                     if (isIntersect)
                     {
-                        if (masCercano->isLight)
-                        { // Si emite luz
-                            color.r = color.r + countColor.r;
-                            color.g = color.g + countColor.g;
-                            color.b = color.b + countColor.b;
+                        if (masCercano->isLight) // Se checkea si es luz de área
+                        { 
+                            rayColor.r = rayColor.r * actualColor.r;
+                            rayColor.g = rayColor.g * actualColor.g;
+                            rayColor.b = rayColor.b * actualColor.b;
+                            minDist = numeric_limits<float>::max();
                             break;
                         }
                         else
                         {
                             string accion = masCercano->russianRoulette();
+                            Point newOrigen = Point(actual_ray.origin.x + actual_ray.direction.x * minDist,
+                                                    actual_ray.origin.y + actual_ray.direction.y * minDist,
+                                                    actual_ray.origin.z + actual_ray.direction.z * minDist);
 
                             if (accion == "termina")
                             {
                                 // Color negro
-                                color.r = color.r + 0.0;
-                                color.g = color.g + 0.0;
-                                color.b = color.b + 0.0;
-                                isIntersect = false;
-                                break;
+                                rayColor = RGB(0.0, 0.0, 0.0);
+                                end = true;
                             }
                             else if (accion == "difusion")
                             {
                                 dir = masCercano->difusion(actual_ray, minDist, newOrigen);
-                                actual_ray = Ray(*newOrigen, dir);
+                                actual_ray = Ray(newOrigen, dir);
+                                nRebotes++;
                             }
                             else if (accion == "especular")
                             {
-                                dir = masCercano->especular(actual_ray, minDist, newOrigen);
+                                dir = masCercano->especular(actual_ray, minDist);
                                 actual_ray = Ray(origen, dir);
+                                nRebotes++;
                             }
                             else if (accion == "refraccion")
                             {
+                                dir = masCercano->refraccion(actual_ray, minDist,newOrigen);
                                 actual_ray = Ray(origen, dir);
                             }
                         }
+                        rayColor.r = rayColor.r * actualColor.r;
+                        rayColor.g = rayColor.g * actualColor.g;
+                        rayColor.b = rayColor.b * actualColor.b;
+                        isIntersect = false;
+                    }
+                    else {
+                        rayColor = RGB(0.0, 0.0, 0.0);
+                        end = true;
                     }
                     minDist = numeric_limits<float>::max();
                 }
-                delete newOrigen;
+                
+                rayColor.r = rayColor.r + colorLuzDirecta.r / (float)nRebotes;
+                rayColor.g = rayColor.g + colorLuzDirecta.g / (float)nRebotes;
+                rayColor.b = rayColor.b + colorLuzDirecta.b / (float)nRebotes;
+
+                colorAcumulado.r = colorAcumulado.r + rayColor.r;
+                colorAcumulado.g = colorAcumulado.g + rayColor.g;
+                colorAcumulado.b = colorAcumulado.b + rayColor.b;
+
                 progress++;
                 if (progress == total / 4)
                 {
@@ -147,9 +164,9 @@ void RayTracing::shootingRaysAux(int start, int end)
                 }
             }
             // cout<<"Pixel: "<<i<<" "<<j<<"  Color: "<<color.r<<" "<<color.g<<" "<<color.b<<endl;
-            this->projection[i][j].r = color.r / numRaysPerPixel;
-            this->projection[i][j].g = color.g / numRaysPerPixel;
-            this->projection[i][j].b = color.b / numRaysPerPixel;
+            this->projection[i][j].r = colorAcumulado.r / numRaysPerPixel;
+            this->projection[i][j].g = colorAcumulado.g / numRaysPerPixel;
+            this->projection[i][j].b = colorAcumulado.b / numRaysPerPixel;
         }
     }
     cout << "100% of pixels processed" << endl;
@@ -176,4 +193,4 @@ void RayTracing::shootingRays()
     {
         threads[i].join();
     }
-}
+};
