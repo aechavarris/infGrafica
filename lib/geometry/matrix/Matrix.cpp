@@ -73,7 +73,7 @@ Vector Matrix::productMatrixVector(Vector v) {
 
     mv.x = mv.x + this->m[0][0] * v.x;
     mv.x = mv.x + this->m[0][1] * v.y;
-    mv.x = mv.x + this->m[0][2] * v.z;
+    mv.x = mv.x + this->m[0][2] * v.z;         
     
     mv.y = mv.y + this->m[1][0] * v.x;
     mv.y = mv.y + this->m[1][1] * v.y;
@@ -82,6 +82,5 @@ Vector Matrix::productMatrixVector(Vector v) {
     mv.z = mv.z + this->m[2][0] * v.x;
     mv.z = mv.z + this->m[2][1] * v.y;
     mv.z = mv.z + this->m[2][2] * v.z;
-
     return mv;
 }

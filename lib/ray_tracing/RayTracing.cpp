@@ -38,6 +38,7 @@ void RayTracing::shootingRays()
 
     int total = width * height * numRaysPerPixel;
     int progress = 0;
+    int muertos=0;
     for (float i = 0; i < this->height; i++)
     {
 
@@ -79,11 +80,12 @@ void RayTracing::shootingRays()
                         if (this->primitives[m]->intersect(actual_ray, t, colorPrimitive))
                         {
                             //cout<<" Distancia: "<<*t<<endl;
-                            if (abs(*t) < minDist)
+                            if (*t < minDist)
                             {
-                                minDist = abs(*t);
+                                minDist = *t;
                                 masCercano = this->primitives[m];
-                                actualColor = *colorPrimitive;              
+                                actualColor = *colorPrimitive; 
+                                //cout<<"Pixel "<<i<<" "<<j<<" Mas cercano: "<<actualColor.r<<" "<<actualColor.g<<" "<<actualColor.b<<endl;             
                                 isIntersect = true;
                             }
                         }
@@ -98,7 +100,8 @@ void RayTracing::shootingRays()
                             rayColor.g = rayColor.g * actualColor.g;
                             rayColor.b = rayColor.b * actualColor.b;
                             minDist = numeric_limits<float>::max();
-
+                            //cout<<"Soy luz"<<endl;
+                            end=true;
                             break;
                         }
                         else
@@ -111,34 +114,37 @@ void RayTracing::shootingRays()
                             if (accion == "fin")
                             {
                                 // Color negro
-                                rayColor = RGB(0.0, 0.0, 0.0);
+                                //rayColor = RGB(0.0, 0.0, 0.0);
                                 end = true;
+                                muertos++;
+                                break;
                                 //cout<<"C muere"<<endl;
                             }
                             else if (accion == "difusion")
                             {
+                                //cout<< "Rayo difusion: "<<endl;
                                 dir = masCercano->difusion(actual_ray, minDist, newOrigen);
                                 actual_ray = Ray(newOrigen, dir);
-                                //cout<<"Rayo difusion: "<<actual_ray.direction.x<<actual_ray.direction.y<<actual_ray.direction.z<<endl;
+                                rayColor.r = rayColor.r * actualColor.r;
+                                rayColor.g = rayColor.g * actualColor.g;
+                                rayColor.b = rayColor.b * actualColor.b;
+                                //cout<<"Rayo: "<<rayColor.r<<" "<<rayColor.g<<" "<<rayColor.b<<endl;
                                 nRebotes++;
                             }
                             else if (accion == "especular")
                             {
+                                //cout<<"Rayo especular: "<<actual_ray.direction.x<<" "<<actual_ray.direction.y<<" "<<actual_ray.direction.z<<endl;;
                                 dir = masCercano->especular(actual_ray, minDist);
                                 actual_ray = Ray(origen, dir);
-                                //cout<<"Rayo especular: "<<actual_ray.direction.x<<actual_ray.direction.y<<actual_ray.direction.z<<endl;
                                 nRebotes++;
                             }
                             else if (accion == "refraccion")
                             {
                                 dir = masCercano->refraccion(actual_ray, minDist,newOrigen);
                                 actual_ray = Ray(origen, dir);
-                            }
-                            
-                            if ( accion != "fin") {
-                                rayColor.r = rayColor.r * actualColor.r;
-                                rayColor.g = rayColor.g * actualColor.g;
-                                rayColor.b = rayColor.b * actualColor.b;
+                                rayColor.r = 1.0;
+                                rayColor.g = 1.0;
+                                rayColor.b = 1.0;
                             }
                         }
                         
@@ -150,10 +156,6 @@ void RayTracing::shootingRays()
                         end = true;
                     }
                 }
-                
-                rayColor.r = rayColor.r + colorLuzDirecta.r / (float)nRebotes;
-                rayColor.g = rayColor.g + colorLuzDirecta.g / (float)nRebotes;
-                rayColor.b = rayColor.b + colorLuzDirecta.b / (float)nRebotes;
 
                 colorAcumulado.r = colorAcumulado.r + rayColor.r;
                 colorAcumulado.g = colorAcumulado.g + rayColor.g;
@@ -180,6 +182,8 @@ void RayTracing::shootingRays()
         }
     }
     cout << "100% of pixels processed" << endl;
+    cout <<"Rayos totales: "<<this->height*this->width*numRaysPerPixel<<endl;
+    cout<<"Rayos muertos: "<<muertos<<endl;
 };
 
 /*void RayTracing::shootingRays()

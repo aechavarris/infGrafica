@@ -15,13 +15,13 @@ string Primitive::russianRoulette()
     float sum = lambertianDiffuse + deltaBRDF + deltaBTDF;
     //cout<<"Rusian sumatorio: "<<sum<<endl;
     if (sum > 0.9f)
-    { // Si el sumatorio es mayor que la probabilidad de matar el rayo
-        lambertianDiffuse = 0.9f / sum;
-        deltaBRDF = 0.9f / sum;
-        deltaBTDF = 0.9f / sum;
+    { // Si el sumatorio es mayor que 0.9
+        lambertianDiffuse = lambertianDiffuse * (0.9f / sum);
+        deltaBRDF = deltaBRDF * (0.9f / sum);
+        deltaBTDF = deltaBTDF * (0.9f / sum);
     }
     
-    float randomNumber = floatRand(0.0f,1.0f); // Genera un número entre 0.0 y 1.0
+    float randomNumber = floatRand(0.0f, 1.0f); // Genera un número entre 0.0 y 1.0
     //cout<<"Rusian random: "<<randomNumber<<endl;
     randomNumber = randomNumber - lambertianDiffuse;
     if (randomNumber < 0.0) return "difusion";
@@ -37,11 +37,12 @@ string Primitive::russianRoulette()
 
 Vector Primitive::difusion(Ray ray, float distancia, Point p)
 {
-    float randomNumber = static_cast<float>(rand());  // Genera un número entre 0.0 y 1.0
-    float randomNumber2 = static_cast<float>(rand()); // Genera un número entre 0.0 y 1.0
+    float randomNumber = floatRand(0.0f,1.0f);  // Genera un número entre 0.0 y 1.0
+    float randomNumber2 = floatRand(0.0f,1.0f); // Genera un número entre 0.0 y 1.0
 
     float inclination = acos(sqrt(randomNumber));
     float azimuth = randomNumber2 * PI * 2.0f; 
+
     Vector dirRebote = Vector(sin(inclination) * cos(azimuth), sin(inclination) * sin(azimuth), cos(inclination));
 
     Vector z = this->getNormal(ray, distancia);
@@ -54,9 +55,12 @@ Vector Primitive::difusion(Ray ray, float distancia, Point p)
     x.y = x.y / x.module();
     x.z = x.z / x.module();
 
+    //cout <<"Rayo direccion: "<< ray.direction.x<<" "<<ray.direction.y<<" "<<ray.direction.z<<endl;
+    //cout <<"Normal: "<< z.x<<" "<<z.y<<" "<<z.z<<endl;
     Matrix baseChange = Matrix(x, y, z, p);
+    
     dirRebote = baseChange.productMatrixVector(dirRebote);
-
+    //cout <<"Rayo rebote: "<< dirRebote.x<<" "<<dirRebote.y<<" "<<dirRebote.z<<endl;
     return Vector(dirRebote.x / dirRebote.module(), dirRebote.y / dirRebote.module(), dirRebote.z / dirRebote.module());
 }
 
@@ -75,7 +79,9 @@ Vector Primitive::especular(Ray ray, float distancia)
     dirRebote.x = dirRebote.x / dirRebote.module();
     dirRebote.y = dirRebote.y / dirRebote.module();
     dirRebote.y = dirRebote.z / dirRebote.module();
-    
+    //cout <<"Normal: "<< normal.x<<" "<<normal.y<<" "<<normal.z<<endl;
+    //cout <<"Ray * normal: "<< dotRayNormal<<endl;
+    //cout << "Dir rebote: "<< dirRebote.x<<" "<<dirRebote.y<<" "<<dirRebote.z<<endl;
     return dirRebote;
 }
 
