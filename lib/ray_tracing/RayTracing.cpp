@@ -116,7 +116,7 @@ void RayTracing::shootingRays()
                             if (accion == "fin")
                             {
                                 // Color negro
-                                //rayColor = RGB(0.0, 0.0, 0.0);
+                                rayColor = RGB(0.0, 0.0, 0.0);
                                 end = true;
                                 muertos++;
                                 break;
