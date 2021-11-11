@@ -46,7 +46,7 @@ int main(int argv,char* argc[]) {
     Plane pIz = Plane(Point(-20, 0.0, 0.0), n_pIz, color_r,aux,false);
     Plane pDe = Plane(Point(20, 0.0, 0.0), n_pDe, color_g,aux,false);
     Plane fondo = Plane(Point(0.0,0.0,-100.0), n_fondo, color_gris,aux,false);
-    Plane fondo2 = Plane(Point(0.0,0.0, 20.0), n_fondo, color_gris,aux,false);
+
     Sphere esfera(Point(8,-12,90.0), 6.5, color_w,aux,false);
     Sphere esfera2(Point(-8,-12,50.0), 6.5, color_w,aux,false);
     //Sphere luz(Point(0,20,40.0), 6.5, RGB(1.0,1.0,1.0),aux,true);
@@ -67,6 +67,7 @@ int main(int argv,char* argc[]) {
     escena.primitives.push_back(&esfera);
     escena.primitives.push_back(&esfera2);
     //escena.primitives.push_back(&luz);
+
     escena.shootingRays();
 
     PPMFile file = PPMFile("Escena2", "");
