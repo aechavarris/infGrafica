@@ -38,7 +38,8 @@ void RayTracing::shootingRays()
 
     int total = width * height * numRaysPerPixel;
     int progress = 0;
-    int muertos=0;
+    int muertos = 0;
+    int luces = 0;
     for (float i = 0; i < this->height; i++)
     {
 
@@ -101,6 +102,7 @@ void RayTracing::shootingRays()
                             rayColor.b = rayColor.b * actualColor.b;
                             minDist = numeric_limits<float>::max();
                             //cout<<"Soy luz"<<endl;
+                            luces++;
                             end=true;
                             break;
                         }
@@ -142,9 +144,6 @@ void RayTracing::shootingRays()
                             {
                                 dir = masCercano->refraccion(actual_ray, minDist,newOrigen);
                                 actual_ray = Ray(origen, dir);
-                                rayColor.r = 1.0;
-                                rayColor.g = 1.0;
-                                rayColor.b = 1.0;
                             }
                         }
                         
@@ -184,6 +183,7 @@ void RayTracing::shootingRays()
     cout << "100% of pixels processed" << endl;
     cout <<"Rayos totales: "<<this->height*this->width*numRaysPerPixel<<endl;
     cout<<"Rayos muertos: "<<muertos<<endl;
+    cout<<"Luces encontradas: "<<luces<<endl;
 };
 
 /*void RayTracing::shootingRays()
