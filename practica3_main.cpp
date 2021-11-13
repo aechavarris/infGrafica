@@ -78,6 +78,6 @@ int main(int argv,char* argc[]) {
     file.HDR_RESOLUTION = 1.0;
     file.format="P3";
     file.RGBTuples = escena.projection; 
-    file.writeFile("", "HDR"); 
+    file.writeFile("", "LDR"); 
     return 0;
 }

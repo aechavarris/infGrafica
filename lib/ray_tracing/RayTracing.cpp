@@ -108,7 +108,7 @@ void RayTracing::shootingRays()
                         }
                         else
                         {
-                            string accion = masCercano->russianRoulette();
+                            string accion = masCercano->russianRoulette(nRebotes);
                             Point newOrigen = Point(actual_ray.origin.x + actual_ray.direction.x * minDist,
                                                     actual_ray.origin.y + actual_ray.direction.y * minDist,
                                                     actual_ray.origin.z + actual_ray.direction.z * minDist);
@@ -116,7 +116,7 @@ void RayTracing::shootingRays()
                             if (accion == "fin")
                             {
                                 // Color negro
-                                rayColor = RGB(0.0, 0.0, 0.0);
+                                //rayColor = RGB(0.0, 0.0, 0.0);
                                 end = true;
                                 muertos++;
                                 break;
@@ -127,9 +127,6 @@ void RayTracing::shootingRays()
                                 //cout<< "Rayo difusion: "<<endl;
                                 dir = masCercano->difusion(actual_ray, minDist, newOrigen);
                                 actual_ray = Ray(newOrigen, dir);
-                                rayColor.r = rayColor.r * actualColor.r;
-                                rayColor.g = rayColor.g * actualColor.g;
-                                rayColor.b = rayColor.b * actualColor.b;
                                 //cout<<"Rayo: "<<rayColor.r<<" "<<rayColor.g<<" "<<rayColor.b<<endl;
                                 nRebotes++;
                             }
@@ -145,6 +142,9 @@ void RayTracing::shootingRays()
                                 dir = masCercano->refraccion(actual_ray, minDist,newOrigen);
                                 actual_ray = Ray(origen, dir);
                             }
+                            rayColor.r = rayColor.r * actualColor.r;
+                            rayColor.g = rayColor.g * actualColor.g;
+                            rayColor.b = rayColor.b * actualColor.b;
                         }
                         
                         isIntersect = false;

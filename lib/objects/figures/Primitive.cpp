@@ -6,7 +6,7 @@ Primitive::Primitive(){};
 
 bool Primitive::intersect(Ray ray, float *t, RGB *color) { return 0; };
 
-string Primitive::russianRoulette()
+string Primitive::russianRoulette(int rebotes)
 {
     float lambertianDiffuse = this->matProperties.lambertianDiffuse;
     float deltaBRDF = this->matProperties.deltaBRDF;
@@ -22,14 +22,27 @@ string Primitive::russianRoulette()
     }
     
     float randomNumber = floatRand(0.0f, 1.0f); // Genera un número entre 0.0 y 1.0
-    //cout<<"Rusian random: "<<randomNumber<<endl;
-    randomNumber = randomNumber - lambertianDiffuse;
+    
+
+    if(rebotes >= 5){
+        randomNumber = randomNumber - lambertianDiffuse;
+    }else{
+        randomNumber = -lambertianDiffuse;
+    }   
     if (randomNumber < 0.0) return "difusion";
-
-    randomNumber = randomNumber - deltaBRDF;
+    if(rebotes >= 5){
+        randomNumber = randomNumber - deltaBRDF;
+    }else{
+        randomNumber = -deltaBRDF;
+    }
+    
     if (randomNumber < 0.0) return "especular";
-
-    randomNumber = randomNumber - deltaBTDF;
+    if(rebotes >= 5){
+        randomNumber = randomNumber - deltaBTDF;
+    }else{
+        randomNumber = -deltaBTDF;
+    }
+    
     if (randomNumber < 0.0) return "refraccion";
 
     return "fin";

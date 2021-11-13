@@ -43,7 +43,7 @@ class Primitive {
          * Pre:
          * Post:
          */
-        string russianRoulette();
+        string russianRoulette(int rebotes);
 
         /*
          * Pre:
