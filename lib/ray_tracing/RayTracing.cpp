@@ -65,7 +65,7 @@ void RayTracing::shootingRays()
                 Ray actual_ray = Ray(origen, Vector(dir.x / dir.module(), dir.y / dir.module(), dir.z / dir.module()));
 
                 int nRebotes = 1;
-                
+                int saliente = -1;
                 bool isIntersect = false;
                 bool end = false;
 
@@ -78,23 +78,35 @@ void RayTracing::shootingRays()
                     for (int m = 0; m < this->primitives.size(); m++)
                     {
 
-                        if (this->primitives[m]->intersect(actual_ray, t, colorPrimitive))
+                        if (this->primitives[m]->intersect(actual_ray, t, colorPrimitive) )
                         {
-                            //cout<<" Distancia: "<<*t<<endl;
-                            if (*t < minDist)
-                            {
-                                minDist = *t;
-                                masCercano = this->primitives[m];
-                                actualColor = *colorPrimitive; 
-                                //cout<<"Pixel "<<i<<" "<<j<<" Mas cercano: "<<actualColor.r<<" "<<actualColor.g<<" "<<actualColor.b<<endl;             
-                                isIntersect = true;
-                            }
+                            if((i==1460 && j==1320) || (i==1550 && j==1285)){
+                            
+                                cout<<"Pixel "<<j<<" "<<i<<" Mas cercano: "<<colorPrimitive->r<<" "<<colorPrimitive->g<<" "<<colorPrimitive->b<<" "<<" Rebotes: "<<nRebotes<<endl;             
+                                cout<<" Distancia: "<<*t<<endl;
+                            }   
+                                if (*t < minDist)
+                                {
+                                    minDist = *t;
+                                    
+                                    masCercano = this->primitives[m];
+                                    actualColor = *colorPrimitive; 
+                                    
+                                    isIntersect = true;
+                                    saliente = m;
+                                }
+                            
                         }
                     }
                     delete t;
-
+                    if((i==1460 && j==1320) || (i==1550 && j==1285)){
+                        cout<<"Mas cercano: "<<actualColor.r<<" "<<actualColor.g<<" "<<actualColor.b<<endl;
+                    }
                     if (isIntersect)
                     {
+                        if((i==1460 && j==1320) || (i==1550 && j==1285)){
+                            cout<< "Intersecciona "<<endl;
+                        }
                         if (masCercano->isLight) // Se checkea si es luz de área
                         { 
                             rayColor.r = rayColor.r * actualColor.r;
@@ -103,7 +115,7 @@ void RayTracing::shootingRays()
                             minDist = numeric_limits<float>::max();
                             //cout<<"Soy luz"<<endl;
                             luces++;
-                            end=true;
+                            end = true;
                             break;
                         }
                         else
@@ -118,13 +130,19 @@ void RayTracing::shootingRays()
                                 // Color negro
                                 //rayColor = RGB(0.0, 0.0, 0.0);
                                 end = true;
+                                if((i==1460 && j==1320) || (i==1550 && j==1285)){
+                                    cout<< "C muere "<<endl;
+                                }
                                 muertos++;
+                                minDist = numeric_limits<float>::max();
                                 break;
                                 //cout<<"C muere"<<endl;
                             }
                             else if (accion == "difusion")
                             {
-                                //cout<< "Rayo difusion: "<<endl;
+                                if((i==1460 && j==1320) || (i==1550 && j==1285)){
+                                    cout<< "Rayo difusion: "<<endl;
+                                }
                                 dir = masCercano->difusion(actual_ray, minDist, newOrigen);
                                 actual_ray = Ray(newOrigen, dir);
                                 //cout<<"Rayo: "<<rayColor.r<<" "<<rayColor.g<<" "<<rayColor.b<<endl;
@@ -191,20 +209,20 @@ void RayTracing::shootingRays()
 
     // The info to use thread has been taken from https://www.bogotobogo.com/cplusplus/C11/1_C11_creating_thread.php
     int nThreadsSupported = (int)std::thread::hardware_concurrency();
-    vector<thread> threads;
+    vector<thread> threads=vector<thread>();
 
     int start = 0;
     int end = this->height / nThreadsSupported;
 
     for (int i = 0; i < nThreadsSupported; i++)
     {
-        threads[i] = thread(&RayTracing::shootingRaysAux, this, start, end);
+        threads.push_back(thread(&RayTracing::shootingRaysAux, this, start, end));
         start = end;
         end = (i == nThreadsSupported - 2) ? this->height : end + this->height / nThreadsSupported;
     }
 
     for (int i = 0; i < nThreadsSupported; i++)
     {
-        threads[i].join();
+        threads.at(i).join();
     }
 };*/

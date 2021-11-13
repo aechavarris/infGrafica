@@ -16,7 +16,8 @@ class Plane :public Primitive{
         Point p;
         Vector normal;
         RGB rgb;
-
+        bool minus;
+        Vector minus_normal;
         /*
          * Constructor de la clase Plane
          */

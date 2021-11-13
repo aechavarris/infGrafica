@@ -59,6 +59,7 @@ Vector Primitive::difusion(Ray ray, float distancia, Point p)
     Vector dirRebote = Vector(sin(inclination) * cos(azimuth), sin(inclination) * sin(azimuth), cos(inclination));
 
     Vector z = this->getNormal(ray, distancia);
+    //cout<<"Normal: "<<z.x<<" "<<z.y<<" "<<z.z<<endl;
     Vector y = z.cross(ray.direction);
     y.x = y.x / y.module();
     y.y = y.y / y.module();
