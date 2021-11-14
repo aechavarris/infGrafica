@@ -49,25 +49,25 @@ class Primitive {
          * Pre:
          * Post:
          */
-        Vector difusion(Ray ray, float distancia, Point p);
+        Vector difusion(Ray ray, float distancia, Point p,Matrix change_base);
 
         /*
          * Pre:
          * Post:
          */
-        Vector refraccion(Ray ray, float distancia, Point o);
+        Vector refraccion(Ray ray, float distancia, Point o,Matrix change_base);
 
         /*
          * Pre:
          * Post:
          */
-        Vector especular(Ray ray, float distancia);
+        Vector especular(Ray ray, float distancia,Matrix change_base);
 
         /*
          * Pre:
          * Post:
          */
-        virtual Vector getNormal(Ray ray,float distancia) = 0;
+        virtual Vector getNormal(Ray ray,float distancia,Matrix base_change) = 0;
 
         float floatRand(const float & min, const float & max);
 };

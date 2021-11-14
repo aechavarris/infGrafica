@@ -23,8 +23,8 @@ int main(int argv,char* argc[]) {
     int raysPerPixel = atoi(argc[3]);
     Vector n_techo = Vector(0.0, 1.0, 0.0);
     Vector n_suelo = Vector(0.0, -1.0, 0.0);
-    Vector n_pIz = Vector(-1.0, 0.0, 0.0);
-    Vector n_pDe = Vector(1.0, 0.0, 0.0);
+    Vector n_pDe = Vector(-1.0, 0.0, 0.0);
+    Vector n_pIz = Vector(1.0, 0.0, 0.0);
     Vector n_fondo = Vector(0.0, 0.0, 1.0);
 
     RGB color_gris = RGB(0.5, 0.5, 0.5);
@@ -43,11 +43,11 @@ int main(int argv,char* argc[]) {
 
     Plane techo = Plane(Point(0.0, -20, 0.0), n_techo, color_w,aux,true);
     Plane suelo = Plane(Point(0.0, 20, 0.0), n_suelo, color_gris,aux,false);
-    Plane pIz = Plane(Point(-20, 0.0, 0.0), n_pIz, color_r,aux,false);
-    Plane pDe = Plane(Point(20, 0.0, 0.0), n_pDe, color_g,aux,false);
+    Plane pIz = Plane(Point(-20, 0.0, 0.0), n_pDe, color_r,aux,false);
+    Plane pDe = Plane(Point(20, 0.0, 0.0), n_pIz, color_g,aux,false);
     Plane fondo = Plane(Point(0.0,0.0,-100.0), n_fondo, color_gris,aux,false);
 
-    Sphere esfera(Point(8,-12,90.0), 6.5, color_w,aux,false);
+    Sphere esfera(Point(8,-12,60.0), 6.5, color_w,aux,false);
     Sphere esfera2(Point(-8,-12,50.0), 6.5, color_w,aux,false);
     //Sphere luz(Point(0,20,40.0), 6.5, RGB(1.0,1.0,1.0),aux,true);
 

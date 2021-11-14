@@ -37,7 +37,7 @@ class Sphere : public Primitive{
          * Pre:
          * Post:
          */
-        Vector getNormal(Ray ray, float distancia) override;
+        Vector getNormal(Ray ray, float distancia,Matrix base_change) override;
 
 };
 

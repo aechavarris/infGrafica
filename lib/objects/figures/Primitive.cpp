@@ -48,7 +48,7 @@ string Primitive::russianRoulette(int rebotes)
     return "fin";
 }
 
-Vector Primitive::difusion(Ray ray, float distancia, Point p)
+Vector Primitive::difusion(Ray ray, float distancia, Point p,Matrix change_base)
 {
     float randomNumber = floatRand(0.0f,1.0f);  // Genera un número entre 0.0 y 1.0
     float randomNumber2 = floatRand(0.0f,1.0f); // Genera un número entre 0.0 y 1.0
@@ -58,7 +58,7 @@ Vector Primitive::difusion(Ray ray, float distancia, Point p)
 
     Vector dirRebote = Vector(sin(inclination) * cos(azimuth), sin(inclination) * sin(azimuth), cos(inclination));
 
-    Vector z = this->getNormal(ray, distancia);
+    Vector z = this->getNormal(ray, distancia,change_base);
     //cout<<"Normal: "<<z.x<<" "<<z.y<<" "<<z.z<<endl;
     Vector y = z.cross(ray.direction);
     y.x = y.x / y.module();
@@ -78,14 +78,14 @@ Vector Primitive::difusion(Ray ray, float distancia, Point p)
     return Vector(dirRebote.x / dirRebote.module(), dirRebote.y / dirRebote.module(), dirRebote.z / dirRebote.module());
 }
 
-Vector Primitive::refraccion(Ray ray, float distancia, Point o)
+Vector Primitive::refraccion(Ray ray, float distancia, Point o,Matrix change_base)
 {
     return Vector();
 }
 
-Vector Primitive::especular(Ray ray, float distancia)
+Vector Primitive::especular(Ray ray, float distancia,Matrix change_base)
 {
-    Vector normal = this->getNormal(ray, distancia);
+    Vector normal = this->getNormal(ray, distancia,change_base);
     float dotRayNormal = ray.direction.dot(normal);
     Vector aux = Vector(normal.x * dotRayNormal * 2.0f, normal.y * dotRayNormal * 2.0f, normal.z * dotRayNormal * 2.0f);
 

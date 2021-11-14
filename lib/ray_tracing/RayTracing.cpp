@@ -80,7 +80,7 @@ void RayTracing::shootingRays()
 
                         if (this->primitives[m]->intersect(actual_ray, t, colorPrimitive) )
                         {
-                            if((i==1460 && j==1320) || (i==1550 && j==1285)){
+                            if((i==500 && j==500) || (i==500 && j==500)){
                             
                                 cout<<"Pixel "<<j<<" "<<i<<" Mas cercano: "<<colorPrimitive->r<<" "<<colorPrimitive->g<<" "<<colorPrimitive->b<<" "<<" Rebotes: "<<nRebotes<<endl;             
                                 cout<<" Distancia: "<<*t<<endl;
@@ -99,12 +99,12 @@ void RayTracing::shootingRays()
                         }
                     }
                     delete t;
-                    if((i==1460 && j==1320) || (i==1550 && j==1285)){
+                    if((i==500 && j==500) || (i==500 && j==500)){
                         cout<<"Mas cercano: "<<actualColor.r<<" "<<actualColor.g<<" "<<actualColor.b<<endl;
                     }
                     if (isIntersect)
                     {
-                        if((i==1460 && j==1320) || (i==1550 && j==1285)){
+                        if((i==500 && j==500) || (i==500 && j==500)){
                             cout<< "Intersecciona "<<endl;
                         }
                         if (masCercano->isLight) // Se checkea si es luz de área
@@ -130,7 +130,7 @@ void RayTracing::shootingRays()
                                 // Color negro
                                 //rayColor = RGB(0.0, 0.0, 0.0);
                                 end = true;
-                                if((i==1460 && j==1320) || (i==1550 && j==1285)){
+                                if((i==500 && j==500) || (i==500 && j==500)){
                                     cout<< "C muere "<<endl;
                                 }
                                 muertos++;
@@ -140,10 +140,10 @@ void RayTracing::shootingRays()
                             }
                             else if (accion == "difusion")
                             {
-                                if((i==1460 && j==1320) || (i==1550 && j==1285)){
+                                if((i==500 && j==500) || (i==500 && j==500)){
                                     cout<< "Rayo difusion: "<<endl;
                                 }
-                                dir = masCercano->difusion(actual_ray, minDist, newOrigen);
+                                dir = masCercano->difusion(actual_ray, minDist, newOrigen,this->baseChange);
                                 actual_ray = Ray(newOrigen, dir);
                                 //cout<<"Rayo: "<<rayColor.r<<" "<<rayColor.g<<" "<<rayColor.b<<endl;
                                 nRebotes++;
@@ -151,13 +151,13 @@ void RayTracing::shootingRays()
                             else if (accion == "especular")
                             {
                                 //cout<<"Rayo especular: "<<actual_ray.direction.x<<" "<<actual_ray.direction.y<<" "<<actual_ray.direction.z<<endl;;
-                                dir = masCercano->especular(actual_ray, minDist);
+                                dir = masCercano->especular(actual_ray, minDist,this->baseChange);
                                 actual_ray = Ray(origen, dir);
                                 nRebotes++;
                             }
                             else if (accion == "refraccion")
                             {
-                                dir = masCercano->refraccion(actual_ray, minDist,newOrigen);
+                                dir = masCercano->refraccion(actual_ray, minDist,newOrigen,this->baseChange);
                                 actual_ray = Ray(origen, dir);
                             }
                             rayColor.r = rayColor.r * actualColor.r;

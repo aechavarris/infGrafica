@@ -86,15 +86,15 @@ bool Sphere::intersect(Ray ray, float* t, RGB* color) {
     return true;
     */
 }
-Vector Sphere::getNormal(Ray ray,float distancia){
+Vector Sphere::getNormal(Ray ray,float distancia,Matrix base_change){
     Point p = Point(ray.origin.x + ray.direction.x * distancia,
                     ray.origin.y + ray.direction.y * distancia,
                     ray.origin.z + ray.direction.z * distancia);
     //cout<<"Origen rayo:" <<ray.origin.x<<" "<<ray.origin.y<<" "<<ray.origin.z<<" "<<endl;
     //cout<<"Direccion rayo:" <<ray.direction.x<<" "<<ray.direction.y<<" "<<ray.direction.z<<" "<<endl;
     //cout<<"Distancia:" <<distancia<<endl;
-    
-    Vector normal = Vector(p.x - this->center.x, p.y - this->center.y, p.z - this->center.z);
+    Point change_center = base_change.productMatrixPoint(this->center);
+    Vector normal = Vector(p.x - change_center.x, p.y - change_center.y, p.z - change_center.z);
     //cout<<"Normal:" <<normal.x<<" "<<normal.y<<" "<<normal.z<<" "<<endl;
     return Vector(normal.x / normal.module(), normal.y / normal.module(), normal.z / normal.module());
 }
