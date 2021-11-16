@@ -22,6 +22,45 @@ class Vector {
 
 
         // ---------------------------------------
+        // --------- OPERADORES BÁSICOS ----------
+        // ---------------------------------------
+
+        Vector operator+(Vector v) const{
+            return Vector(this->x + v.x, this->y + v.y, this->z + v.z);
+        }
+
+        Vector operator+(float num) const{
+            return Vector(this->x + num, this->y + num, this->z + num);
+        }
+        Vector operator+(Point p) const{
+            return Vector(this->x + p.x, this->y + p.y, this->z + p.z);
+        }
+        Vector operator-(Vector v) const{
+            return Vector(this->x - v.x, this->y - v.y, this->z - v.z);
+        }
+
+        Vector operator-(float num) const{
+            return Vector(this->x - num, this->y - num, this->z - num);
+        }
+
+        Vector operator*(Vector v) const{
+            return Vector(this->x * v.x, this->y * v.y, this->z * v.z);
+        }
+
+        Vector operator*(float num) const{
+            return Vector(this->x * num, this->y * num, this->z * num);
+        }
+
+        Vector operator/(Vector v) const{
+            return Vector(this->x / v.x, this->y / v.y, this->z / v.z);
+        }
+
+        Vector operator/(float num) const{
+            return Vector(this->x / num, this->y / num, this->z / num);
+        }
+
+
+        // ---------------------------------------
         // ------------- OPERACIONES -------------
         // ---------------------------------------
 
@@ -48,7 +87,7 @@ class Vector {
          * Post:
          */
         Vector cross(Vector v);
-
+        Vector normalize();
         /*
          * Pre:
          * Post:

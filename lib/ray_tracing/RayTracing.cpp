@@ -25,8 +25,6 @@ void RayTracing::shootingRays()
 
     RGB colorAcumulado = RGB(0.0, 0.0, 0.0);
     RGB colorLuzDirecta = RGB(0.0, 0.0, 0.0);
-    RGB *colorPrimitive = new RGB(0.0, 0.0, 0.0);
-    RGB actualColor = RGB(0.0, 0.0, 0.0);
     RGB rayColor = RGB(1.0, 1.0, 1.0);
     
     float pixelXSide = (float)2 / this->height;
@@ -78,19 +76,22 @@ void RayTracing::shootingRays()
                     for (int m = 0; m < this->primitives.size(); m++)
                     {
 
-                        if (this->primitives[m]->intersect(actual_ray, t, colorPrimitive) )
+                        if (this->primitives[m]->intersect(actual_ray, t) )
                         {
-                            if((i==500 && j==500) || (i==500 && j==500)){
+                            // if((i==1000 && j==1000) || (i==1000 && j==960)){
                             
-                                cout<<"Pixel "<<j<<" "<<i<<" Mas cercano: "<<colorPrimitive->r<<" "<<colorPrimitive->g<<" "<<colorPrimitive->b<<" "<<" Rebotes: "<<nRebotes<<endl;             
-                                cout<<" Distancia: "<<*t<<endl;
-                            }   
+                            //     cout<<"Pixel "<<j<<" "<<i<<" Mas cercano: "<<
+                            //             this->primitives.at(m)->emisionRGB.r<<" "<<
+                            //             this->primitives.at(m)->emisionRGB.g<<" "<<
+                            //             this->primitives.at(m)->emisionRGB.b<<" "<<
+                            //             " Rebotes: "<<nRebotes<<endl;             
+                            //     cout<<" Distancia: "<<*t<<endl;
+                            // }   
                                 if (*t < minDist)
                                 {
                                     minDist = *t;
                                     
-                                    masCercano = this->primitives[m];
-                                    actualColor = *colorPrimitive; 
+                                    masCercano = this->primitives[m]; 
                                     
                                     isIntersect = true;
                                     saliente = m;
@@ -99,19 +100,19 @@ void RayTracing::shootingRays()
                         }
                     }
                     delete t;
-                    if((i==500 && j==500) || (i==500 && j==500)){
-                        cout<<"Mas cercano: "<<actualColor.r<<" "<<actualColor.g<<" "<<actualColor.b<<endl;
-                    }
+                    // if((i==1000 && j==1000) || (i==1000 && j==960)){
+                    //     cout<<"Mas cercano: "<<masCercano->emisionRGB.r<<" "<<
+                    //                            masCercano->emisionRGB.g<<" "<<
+                    //                            masCercano->emisionRGB.b<<endl;
+                    // }
                     if (isIntersect)
                     {
-                        if((i==500 && j==500) || (i==500 && j==500)){
-                            cout<< "Intersecciona "<<endl;
-                        }
+                        // if((i==1000 && j==1000) || (i==1000 && j==960)){
+                        //     cout<< "Intersecciona "<<endl;
+                        // }
                         if (masCercano->isLight) // Se checkea si es luz de área
                         { 
-                            rayColor.r = rayColor.r * actualColor.r;
-                            rayColor.g = rayColor.g * actualColor.g;
-                            rayColor.b = rayColor.b * actualColor.b;
+                            rayColor = rayColor * masCercano->emisionRGB;
                             minDist = numeric_limits<float>::max();
                             //cout<<"Soy luz"<<endl;
                             luces++;
@@ -120,7 +121,8 @@ void RayTracing::shootingRays()
                         }
                         else
                         {
-                            string accion = masCercano->russianRoulette(nRebotes);
+                            float* random = new float;
+                            string accion = masCercano->russianRoulette(nRebotes,random);
                             Point newOrigen = Point(actual_ray.origin.x + actual_ray.direction.x * minDist,
                                                     actual_ray.origin.y + actual_ray.direction.y * minDist,
                                                     actual_ray.origin.z + actual_ray.direction.z * minDist);
@@ -130,9 +132,9 @@ void RayTracing::shootingRays()
                                 // Color negro
                                 //rayColor = RGB(0.0, 0.0, 0.0);
                                 end = true;
-                                if((i==500 && j==500) || (i==500 && j==500)){
-                                    cout<< "C muere "<<endl;
-                                }
+                                // if((i==1000 && j==1000) || (i==1000 && j==960)){
+                                //     cout<< "C muere "<<endl;
+                                // }
                                 muertos++;
                                 minDist = numeric_limits<float>::max();
                                 break;
@@ -140,12 +142,15 @@ void RayTracing::shootingRays()
                             }
                             else if (accion == "difusion")
                             {
-                                if((i==500 && j==500) || (i==500 && j==500)){
-                                    cout<< "Rayo difusion: "<<endl;
-                                }
+                                // if((i==1000 && j==1000) || (i==1000 && j==960)){
+                                //     cout<< "Rayo difusion: "<<endl;
+                                // }
                                 dir = masCercano->difusion(actual_ray, minDist, newOrigen,this->baseChange);
                                 actual_ray = Ray(newOrigen, dir);
-                                //cout<<"Rayo: "<<rayColor.r<<" "<<rayColor.g<<" "<<rayColor.b<<endl;
+                                //cout<<"Color: "<<masCercano->emisionRGB.r<<" "<<masCercano->emisionRGB.g<<" "<<masCercano->emisionRGB.b<<endl;
+                                //cout<<"Random: "<<*random<<endl;
+                                rayColor = rayColor * masCercano->matProperties.lambertianDiffuse;
+                                rayColor = rayColor * masCercano->emisionRGB;
                                 nRebotes++;
                             }
                             else if (accion == "especular")
@@ -153,6 +158,8 @@ void RayTracing::shootingRays()
                                 //cout<<"Rayo especular: "<<actual_ray.direction.x<<" "<<actual_ray.direction.y<<" "<<actual_ray.direction.z<<endl;;
                                 dir = masCercano->especular(actual_ray, minDist,this->baseChange);
                                 actual_ray = Ray(origen, dir);
+                                rayColor = rayColor * masCercano->matProperties.deltaBRDF ;
+                                rayColor = rayColor * masCercano->especularRGB;
                                 nRebotes++;
                             }
                             else if (accion == "refraccion")
@@ -160,9 +167,7 @@ void RayTracing::shootingRays()
                                 dir = masCercano->refraccion(actual_ray, minDist,newOrigen,this->baseChange);
                                 actual_ray = Ray(origen, dir);
                             }
-                            rayColor.r = rayColor.r * actualColor.r;
-                            rayColor.g = rayColor.g * actualColor.g;
-                            rayColor.b = rayColor.b * actualColor.b;
+                            delete random;
                         }
                         
                         isIntersect = false;

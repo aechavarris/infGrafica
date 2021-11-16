@@ -22,7 +22,9 @@ class Primitive {
     public:
         Property matProperties;
         bool isLight;
-
+        RGB emisionRGB;
+        RGB especularRGB;
+        RGB refraccionRGB;
         /*
          * Constructor de la clase Primitive
          */
@@ -37,13 +39,13 @@ class Primitive {
          * Pre:
          * Post:
          */
-        virtual bool intersect(Ray ray, float* t, RGB* color) = 0;
+        virtual bool intersect(Ray ray, float* t) = 0;
 
         /*
          * Pre:
          * Post:
          */
-        string russianRoulette(int rebotes);
+        string russianRoulette(int rebotes,float* random);
 
         /*
          * Pre:

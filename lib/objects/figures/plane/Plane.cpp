@@ -2,17 +2,19 @@
 
 #include "Plane.h"
 
-Plane::Plane(Point p, Vector nor, RGB rgb, Property prop, bool light) {
+Plane::Plane(Point p, Vector nor, RGB rgbE,RGB rgbEs,RGB rgbR, Property prop, bool light) {
     this->p = p;
     this->normal = nor;
-    this->rgb = rgb;
+    this->emisionRGB = rgbE;
+    this->emisionRGB = rgbEs;
+    this->emisionRGB = rgbR;
     this->matProperties=prop;
     this->isLight = light;
     this->minus=false;
     this->minus_normal = Vector(-nor.x,-nor.y,-nor.z);
 };
 
-bool Plane::intersect(Ray ray, float* t, RGB* color) {
+bool Plane::intersect(Ray ray, float* t) {
     float denom = this->normal.dot(ray.direction);
     float d = ray.direction.dot(this->normal);
     float d2 = ray.direction.dot(this->minus_normal);
@@ -24,9 +26,6 @@ bool Plane::intersect(Ray ray, float* t, RGB* color) {
             float tAux = (p.x * this->normal.x + p.y * this->normal.y + p.z * this->normal.z) / denom;
             if (tAux > 0) {
                 *t = tAux;
-                color->r = this->rgb.r;
-                color->g = this->rgb.g;
-                color->b = this->rgb.b;
                 return true;
             } 
         }
@@ -38,9 +37,6 @@ bool Plane::intersect(Ray ray, float* t, RGB* color) {
             float tAux = (p.x * this->minus_normal.x + p.y * this->minus_normal.y + p.z * this->minus_normal.z) / denom;
             if (tAux > 0) {
                 *t = tAux;
-                color->r = this->rgb.r;
-                color->g = this->rgb.g;
-                color->b = this->rgb.b;
                 return true; 
             } 
         }

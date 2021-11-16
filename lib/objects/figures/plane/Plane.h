@@ -15,14 +15,13 @@ class Plane :public Primitive{
     public:
         Point p;
         Vector normal;
-        RGB rgb;
         bool minus;
         Vector minus_normal;
         /*
          * Constructor de la clase Plane
          */
         Plane();
-        Plane (Point p, Vector nor, RGB rgb, Property prop,bool light);
+        Plane (Point p, Vector nor, RGB rgb,RGB rgbEs,RGB rgbR, Property prop,bool light);
         
 
         // ---------------------------------------
@@ -32,7 +31,7 @@ class Plane :public Primitive{
         /*
          * This function has been taken https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-plane-and-ray-disk-intersection
          */
-        bool intersect(Ray ray, float* t, RGB* color) override;
+        bool intersect(Ray ray, float* t) override;
 
         /*
          * Pre:

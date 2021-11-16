@@ -2,7 +2,11 @@
 
 #include "Vector.h"
 
-Vector::Vector(){}
+Vector::Vector(){
+    this->x = 0.0;
+    this->y = 0.0;
+    this->z = 0.0;
+}
 
 Vector::Vector(float x, float y, float z){
     this->x = x;
@@ -20,6 +24,11 @@ float Vector::dot(Vector v) {
 
 float Vector::dot(Point p) {
     return (this->x * p.x + this->y * p.y + this->z * p.z);
+}
+Vector Vector::normalize() {
+    float module = this->module();
+
+    return Vector(this->x / module,this->y / module,this->z / module);
 }
 
 Vector Vector::cross(Vector v) {

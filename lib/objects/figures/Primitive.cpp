@@ -4,46 +4,39 @@
 
 Primitive::Primitive(){};
 
-bool Primitive::intersect(Ray ray, float *t, RGB *color) { return 0; };
+bool Primitive::intersect(Ray ray, float *t) { return 0; };
 
-string Primitive::russianRoulette(int rebotes)
-{
+string Primitive::russianRoulette(int rebotes,float* random) {
+
     float lambertianDiffuse = this->matProperties.lambertianDiffuse;
     float deltaBRDF = this->matProperties.deltaBRDF;
     float deltaBTDF = this->matProperties.deltaBTDF;
 
     float sum = lambertianDiffuse + deltaBRDF + deltaBTDF;
-    //cout<<"Rusian sumatorio: "<<sum<<endl;
-    if (sum > 0.9f)
-    { // Si el sumatorio es mayor que 0.9
-        lambertianDiffuse = lambertianDiffuse * (0.9f / sum);
-        deltaBRDF = deltaBRDF * (0.9f / sum);
-        deltaBTDF = deltaBTDF * (0.9f / sum);
+    float probFin = 0.9f; 
+    if(sum > probFin){
+        lambertianDiffuse = lambertianDiffuse * probFin / sum;
+        deltaBRDF = deltaBRDF * probFin / sum;
+        deltaBTDF = deltaBTDF * probFin / sum;
     }
-    
-    float randomNumber = floatRand(0.0f, 1.0f); // Genera un número entre 0.0 y 1.0
-    
 
-    if(rebotes >= 5){
-        randomNumber = randomNumber - lambertianDiffuse;
-    }else{
-        randomNumber = -lambertianDiffuse;
-    }   
-    if (randomNumber < 0.0) return "difusion";
-    if(rebotes >= 5){
-        randomNumber = randomNumber - deltaBRDF;
-    }else{
-        randomNumber = -deltaBRDF;
+    float random_p = floatRand(0.0f, 1.0f); //generate an uniform distribution random number from 0 to 1
+
+    random_p = random_p - lambertianDiffuse;
+    *random = 1 + random_p;
+    if(random_p < 0){
+        return "difusion";
     }
-    
-    if (randomNumber < 0.0) return "especular";
-    if(rebotes >= 5){
-        randomNumber = randomNumber - deltaBTDF;
-    }else{
-        randomNumber = -deltaBTDF;
+    *random = 1 + random_p;
+    random_p = random_p - deltaBRDF;
+    if(random_p < 0){
+        return "specular";
     }
-    
-    if (randomNumber < 0.0) return "refraccion";
+    *random = 1 + random_p;
+    random_p = random_p - deltaBTDF;
+    if(random_p < 0 ){
+        return "refraccion";
+    }
 
     return "fin";
 }
@@ -57,17 +50,12 @@ Vector Primitive::difusion(Ray ray, float distancia, Point p,Matrix change_base)
     float azimuth = randomNumber2 * PI * 2.0f; 
 
     Vector dirRebote = Vector(sin(inclination) * cos(azimuth), sin(inclination) * sin(azimuth), cos(inclination));
-
+    
     Vector z = this->getNormal(ray, distancia,change_base);
+    
     //cout<<"Normal: "<<z.x<<" "<<z.y<<" "<<z.z<<endl;
-    Vector y = z.cross(ray.direction);
-    y.x = y.x / y.module();
-    y.y = y.y / y.module();
-    y.z = y.z / y.module();
-    Vector x = z.cross(y);
-    x.x = x.x / x.module();
-    x.y = x.y / x.module();
-    x.z = x.z / x.module();
+    Vector y = z.cross(Vector(z.z,z.x,z.y)).normalize();//ray.direction);
+    Vector x = z.cross(y).normalize();
 
     //cout <<"Rayo direccion: "<< ray.direction.x<<" "<<ray.direction.y<<" "<<ray.direction.z<<endl;
     //cout <<"Normal: "<< z.x<<" "<<z.y<<" "<<z.z<<endl;
@@ -75,6 +63,8 @@ Vector Primitive::difusion(Ray ray, float distancia, Point p,Matrix change_base)
     
     dirRebote = baseChange.productMatrixVector(dirRebote);
     //cout <<"Rayo rebote: "<< dirRebote.x<<" "<<dirRebote.y<<" "<<dirRebote.z<<endl;
+    float tmp = dirRebote.dot(z);
+    //cout << tmp << " "<< inclination << endl;
     return Vector(dirRebote.x / dirRebote.module(), dirRebote.y / dirRebote.module(), dirRebote.z / dirRebote.module());
 }
 
@@ -87,12 +77,10 @@ Vector Primitive::especular(Ray ray, float distancia,Matrix change_base)
 {
     Vector normal = this->getNormal(ray, distancia,change_base);
     float dotRayNormal = ray.direction.dot(normal);
-    Vector aux = Vector(normal.x * dotRayNormal * 2.0f, normal.y * dotRayNormal * 2.0f, normal.z * dotRayNormal * 2.0f);
+    Vector aux = (normal * dotRayNormal * 2.0f);
 
-    Vector dirRebote = Vector(ray.direction.x - aux.x, ray.direction.y - aux.y, ray.direction.z - aux.z);
-    dirRebote.x = dirRebote.x / dirRebote.module();
-    dirRebote.y = dirRebote.y / dirRebote.module();
-    dirRebote.y = dirRebote.z / dirRebote.module();
+    Vector dirRebote = (ray.direction - aux).normalize();
+
     //cout <<"Normal: "<< normal.x<<" "<<normal.y<<" "<<normal.z<<endl;
     //cout <<"Ray * normal: "<< dotRayNormal<<endl;
     //cout << "Dir rebote: "<< dirRebote.x<<" "<<dirRebote.y<<" "<<dirRebote.z<<endl;

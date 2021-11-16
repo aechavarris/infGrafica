@@ -4,15 +4,17 @@
 
 Sphere::Sphere(){};
 
-Sphere::Sphere(Point center, float radius, RGB rgb,Property prop,bool light) {
+Sphere::Sphere(Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property prop,bool light) {
     this->center = center;
     this->radius = radius;
-    this->rgb = rgb;
+    this->emisionRGB = rgbE;
+    this->emisionRGB = rgbEs;
+    this->emisionRGB = rgbR;
     this->matProperties=prop;
     this->isLight = light;
 };
 
-bool Sphere::intersect(Ray ray, float* t, RGB* color) { 
+bool Sphere::intersect(Ray ray, float* t) { 
     
     // float a = ray.direction.dot(ray.direction);
     // float b = this->center.dot(Point(ray.direction.x, ray.direction.y, ray.direction.z));
@@ -41,7 +43,6 @@ bool Sphere::intersect(Ray ray, float* t, RGB* color) {
     float b = 2.0 * oc.dot(ray.direction);
     float c = oc.dot(oc) - this->radius * this->radius;
     float discriminant = b*b - 4*a*c;
-    *color=this->rgb;
     if(discriminant < 0){
         *t= -1.0;
     }
@@ -93,8 +94,8 @@ Vector Sphere::getNormal(Ray ray,float distancia,Matrix base_change){
     //cout<<"Origen rayo:" <<ray.origin.x<<" "<<ray.origin.y<<" "<<ray.origin.z<<" "<<endl;
     //cout<<"Direccion rayo:" <<ray.direction.x<<" "<<ray.direction.y<<" "<<ray.direction.z<<" "<<endl;
     //cout<<"Distancia:" <<distancia<<endl;
-    Point change_center = base_change.productMatrixPoint(this->center);
-    Vector normal = Vector(p.x - change_center.x, p.y - change_center.y, p.z - change_center.z);
+    //Point change_center = base_change.productMatrixPoint(this->center);
+    Vector normal = Vector(p.x - this->center.x, p.y - this->center.y, p.z - this->center.z);
     //cout<<"Normal:" <<normal.x<<" "<<normal.y<<" "<<normal.z<<" "<<endl;
     return Vector(normal.x / normal.module(), normal.y / normal.module(), normal.z / normal.module());
 }

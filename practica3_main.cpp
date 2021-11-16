@@ -41,14 +41,14 @@ int main(int argv,char* argc[]) {
     Property dielectrico=Property(0.0,0.25,0.5);
     Property difuso=Property(0.5,0.0,0.25);
 
-    Plane techo = Plane(Point(0.0, -20, 0.0), n_techo, color_w,aux,true);
-    Plane suelo = Plane(Point(0.0, 20, 0.0), n_suelo, color_gris,aux,false);
-    Plane pIz = Plane(Point(-20, 0.0, 0.0), n_pDe, color_r,aux,false);
-    Plane pDe = Plane(Point(20, 0.0, 0.0), n_pIz, color_g,aux,false);
-    Plane fondo = Plane(Point(0.0,0.0,-100.0), n_fondo, color_gris,aux,false);
-
-    Sphere esfera(Point(8,-12,60.0), 6.5, color_w,aux,false);
-    Sphere esfera2(Point(-8,-12,50.0), 6.5, color_w,aux,false);
+    Plane techo = Plane(Point(0.0, -20, 0.0), n_techo, color_w,color_w,color_w,aux,true);
+    Plane suelo = Plane(Point(0.0, 20, 0.0), n_suelo, color_gris,color_gris,color_gris,aux,false);
+    Plane pIz = Plane(Point(-20, 0.0, 0.0), n_pDe, color_r,color_r,color_r,aux,false);
+    Plane pDe = Plane(Point(20, 0.0, 0.0), n_pIz, color_g,color_g,color_g,aux,false);
+    Plane fondo = Plane(Point(0.0,0.0,-100.0), n_fondo, color_gris,color_gris,color_gris,aux,false);
+    
+    Sphere esfera(Point(8,12,-50.0), 6.5, color_w,color_w,color_w,aux,false);
+    Sphere esfera2(Point(-8,12,-90.0), 6.5, color_w,color_w,color_w,aux2,false);
     //Sphere luz(Point(0,20,40.0), 6.5, RGB(1.0,1.0,1.0),aux,true);
 
     Point origin = Point(0, 0, 0);
@@ -78,6 +78,6 @@ int main(int argv,char* argc[]) {
     file.HDR_RESOLUTION = 1.0;
     file.format="P3";
     file.RGBTuples = escena.projection; 
-    file.writeFile("", "LDR"); 
+    file.writeFile("", "HDR"); 
     return 0;
 }

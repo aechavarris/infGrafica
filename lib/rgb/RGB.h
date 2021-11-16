@@ -13,11 +13,41 @@ class RGB{
 
         float r, g, b;
     
-        /*
-         * Constructores de la clase RGB
-         */
+        // -----------------------------------------
+        // ------------ CONSTRUCTORES --------------
+        // -----------------------------------------
+
         RGB();
         RGB(float r, float g, float b);
+
+
+        // ---------------------------------------
+        // --------- OPERADORES BÁSICOS ----------
+        // ---------------------------------------
+
+        RGB operator+(RGB color) const{
+            return RGB(this->r + color.r, this->g + color.g, this->b + color.b);
+        }
+
+        RGB operator-(RGB color) const{
+            return RGB(this->r + color.r, this->g + color.g, this->b + color.b);
+        }
+
+        RGB operator*(RGB color) const{
+            return RGB(this->r * color.r, this->g * color.g, this->b * color.b);
+        }
+
+        RGB operator*(float num) const{
+            return RGB(this->r * num, this->g * num, this->b * num);
+        }
+
+        RGB operator/(RGB color) const{
+            return RGB(this->r / color.r, this->g / color.g, this->b / color.b);
+        }
+
+        RGB operator/(float num) const{
+            return RGB(this->r / num, this->g / num, this->b / num);
+        }
 
 
         // ---------------------------------------
