@@ -22,7 +22,6 @@ class Primitive {
     public:
         Property matProperties;
         bool isLight;
-        bool isPuntualLight;
         RGB emisionRGB;
         RGB especularRGB;
         RGB refraccionRGB;
@@ -70,7 +69,7 @@ class Primitive {
          * Pre:
          * Post:
          */
-        virtual Vector getNormal(Ray ray,float distancia,Matrix base_change) = 0;
+        virtual Vector getNormal(Ray ray,float distancia) = 0;
 
         float floatRand(const float & min, const float & max);
 };

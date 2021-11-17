@@ -37,7 +37,7 @@ class Plane :public Primitive{
          * Pre:
          * Post:
          */
-        Vector getNormal(Ray ray, float distancia,Matrix base_change) override;
+        Vector getNormal(Ray ray, float distancia) override;
 };
 
 #include  "Plane.cpp"

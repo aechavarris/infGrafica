@@ -4,7 +4,7 @@
 
 Sphere::Sphere(){};
 
-Sphere::Sphere(Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property prop,bool light,bool puntualLight) {
+Sphere::Sphere(Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property prop,bool light) {
     this->center = center;
     this->radius = radius;
     this->emisionRGB = rgbE;
@@ -12,7 +12,7 @@ Sphere::Sphere(Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Propert
     this->emisionRGB = rgbR;
     this->matProperties = prop;
     this->isLight = light;
-    this->isPuntualLight = puntualLight;
+
 };
 
 bool Sphere::intersect(Ray ray, float* t, float *t2) { 
@@ -42,14 +42,10 @@ bool Sphere::intersect(Ray ray, float* t, float *t2) {
         return true; 
 } 
 
-Vector Sphere::getNormal(Ray ray,float distancia,Matrix base_change){
+Vector Sphere::getNormal(Ray ray,float distancia){
     Point p = Point(ray.origin.x + ray.direction.x * distancia,
                     ray.origin.y + ray.direction.y * distancia,
                     ray.origin.z + ray.direction.z * distancia);
-    //cout<<"Origen rayo:" <<ray.origin.x<<" "<<ray.origin.y<<" "<<ray.origin.z<<" "<<endl;
-    //cout<<"Direccion rayo:" <<ray.direction.x<<" "<<ray.direction.y<<" "<<ray.direction.z<<" "<<endl;
-    //cout<<"Distancia:" <<distancia<<endl;
-    //Point change_center = base_change.productMatrixPoint(this->center);
     Vector normal = Vector(p.x - this->center.x, p.y - this->center.y, p.z - this->center.z);
     //cout<<"Normal:" <<normal.x<<" "<<normal.y<<" "<<normal.z<<" "<<endl;
     return normal.normalize();

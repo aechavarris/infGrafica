@@ -24,7 +24,7 @@ void RayTracing::shootingRays()
     Primitive *masCercano;
 
     RGB colorAcumulado = RGB(0.0, 0.0, 0.0);
-    RGB colorLuzDirecta = RGB(0.0, 0.0, 0.0);
+    RGB* colorLuzDirecta =new RGB(0.0, 0.0, 0.0);
     RGB rayColor = RGB(1.0, 1.0, 1.0);
     
     float pixelXSide = (float)2 / this->height;
@@ -68,7 +68,7 @@ void RayTracing::shootingRays()
                 bool end = false;
 
                 rayColor = RGB(1.0, 1.0, 1.0);          //This variable save the color of the actual ray.
-                colorLuzDirecta = RGB(0.0, 0.0, 0.0);   //This variable save the color of the direct light.
+                *colorLuzDirecta = RGB(0.0, 0.0, 0.0);   //This variable save the color of the direct light.
 
                 while (!end)
                 {
@@ -123,6 +123,7 @@ void RayTracing::shootingRays()
                         }
                         else
                         {
+                            Ray auxRay = actual_ray;
                             float* random = new float;
                             string accion = masCercano->russianRoulette(nRebotes,random);
                             Point newOrigen = Point(actual_ray.origin.x + actual_ray.direction.x * minDist,
@@ -154,6 +155,7 @@ void RayTracing::shootingRays()
                                 rayColor = rayColor * masCercano->matProperties.lambertianDiffuse;
                                 rayColor = rayColor * masCercano->emisionRGB;
                                 nRebotes++;
+                                this->checkLights(masCercano,auxRay,minDist,rayColor,colorLuzDirecta);
                             }
                             else if (accion == "especular")
                             {
@@ -173,8 +175,6 @@ void RayTracing::shootingRays()
                                 rayColor = rayColor * masCercano->matProperties.deltaBTDF ;
                             }
                             delete random;
-                            
-                            this->checkLights();
                         }
                         
                         isIntersect = false;
@@ -185,10 +185,7 @@ void RayTracing::shootingRays()
                         end = true;
                     }
                 }
-
-                colorAcumulado.r = colorAcumulado.r + rayColor.r;
-                colorAcumulado.g = colorAcumulado.g + rayColor.g;
-                colorAcumulado.b = colorAcumulado.b + rayColor.b;
+                colorAcumulado = colorAcumulado + rayColor + *colorLuzDirecta/ (float) nRebotes;
 
                 progress++;
                 if (progress == total / 4)
@@ -238,6 +235,50 @@ void RayTracing::shootingRays()
         threads.at(i).join();
     }
 };*/
-void RayTracing::checkLights(){
+void RayTracing::checkLights(Primitive* mas_cercano,Ray ray,float distancia,RGB raycolor,RGB* luzDirecta){
+    float minDist = numeric_limits<float>::max();
+    float intensity = 4000;
+    for (auto i : this->lights)
+    {
+        Point p = Point(ray.origin.x + ray.direction.x * distancia,
+                    ray.origin.y + ray.direction.y * distancia,
+                    ray.origin.z + ray.direction.z * distancia);
+        Vector light_direction = Vector(p - i->center);
+        Ray lightRay = Ray(i->center,light_direction.normalize());
+        float light_distance = light_direction.module();
+        float* t = new float;
+        float* t2 = new float;
+        float *t1 = new float;
+        bool puntual = true;
+        mas_cercano->intersect(lightRay,t,t2);
 
+        if(*t >= (light_distance - 0.01)){
+            for (auto i : this->primitives)
+            {
+
+                if (i->intersect(ray, t1,t2) )
+                {
+                        if (*t1 < *t)
+                        {
+                            minDist = *t1;
+                            puntual = false;
+                        } 
+                }
+            }
+        }
+        if(puntual){
+            RGB lightIntensity = i->color * intensity;
+            if(*t * *t < 1.0){
+                *t = 1.0;
+            }
+            Vector normal = mas_cercano->getNormal(ray,distancia);
+            float cos = abs(normal.dot(light_direction));
+            *luzDirecta = *luzDirecta +  lightIntensity / (*t * *t) * mas_cercano->emisionRGB * cos;
+        }
+        delete t2;
+        delete t1;
+        delete t;
+
+    }
+    
 }

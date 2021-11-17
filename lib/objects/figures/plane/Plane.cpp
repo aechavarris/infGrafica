@@ -78,7 +78,7 @@ bool Plane::intersect(Ray ray, float* t,float* t2) {
     return intersection;
     */
 }
-Vector Plane::getNormal(Ray ray,float distancia,Matrix base_change){
+Vector Plane::getNormal(Ray ray,float distancia){
     if(this->minus){
         return Vector(-this->normal.x/this->normal.module(),
                   -this->normal.y/this->normal.module(),

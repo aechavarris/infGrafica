@@ -51,7 +51,7 @@ Vector Primitive::difusion(Ray ray, float distancia, Point p,Matrix change_base)
 
     Vector dirRebote = Vector(sin(inclination) * cos(azimuth), sin(inclination) * sin(azimuth), cos(inclination));
     
-    Vector z = this->getNormal(ray, distancia,change_base);
+    Vector z = this->getNormal(ray, distancia);
     
     //cout<<"Normal: "<<z.x<<" "<<z.y<<" "<<z.z<<endl;
     Vector y = z.cross(Vector(z.z,z.x,z.y)).normalize();//ray.direction);
@@ -72,10 +72,10 @@ Ray Primitive::refraccion(Ray ray, float distancia,Matrix change_base)
 {
     const float ext_refraction = 1.0003;
     const float int_refraction = this->matProperties.snell;
-    Vector z = this->getNormal(ray, distancia,change_base);
+    Vector z = this->getNormal(ray, distancia);
     
     //cout<<"Normal: "<<z.x<<" "<<z.y<<" "<<z.z<<endl;
-    Vector normal = this->getNormal(ray, distancia,change_base);
+    Vector normal = this->getNormal(ray, distancia);
     float cos1 = -ray.direction.dot(normal);
     float sin1 = 1.0 - cos1 * cos1;
     float coef = 1.0 - (ext_refraction / int_refraction) * (ext_refraction / int_refraction) * sin1;
@@ -102,7 +102,7 @@ Ray Primitive::refraccion(Ray ray, float distancia,Matrix change_base)
                     internal_ray.origin.y + internal_ray.direction.y * *t2,
                     internal_ray.origin.z + internal_ray.direction.z * *t2);
 
-    z = this->getNormal(internal_ray, *t2,change_base);
+    z = this->getNormal(internal_ray, *t2);
     
     //cout<<"Normal: "<<z.x<<" "<<z.y<<" "<<z.z<<endl;
     normal.x = -z.x;
@@ -129,7 +129,7 @@ Ray Primitive::refraccion(Ray ray, float distancia,Matrix change_base)
 
 Vector Primitive::especular(Ray ray, float distancia,Matrix change_base)
 {
-    Vector normal = this->getNormal(ray, distancia,change_base);
+    Vector normal = this->getNormal(ray, distancia);
     float dotRayNormal = ray.direction.dot(normal);
     Vector aux = (normal * dotRayNormal * 2.0f);
 

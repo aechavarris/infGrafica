@@ -19,7 +19,7 @@ class Sphere : public Primitive{
          * Constructor de la clase Sphere
          */
         Sphere();
-        Sphere (Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property propl,bool light,bool puntualLight);
+        Sphere (Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property propl,bool light);
         
 
         // ---------------------------------------
@@ -35,7 +35,7 @@ class Sphere : public Primitive{
          * Pre:
          * Post:
          */
-        Vector getNormal(Ray ray, float distancia,Matrix base_change) override;
+        Vector getNormal(Ray ray, float distancia) override;
 
 };
 

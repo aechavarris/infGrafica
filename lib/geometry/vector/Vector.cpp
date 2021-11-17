@@ -13,7 +13,11 @@ Vector::Vector(float x, float y, float z){
     this->y = y;
     this->z = z;
 }
-
+Vector::Vector(Point p){
+    this->x = p.x;
+    this->y = p.y;
+    this->z = p.z;
+}
 float Vector::module() {
     return sqrt(this->x * this->x + this->y * this->y + this->z * this->z);
 }

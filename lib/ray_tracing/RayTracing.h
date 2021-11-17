@@ -4,7 +4,7 @@
 #include "../../lib/geometry/vector/Vector.h"
 #include "../../lib/geometry/point/Point.h"
 #include "../../lib/geometry/matrix/Matrix.h" 
-#include "../objects/figures/Primitive.h"
+#include "../objects/figures/light/Light.h"
 #include "cameraModel/Camera.h"
 #include "../rgb/RGB.h"
 #include "ray/Ray.h"
@@ -26,6 +26,7 @@ class RayTracing {
         Camera camera;
         Matrix baseChange;
         vector<Primitive*> primitives;
+        vector<Light*> lights;
         int width, height;
         vector<vector<RGB> > projection;
         vector<vector<Ray> > rays;
@@ -58,7 +59,7 @@ class RayTracing {
          * Pre:
          * Post:
          */
-        void checkLights();
+        void checkLights(Primitive* mas_cercano,Ray ray,float distancia, RGB raycolor,RGB* luzDirecta);
 };
 
 #include  "RayTracing.cpp"

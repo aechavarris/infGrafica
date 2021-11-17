@@ -19,7 +19,7 @@ class Vector {
          */
         Vector();
         Vector(float x, float y, float z);
-
+        Vector(Point p);
 
         // ---------------------------------------
         // --------- OPERADORES BÁSICOS ----------
