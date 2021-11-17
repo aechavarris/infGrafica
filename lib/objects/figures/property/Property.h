@@ -12,12 +12,12 @@ class Property {
         float lambertianDiffuse;
         float deltaBRDF;
         float deltaBTDF;
-        
+        float snell;
         /*
          * Constructor de la clase Property
          */
         Property();
-        Property(float lambertian, float deltaBRDF, float deltaBTDF);
+        Property(float lambertian, float deltaBRDF, float deltaBTDF,float snell);
 };
 
 #include  "Property.cpp"

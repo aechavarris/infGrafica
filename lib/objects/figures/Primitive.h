@@ -22,6 +22,7 @@ class Primitive {
     public:
         Property matProperties;
         bool isLight;
+        bool isPuntualLight;
         RGB emisionRGB;
         RGB especularRGB;
         RGB refraccionRGB;
@@ -39,7 +40,7 @@ class Primitive {
          * Pre:
          * Post:
          */
-        virtual bool intersect(Ray ray, float* t) = 0;
+        virtual bool intersect(Ray ray, float* t,float* t2) = 0;
 
         /*
          * Pre:
@@ -57,7 +58,7 @@ class Primitive {
          * Pre:
          * Post:
          */
-        Vector refraccion(Ray ray, float distancia, Point o,Matrix change_base);
+        Ray refraccion(Ray ray, float distancia, Matrix change_base);
 
         /*
          * Pre:

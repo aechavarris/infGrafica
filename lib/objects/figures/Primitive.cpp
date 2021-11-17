@@ -4,7 +4,7 @@
 
 Primitive::Primitive(){};
 
-bool Primitive::intersect(Ray ray, float *t) { return 0; };
+bool Primitive::intersect(Ray ray, float *t,float* t2) { return 0; };
 
 string Primitive::russianRoulette(int rebotes,float* random) {
 
@@ -30,7 +30,7 @@ string Primitive::russianRoulette(int rebotes,float* random) {
     *random = 1 + random_p;
     random_p = random_p - deltaBRDF;
     if(random_p < 0){
-        return "specular";
+        return "especular";
     }
     *random = 1 + random_p;
     random_p = random_p - deltaBTDF;
@@ -65,12 +65,66 @@ Vector Primitive::difusion(Ray ray, float distancia, Point p,Matrix change_base)
     //cout <<"Rayo rebote: "<< dirRebote.x<<" "<<dirRebote.y<<" "<<dirRebote.z<<endl;
     float tmp = dirRebote.dot(z);
     //cout << tmp << " "<< inclination << endl;
-    return Vector(dirRebote.x / dirRebote.module(), dirRebote.y / dirRebote.module(), dirRebote.z / dirRebote.module());
+    return dirRebote.normalize();
 }
 
-Vector Primitive::refraccion(Ray ray, float distancia, Point o,Matrix change_base)
+Ray Primitive::refraccion(Ray ray, float distancia,Matrix change_base)
 {
-    return Vector();
+    const float ext_refraction = 1.0003;
+    const float int_refraction = this->matProperties.snell;
+    Vector z = this->getNormal(ray, distancia,change_base);
+    
+    //cout<<"Normal: "<<z.x<<" "<<z.y<<" "<<z.z<<endl;
+    Vector normal = this->getNormal(ray, distancia,change_base);
+    float cos1 = -ray.direction.dot(normal);
+    float sin1 = 1.0 - cos1 * cos1;
+    float coef = 1.0 - (ext_refraction / int_refraction) * (ext_refraction / int_refraction) * sin1;
+    Point p = Point(ray.origin.x + ray.direction.x * distancia,
+                    ray.origin.y + ray.direction.y * distancia,
+                    ray.origin.z + ray.direction.z * distancia);
+    Vector internal_direction=Vector();
+    if (coef < 0.0){
+        internal_direction = ray.direction;
+    }else{
+        internal_direction = ray.direction * (ext_refraction / int_refraction)
+                             + normal * (ext_refraction / int_refraction * cos1 - sqrt(coef));
+    }
+    //First vector from outside to inside primitive
+    
+    
+    Ray internal_ray=Ray(p,internal_direction);
+
+    float* t1 = new float;
+    float* t2 = new float;
+    this->intersect(internal_ray, t1, t2);
+
+    p = Point(internal_ray.origin.x + internal_ray.direction.x * *t2,
+                    internal_ray.origin.y + internal_ray.direction.y * *t2,
+                    internal_ray.origin.z + internal_ray.direction.z * *t2);
+
+    z = this->getNormal(internal_ray, *t2,change_base);
+    
+    //cout<<"Normal: "<<z.x<<" "<<z.y<<" "<<z.z<<endl;
+    normal.x = -z.x;
+    normal.y = -z.y;
+    normal.z = -z.z;
+    delete t1;
+    delete t2;
+
+    cos1 = -internal_ray.direction.dot(normal);
+    sin1 = 1 - cos1 * cos1;
+    coef = 1.0 - (ext_refraction / int_refraction) * (ext_refraction / int_refraction) * sin1;
+    
+    if (coef < 0.0){
+        
+        return  Ray(p,normal.cross(internal_ray.direction));
+    }
+    else{
+        Vector tmp = internal_ray.direction * (int_refraction / ext_refraction)
+                             + normal * (int_refraction / ext_refraction * cos1 - sqrt(coef));
+        return Ray(p,tmp);
+    }
+    //Final direction result
 }
 
 Vector Primitive::especular(Ray ray, float distancia,Matrix change_base)

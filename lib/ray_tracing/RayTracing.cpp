@@ -72,24 +72,25 @@ void RayTracing::shootingRays()
 
                 while (!end)
                 {
-                    float *t = new float;
+                    float *t1 = new float;
+                    float *t2 = new float;
                     for (int m = 0; m < this->primitives.size(); m++)
                     {
 
-                        if (this->primitives[m]->intersect(actual_ray, t) )
+                        if (this->primitives[m]->intersect(actual_ray, t1,t2) )
                         {
-                            // if((i==1000 && j==1000) || (i==1000 && j==960)){
+                            // if((i==1000 && j==1000) || (i==1000 && j==1000)){
                             
                             //     cout<<"Pixel "<<j<<" "<<i<<" Mas cercano: "<<
                             //             this->primitives.at(m)->emisionRGB.r<<" "<<
                             //             this->primitives.at(m)->emisionRGB.g<<" "<<
                             //             this->primitives.at(m)->emisionRGB.b<<" "<<
-                            //             " Rebotes: "<<nRebotes<<endl;             
-                            //     cout<<" Distancia: "<<*t<<endl;
-                            // }   
-                                if (*t < minDist)
+                            //              " Rebotes: "<<nRebotes<<endl;             
+                            //      cout<<" Distancia: "<<*t1<<endl;
+                            //  }   
+                                if (*t1 < minDist)
                                 {
-                                    minDist = *t;
+                                    minDist = *t1;
                                     
                                     masCercano = this->primitives[m]; 
                                     
@@ -99,12 +100,13 @@ void RayTracing::shootingRays()
                             
                         }
                     }
-                    delete t;
-                    // if((i==1000 && j==1000) || (i==1000 && j==960)){
-                    //     cout<<"Mas cercano: "<<masCercano->emisionRGB.r<<" "<<
-                    //                            masCercano->emisionRGB.g<<" "<<
-                    //                            masCercano->emisionRGB.b<<endl;
-                    // }
+                    delete t1;
+                    delete t2;
+                    //  if((i==1000 && j==1000) || (i==1000 && j==1000)){
+                    //      cout<<"Mas cercano: "<<masCercano->emisionRGB.r<<" "<<
+                    //                             masCercano->emisionRGB.g<<" "<<
+                    //                             masCercano->emisionRGB.b<<endl;
+                    //  }
                     if (isIntersect)
                     {
                         // if((i==1000 && j==1000) || (i==1000 && j==960)){
@@ -130,7 +132,7 @@ void RayTracing::shootingRays()
                             if (accion == "fin")
                             {
                                 // Color negro
-                                //rayColor = RGB(0.0, 0.0, 0.0);
+                                rayColor = RGB(0.0, 0.0, 0.0);
                                 end = true;
                                 // if((i==1000 && j==1000) || (i==1000 && j==960)){
                                 //     cout<< "C muere "<<endl;
@@ -155,19 +157,24 @@ void RayTracing::shootingRays()
                             }
                             else if (accion == "especular")
                             {
-                                //cout<<"Rayo especular: "<<actual_ray.direction.x<<" "<<actual_ray.direction.y<<" "<<actual_ray.direction.z<<endl;;
+                                //  if((i==1000 && j==1000) || (i==1000 && j==1000)){
+                                //      cout<< "Rayo difusion: "<<endl;
+                                //  }
+                                //cout<<"Rayo pre-especular: "<<actual_ray.direction.x<<" "<<actual_ray.direction.y<<" "<<actual_ray.direction.z<<endl;
                                 dir = masCercano->especular(actual_ray, minDist,this->baseChange);
-                                actual_ray = Ray(origen, dir);
+                                actual_ray = Ray(newOrigen, dir);
+                                //cout<<"Rayo especular: "<<actual_ray.direction.x<<" "<<actual_ray.direction.y<<" "<<actual_ray.direction.z<<endl;
                                 rayColor = rayColor * masCercano->matProperties.deltaBRDF ;
-                                rayColor = rayColor * masCercano->especularRGB;
                                 nRebotes++;
                             }
                             else if (accion == "refraccion")
                             {
-                                dir = masCercano->refraccion(actual_ray, minDist,newOrigen,this->baseChange);
-                                actual_ray = Ray(origen, dir);
+                                actual_ray = masCercano->refraccion(actual_ray, minDist,this->baseChange);
+                                rayColor = rayColor * masCercano->matProperties.deltaBTDF ;
                             }
                             delete random;
+                            
+                            this->checkLights();
                         }
                         
                         isIntersect = false;
@@ -231,3 +238,6 @@ void RayTracing::shootingRays()
         threads.at(i).join();
     }
 };*/
+void RayTracing::checkLights(){
+
+}

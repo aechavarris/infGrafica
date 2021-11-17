@@ -36,7 +36,7 @@ class Point{
         Point operator-(Point p) const{
             return Point(this->x - p.x, this->y - p.y, this->z - p.z);
         }
-
+        
         Point operator-(float num) const{
             return Point(this->x - num, this->y - num, this->z - num);
         }
@@ -44,7 +44,7 @@ class Point{
         Point operator*(Point p) const{
             return Point(this->x * p.x, this->y * p.y, this->z * p.z);
         }
-
+        
         Point operator*(float num) const{
             return Point(this->x * num, this->y * num, this->z * num);
         }
@@ -73,7 +73,7 @@ class Point{
          * Post:
          */
         float dot(Point p);
-
+        
         /*
          * Pre:
          * Post:

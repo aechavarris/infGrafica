@@ -4,89 +4,44 @@
 
 Sphere::Sphere(){};
 
-Sphere::Sphere(Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property prop,bool light) {
+Sphere::Sphere(Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property prop,bool light,bool puntualLight) {
     this->center = center;
     this->radius = radius;
     this->emisionRGB = rgbE;
     this->emisionRGB = rgbEs;
     this->emisionRGB = rgbR;
-    this->matProperties=prop;
+    this->matProperties = prop;
     this->isLight = light;
+    this->isPuntualLight = puntualLight;
 };
 
-bool Sphere::intersect(Ray ray, float* t) { 
-    
-    // float a = ray.direction.dot(ray.direction);
-    // float b = this->center.dot(Point(ray.direction.x, ray.direction.y, ray.direction.z));
-    // float c = this->center.dot(this->center) - (this->radius * this->radius);
-    
-    // float discriminant = (b * b) - ((a * c));
-    // if (discriminant > 0) {
-    //     float t1 = fabs((-b - sqrt(discriminant)) / a);
-    //     float t2 = fabs((-b + sqrt(discriminant)) / a);
+bool Sphere::intersect(Ray ray, float* t, float *t2) { 
+
+        float t0, t1; // solutions for t if the ray intersects 
+
+        // geometric solution
+        Point L = this->center - ray.origin; 
+        float tca = L.dot(Point(ray.direction.x, ray.direction.y, ray.direction.z));
+        if (tca < 0) return false; 
         
-    //     color->r = this->rgb.r;
-    //     color->g = this->rgb.g;
-    //     color->b = this->rgb.b;
+        float d2 = L.dot(L) - tca * tca; 
+        if (d2 > this->radius * this->radius) return false; 
+        
+        float thc = sqrt(this->radius * this->radius - d2); 
+        t0 = tca - thc; 
+        t1 = tca + thc;
 
-    //     if (t1 > t2) {
-    //         t = &t2;
-    //         return true;
-    //     }
-    //     *t = t1;
-    //     return true;
-    // } 
-    // return false;
-    
-    Vector oc = Vector(ray.origin.x - this->center.x,ray.origin.y - this->center.y, ray.origin.z - this->center.z);
-    float a = ray.direction.dot(ray.direction);
-    float b = 2.0 * oc.dot(ray.direction);
-    float c = oc.dot(oc) - this->radius * this->radius;
-    float discriminant = b*b - 4*a*c;
-    if(discriminant < 0){
-        *t= -1.0;
-    }
-    else{
-        *t= abs((-b - sqrt(discriminant)) / (2.0*a));
-    }
-    return (discriminant>0);
-    /*
-    Point o = ray.origin;
-    Point c = this->center;
-    float r = this->radius;
-    Vector d = ray.direction;
+        if(t0 > t1) swap(t0, t1); 
+        if (t0 < 0) { 
+            t0 = t1; // if t0 is negative, let's use t1 instead 
+            if (t0 < 0) return false; // both t0 and t1 are negative 
+        } 
+ 
+        *t = t0; 
+        *t2 = t1;
+        return true; 
+} 
 
-    // Two intersects are possible
-    float t1,t2; // t1 is t0 and t2 is t1, regarding to the link's explanation
-    Vector l = Vector(c.x - o.x, c.y - o.y, c.z - o.z);
-    float tca = l.dot(d);
-
-    // Not on camera
-    if(tca < 0) return false;
-
-    float d2 = l.dot(l) - tca*tca;
-
-    // Ray doesnt intersect with sphere
-    if(d2 > r*r) return false;
-
-    float thc = sqrt((r*r)-d2);
-    t1 = tca - thc;
-    t2 = tca + thc;
-
-    if(t1 > t2) swap(t1,t2);
-    if(t1 < 0) {
-        t1 = t2;
-        if(t1 < 0){
-            return false;
-        }
-    }
-
-    *color = this->rgb;
-    *t = t1;
-
-    return true;
-    */
-}
 Vector Sphere::getNormal(Ray ray,float distancia,Matrix base_change){
     Point p = Point(ray.origin.x + ray.direction.x * distancia,
                     ray.origin.y + ray.direction.y * distancia,
@@ -97,5 +52,5 @@ Vector Sphere::getNormal(Ray ray,float distancia,Matrix base_change){
     //Point change_center = base_change.productMatrixPoint(this->center);
     Vector normal = Vector(p.x - this->center.x, p.y - this->center.y, p.z - this->center.z);
     //cout<<"Normal:" <<normal.x<<" "<<normal.y<<" "<<normal.z<<" "<<endl;
-    return Vector(normal.x / normal.module(), normal.y / normal.module(), normal.z / normal.module());
+    return normal.normalize();
 }

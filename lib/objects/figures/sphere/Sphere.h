@@ -15,12 +15,11 @@ class Sphere : public Primitive{
     public:
         Point center;
         float radius;
-
         /*
          * Constructor de la clase Sphere
          */
         Sphere();
-        Sphere (Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property propl,bool light);
+        Sphere (Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property propl,bool light,bool puntualLight);
         
 
         // ---------------------------------------
@@ -28,9 +27,9 @@ class Sphere : public Primitive{
         // ---------------------------------------
 
         /*
-         * To program this function, we have been inspired from https://viclw17.github.io/2018/07/16/raytracing-ray-sphere-intersection/
+         * To program this function, we have been inspired from https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
          */
-        bool intersect(Ray ray, float* t) override;
+        bool intersect(Ray ray, float* t,float* t2) override;
 
         /*
          * Pre:

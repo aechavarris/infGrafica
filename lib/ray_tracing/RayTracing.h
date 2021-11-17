@@ -53,6 +53,12 @@ class RayTracing {
          * Post:
          */
         void shootingRays();
+
+        /*
+         * Pre:
+         * Post:
+         */
+        void checkLights();
 };
 
 #include  "RayTracing.cpp"

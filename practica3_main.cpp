@@ -26,6 +26,7 @@ int main(int argv,char* argc[]) {
     Vector n_pDe = Vector(-1.0, 0.0, 0.0);
     Vector n_pIz = Vector(1.0, 0.0, 0.0);
     Vector n_fondo = Vector(0.0, 0.0, 1.0);
+    Vector n_fondo_camara = Vector(0.0, 0.0, -1.0);
 
     RGB color_gris = RGB(0.5, 0.5, 0.5);
     RGB color_r = RGB(1.0, 0.0,0.0);
@@ -33,23 +34,25 @@ int main(int argv,char* argc[]) {
     RGB color_a = RGB(1.0, 1.0,0.0);
     RGB color_b = RGB(0.0, 0.0, 1.0);
     RGB color_w = RGB(1.0, 1.0, 1.0);
+    RGB color_n = RGB(0.0, 0.0, 0.0);
     
-    Property aux=Property(1.0,0.0,0.0);
-    Property aux2=Property(0.0,1.0,0.0);
+    Property aux=Property(1.0,0.0,0.0,0.0);
+    Property aux2=Property(0.0,1.0,0.0,0.0);
+    Property aux3=Property(0.0,0.0,1.0,1.5);
 
-    Property plastico=Property(0.25,0.5,0.0);
-    Property dielectrico=Property(0.0,0.25,0.5);
-    Property difuso=Property(0.5,0.0,0.25);
+    Property plastico=Property(0.25,0.5,0.0,1.0);
+    Property dielectrico=Property(0.0,0.25,0.5,1.0);
+    Property difuso=Property(0.5,0.0,0.25,1.0);
 
     Plane techo = Plane(Point(0.0, -20, 0.0), n_techo, color_w,color_w,color_w,aux,true);
     Plane suelo = Plane(Point(0.0, 20, 0.0), n_suelo, color_gris,color_gris,color_gris,aux,false);
     Plane pIz = Plane(Point(-20, 0.0, 0.0), n_pDe, color_r,color_r,color_r,aux,false);
     Plane pDe = Plane(Point(20, 0.0, 0.0), n_pIz, color_g,color_g,color_g,aux,false);
     Plane fondo = Plane(Point(0.0,0.0,-100.0), n_fondo, color_gris,color_gris,color_gris,aux,false);
-    
-    Sphere esfera(Point(8,12,-50.0), 6.5, color_w,color_w,color_w,aux,false);
-    Sphere esfera2(Point(-8,12,-90.0), 6.5, color_w,color_w,color_w,aux2,false);
-    //Sphere luz(Point(0,20,40.0), 6.5, RGB(1.0,1.0,1.0),aux,true);
+    Plane fondoCamara = Plane(Point(0.0,0.0,10.0), n_fondo_camara, color_n,color_n,color_n,aux,false);
+    Sphere esfera(Point(10,12,-70.0), 6.5, color_w,color_w,color_w,aux3,false,false);
+    Sphere esfera2(Point(-7,12,-60.0), 6.5, color_w,color_w,color_w,aux2,false,false);
+    Sphere luz(Point(-7,12,-60.0), 1.5, color_w,color_w,color_w,aux,false,true);
 
     Point origin = Point(0, 0, 0);
     Vector f = Vector(0, 0, 1.5);
@@ -66,7 +69,8 @@ int main(int argv,char* argc[]) {
     escena.primitives.push_back(&fondo);
     escena.primitives.push_back(&esfera);
     escena.primitives.push_back(&esfera2);
-    //escena.primitives.push_back(&luz);
+    escena.primitives.push_back(&fondoCamara);
+    escena.primitives.push_back(&luz);
 
     escena.shootingRays();
 
