@@ -236,7 +236,6 @@ void RayTracing::shootingRays()
     }
 };*/
 void RayTracing::checkLights(Primitive* mas_cercano,Ray ray,float distancia,RGB raycolor,RGB* luzDirecta){
-    float minDist = numeric_limits<float>::max();
     float intensity = 4000;
     for (auto i : this->lights)
     {
@@ -244,7 +243,7 @@ void RayTracing::checkLights(Primitive* mas_cercano,Ray ray,float distancia,RGB 
                     ray.origin.y + ray.direction.y * distancia,
                     ray.origin.z + ray.direction.z * distancia);
         Vector light_direction = Vector(p - i->center);
-        Ray lightRay = Ray(i->center,light_direction.normalize());
+        Ray lightRay = Ray(i->center, light_direction.normalize());
         float light_distance = light_direction.module();
         float* t = new float;
         float* t2 = new float;
@@ -260,20 +259,21 @@ void RayTracing::checkLights(Primitive* mas_cercano,Ray ray,float distancia,RGB 
                 {
                         if (*t1 < *t)
                         {
-                            minDist = *t1;
                             puntual = false;
+                            break;
                         } 
                 }
             }
         }
         if(puntual){
             RGB lightIntensity = i->color * intensity;
-            if(*t * *t < 1.0){
-                *t = 1.0;
+            float tCuadrado = *t * *t;
+            if( tCuadrado < 1.0f){
+                tCuadrado = 1.0;
             }
             Vector normal = mas_cercano->getNormal(ray,distancia);
-            float cos = abs(normal.dot(light_direction));
-            *luzDirecta = *luzDirecta +  lightIntensity / (*t * *t) * mas_cercano->emisionRGB * cos;
+            float cos = abs(normal.dot(light_direction.normalize()));
+            *luzDirecta = *luzDirecta +  lightIntensity / tCuadrado * mas_cercano->emisionRGB * cos;
         }
         delete t2;
         delete t1;
