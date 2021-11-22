@@ -11,7 +11,7 @@ RayTracing::RayTracing(Camera camera, int numRaysPerPixel, int width, int height
     this->width = width;
     this->height = height;
     this->baseChange = Matrix(camera.u, camera.i, camera.f, camera.origin);
-    this->projection.resize(height);
+    this->projection.resize(height);  
     for (int i = 0; i < height; i++)
     {
         this->projection[i].resize(width);
@@ -77,7 +77,7 @@ void RayTracing::shootingRays()
                     for (int m = 0; m < this->primitives.size(); m++)
                     {
 
-                        if (this->primitives[m]->intersect(actual_ray, t1,t2) )
+                        if (this->primitives[m]->intersect(actual_ray, t1,t2,this->backgroundLeft,this->frontRight) )
                         {
                             // if((i==1000 && j==1000) || (i==1000 && j==1000)){
                             
@@ -115,11 +115,9 @@ void RayTracing::shootingRays()
                         if (masCercano->isLight) // Se checkea si es luz de área
                         { 
                             rayColor = rayColor * masCercano->emisionRGB;
-                            minDist = numeric_limits<float>::max();
                             //cout<<"Soy luz"<<endl;
                             luces++;
                             end = true;
-                            break;
                         }
                         else
                         {
@@ -171,7 +169,7 @@ void RayTracing::shootingRays()
                             }
                             else if (accion == "refraccion")
                             {
-                                actual_ray = masCercano->refraccion(actual_ray, minDist,this->baseChange);
+                                actual_ray = masCercano->refraccion(actual_ray, minDist,this->baseChange,this->backgroundLeft,this->frontRight);
                                 rayColor = rayColor * masCercano->matProperties.deltaBTDF ;
                             }
                             delete random;
@@ -249,13 +247,13 @@ void RayTracing::checkLights(Primitive* mas_cercano,Ray ray,float distancia,RGB 
         float* t2 = new float;
         float *t1 = new float;
         bool puntual = true;
-        mas_cercano->intersect(lightRay,t,t2);
+        mas_cercano->intersect(lightRay,t,t2,this->backgroundLeft,this->frontRight);
 
         if(*t >= (light_distance - 0.01)){
             for (auto i : this->primitives)
             {
 
-                if (i->intersect(ray, t1,t2) )
+                if (i->intersect(ray, t1,t2,this->backgroundLeft,this->frontRight) )
                 {
                         if (*t1 < *t)
                         {

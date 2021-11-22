@@ -15,7 +15,7 @@ Sphere::Sphere(Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Propert
 
 };
 
-bool Sphere::intersect(Ray ray, float* t, float *t2) { 
+bool Sphere::intersect(Ray ray, float* t, float *t2,Point backgroundLeft, Point frontRight) { 
 
         float t0, t1; // solutions for t if the ray intersects 
 

@@ -31,7 +31,8 @@ class RayTracing {
         vector<vector<RGB> > projection;
         vector<vector<Ray> > rays;
         int numRaysPerPixel;
-        
+        Point backgroundLeft;
+        Point frontRight;
         /*
          * Constructor de la clase RayTracing
          */

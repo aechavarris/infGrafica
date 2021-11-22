@@ -62,6 +62,8 @@ int main(int argv,char* argc[]) {
     Camera camera = Camera(origin, f, u, r); 
 
     RayTracing escena = RayTracing(camera,  raysPerPixel, width, height);
+    escena.backgroundLeft = Point(-20,-20,-100);
+    escena.frontRight = Point(20,20,0.0);
     escena.primitives.push_back(&techo);
     escena.primitives.push_back(&suelo);
     escena.primitives.push_back(&pIz);

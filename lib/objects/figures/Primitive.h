@@ -39,7 +39,7 @@ class Primitive {
          * Pre:
          * Post:
          */
-        virtual bool intersect(Ray ray, float* t,float* t2) = 0;
+        virtual bool intersect(Ray ray, float* t,float* t2, Point backgroundLeft, Point frontRight) = 0;
 
         /*
          * Pre:
@@ -57,7 +57,7 @@ class Primitive {
          * Pre:
          * Post:
          */
-        Ray refraccion(Ray ray, float distancia, Matrix change_base);
+        Ray refraccion(Ray ray, float distancia, Matrix change_base, Point backgroundLeft, Point frontRight);
 
         /*
          * Pre:

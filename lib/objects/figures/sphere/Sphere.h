@@ -29,7 +29,7 @@ class Sphere : public Primitive{
         /*
          * To program this function, we have been inspired from https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
          */
-        bool intersect(Ray ray, float* t,float* t2) override;
+        bool intersect(Ray ray, float* t,float* t2,Point backgroundLeft, Point frontRight) override;
 
         /*
          * Pre:

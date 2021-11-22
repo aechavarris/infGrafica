@@ -4,14 +4,14 @@
 
 Primitive::Primitive(){};
 
-bool Primitive::intersect(Ray ray, float *t,float* t2) { return 0; };
+bool Primitive::intersect(Ray ray, float *t,float* t2, Point backgroundLeft, Point frontRight) { return 0; };
 
 string Primitive::russianRoulette(int rebotes,float* random) {
 
     float lambertianDiffuse = this->matProperties.lambertianDiffuse;
     float deltaBRDF = this->matProperties.deltaBRDF;
     float deltaBTDF = this->matProperties.deltaBTDF;
-
+ 
     float sum = lambertianDiffuse + deltaBRDF + deltaBTDF;
     float probFin = 0.9f; 
     if(sum > probFin){
@@ -68,7 +68,7 @@ Vector Primitive::difusion(Ray ray, float distancia, Point p,Matrix change_base)
     return dirRebote.normalize();
 }
 
-Ray Primitive::refraccion(Ray ray, float distancia,Matrix change_base)
+Ray Primitive::refraccion(Ray ray, float distancia,Matrix change_base, Point backgroundLeft, Point frontRight)
 {
     const float ext_refraction = 1.0003;
     const float int_refraction = this->matProperties.snell;
@@ -96,7 +96,7 @@ Ray Primitive::refraccion(Ray ray, float distancia,Matrix change_base)
 
     float* t1 = new float;
     float* t2 = new float;
-    this->intersect(internal_ray, t1, t2);
+    this->intersect(internal_ray, t1, t2, backgroundLeft, frontRight);
 
     p = Point(internal_ray.origin.x + internal_ray.direction.x * *t2,
                     internal_ray.origin.y + internal_ray.direction.y * *t2,

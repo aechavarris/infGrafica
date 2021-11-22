@@ -14,7 +14,7 @@ Plane::Plane(Point p, Vector nor, RGB rgbE,RGB rgbEs,RGB rgbR, Property prop, bo
     this->minus_normal = Vector(-nor.x,-nor.y,-nor.z);
 };
 
-bool Plane::intersect(Ray ray, float* t,float* t2) {
+bool Plane::intersect(Ray ray, float* t,float* t2, Point backgroundLeft, Point frontRight) {
     float d = ray.direction.dot(this->normal);
     float d2 = ray.direction.dot(this->minus_normal);
     if(d != 0){
@@ -23,6 +23,10 @@ bool Plane::intersect(Ray ray, float* t,float* t2) {
         if (abs(denom) > 0.0001f) {
             Point p = this->p- ray.origin;
             float tAux = (p.x * this->normal.x + p.y * this->normal.y + p.z * this->normal.z) / denom;
+            Point o = Point(ray.origin.x + ray.direction.x * tAux,
+                                                    ray.origin.y + ray.direction.y * tAux,
+                                                    ray.origin.z + ray.direction.z * tAux);
+            if(o.x < backgroundLeft.x || o.x >frontRight.x)
             if (tAux > 0) {
                 *t = tAux;
                 return true;
