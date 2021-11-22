@@ -236,7 +236,7 @@ void RayTracing::shootingRays()
     }
 };*/
 void RayTracing::checkLights(Primitive* mas_cercano,Ray ray,float distancia,RGB raycolor,RGB* luzDirecta){
-    float intensity = 4000;
+    float intensity = 1500;
     for (auto i : this->lights)
     {
         Point p = Point(ray.origin.x + ray.direction.x * distancia,
