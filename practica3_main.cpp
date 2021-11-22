@@ -50,8 +50,8 @@ int main(int argv,char* argc[]) {
     Plane pDe = Plane(Point(20, 0.0, 0.0), n_pIz, color_g,color_g,color_g,aux,false);
     Plane fondo = Plane(Point(0.0,0.0,-100.0), n_fondo, color_gris,color_gris,color_gris,aux,false);
     Plane fondoCamara = Plane(Point(0.0,0.0,10.0), n_fondo_camara, color_n,color_n,color_n,aux,false);
-    Sphere esfera(Point(10,12,-70.0), 6.5, color_w,color_w,color_w,aux3,false);
-    Sphere esfera2(Point(-10,12,-80.0), 6.5, color_w,color_w,color_w,aux2,false);
+    Sphere esfera(Point(10,13,-70.0), 6.5, color_w,color_w,color_w,aux3,false);
+    Sphere esfera2(Point(-10,13,-80.0), 6.5, color_w,color_w,color_w,aux2,false);
     
 
     Point origin = Point(0, 0, 0);
