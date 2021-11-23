@@ -153,7 +153,7 @@ void RayTracing::shootingRays()
                                 rayColor = rayColor * masCercano->matProperties.lambertianDiffuse;
                                 rayColor = rayColor * masCercano->emisionRGB;
                                 nRebotes++;
-                                //this->checkLights(masCercano,auxRay,minDist,rayColor,colorLuzDirecta);
+                                this->checkLights(masCercano,auxRay,minDist,rayColor,colorLuzDirecta);
                             }
                             else if (accion == "especular")
                             {
@@ -234,7 +234,7 @@ void RayTracing::shootingRays()
     }
 };*/
 void RayTracing::checkLights(Primitive* mas_cercano,Ray ray,float distancia,RGB raycolor,RGB* luzDirecta){
-    float intensity = 1500;
+    float intensity = 4000;
     for (auto i : this->lights)
     {
         Point p = Point(ray.origin.x + ray.direction.x * distancia,
@@ -250,10 +250,10 @@ void RayTracing::checkLights(Primitive* mas_cercano,Ray ray,float distancia,RGB 
         mas_cercano->intersect(lightRay,t,t2,this->backgroundLeft,this->frontRight);
 
         if(*t >= (light_distance - 0.01)){
-            for (auto i : this->primitives)
+            for (auto n : this->primitives)
             {
 
-                if (i->intersect(ray, t1,t2,this->backgroundLeft,this->frontRight) )
+                if (n->intersect(ray, t1,t2,this->backgroundLeft,this->frontRight) )
                 {
                         if (*t1 < *t)
                         {
@@ -262,16 +262,14 @@ void RayTracing::checkLights(Primitive* mas_cercano,Ray ray,float distancia,RGB 
                         } 
                 }
             }
-        }
-        if(puntual){
-            RGB lightIntensity = i->color * intensity;
-            float tCuadrado = *t * *t;
-            if( tCuadrado < 1.0f){
-                tCuadrado = 1.0;
+        
+            if(puntual){
+                RGB lightIntensity = i->color * intensity;
+                float tCuadrado = *t * *t;
+                Vector normal = mas_cercano->getNormal(ray,distancia);
+                float cos = abs(normal.dot(light_direction.normalize()));
+                *luzDirecta = *luzDirecta +  ( (lightIntensity / tCuadrado) *  mas_cercano->emisionRGB*(mas_cercano->matProperties.lambertianDiffuse / PI) * cos);
             }
-            Vector normal = mas_cercano->getNormal(ray,distancia);
-            float cos = abs(normal.dot(light_direction.normalize()));
-            *luzDirecta = *luzDirecta +  lightIntensity / tCuadrado * mas_cercano->emisionRGB * cos;
         }
         delete t2;
         delete t1;

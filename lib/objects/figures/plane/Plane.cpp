@@ -26,18 +26,6 @@ bool Plane::intersect(Ray ray, float* t,float* t2, Point backgroundLeft, Point f
             Point o = Point(ray.origin.x + ray.direction.x * tAux,
                                                     ray.origin.y + ray.direction.y * tAux,
                                                     ray.origin.z + ray.direction.z * tAux);
-            if(o.x < backgroundLeft.x || o.x >frontRight.x){
-                //cout <<"X: "<< o.x <<endl;
-                return false;
-            }
-            if(o.y > frontRight.y || o.y <backgroundLeft.y){
-                //cout <<"Y: "<< o.y <<endl;
-                return false;
-            }
-            if(o.z < backgroundLeft.z || o.z >frontRight.z){
-                //cout <<"Z: "<< o.z <<endl;
-                return false;
-            }
             if (tAux > 0) {
                 *t = tAux;
                 return true;
@@ -52,18 +40,6 @@ bool Plane::intersect(Ray ray, float* t,float* t2, Point backgroundLeft, Point f
             Point o = Point(ray.origin.x + ray.direction.x * tAux,
                                                     ray.origin.y + ray.direction.y * tAux,
                                                     ray.origin.z + ray.direction.z * tAux);
-            if(o.x < backgroundLeft.x || o.x >frontRight.x){
-                cout <<"X: "<< o.x <<endl;
-                return false;
-            }
-            if(o.y > frontRight.y || o.y <backgroundLeft.y){
-                cout <<"Y: "<< o.y <<endl;
-                return false;
-            }
-            if(o.z < backgroundLeft.z || o.z >frontRight.z){
-                cout <<"Z: "<< o.z <<endl;
-                return false;
-            }
             if (tAux > 0) {
                 *t = tAux;
                 return true; 
