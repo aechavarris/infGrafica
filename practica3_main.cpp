@@ -28,7 +28,7 @@ int main(int argv,char* argc[]) {
     Vector n_fondo = Vector(0.0, 0.0, 1.0);
     Vector n_fondo_camara = Vector(0.0, 0.0, -1.0);
 
-    RGB color_gris = RGB(0.5, 0.5, 0.5);
+    RGB color_gris =  RGB(0.5, 0.5, 0.5);
     RGB color_r = RGB(1.0, 0.0,0.0);
     RGB color_g = RGB(0.0, 1.0,0.0);
     RGB color_a = RGB(1.0, 1.0,0.0);

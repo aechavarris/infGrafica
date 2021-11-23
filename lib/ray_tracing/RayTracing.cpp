@@ -18,7 +18,7 @@ RayTracing::RayTracing(Camera camera, int numRaysPerPixel, int width, int height
     }
 };
 
-void RayTracing::shootingRays()
+void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &progressBar)
 {
     Point origen = this->camera.origin; 
     Primitive *masCercano;
@@ -26,19 +26,19 @@ void RayTracing::shootingRays()
     RGB colorAcumulado = RGB(0.0, 0.0, 0.0);
     RGB* colorLuzDirecta =new RGB(0.0, 0.0, 0.0);
     RGB rayColor = RGB(1.0, 1.0, 1.0);
-    
+
+    const int limit = this->width * this->height ;
+
     float pixelXSide = (float)2 / this->height;
     float pixelYSide = (float)2 / this->width;
 
     srand(time(0));
 
-    cout << "Starting ray tracing..." << endl;
-
-    int total = width * height * numRaysPerPixel;
+    int total = 0;
     int progress = 0;
     int muertos = 0;
     int luces = 0;
-    for (float i = 0; i < this->height; i++)
+    for (float i = start; i < end; i++)
     {
 
         for (float j = 0; j < this->width; j++)
@@ -181,23 +181,16 @@ void RayTracing::shootingRays()
                     else {
                         rayColor = RGB(0.0, 0.0, 0.0);
                         end = true;
-                    }
+                    }            
                 }
                 colorAcumulado = colorAcumulado + rayColor + *colorLuzDirecta/ (float) nRebotes;
 
-                progress++;
-                if (progress == total / 4)
-                {
-                    cout << "25% of pixels processed" << endl;
-                }
-                else if (progress == total / 2)
-                {
-                    cout << "50% of pixels processed" << endl;
-                }
-                else if (progress == 3 * total / 4)
-                {
-                    cout << "75% of pixels processed" << endl;
-                }
+            }
+
+            ++progressBar;
+            total++;
+            if(total % 100 == 0){
+                progressBar.display();
             }
             //cout<<"Pixel: "<<i<<" "<<j<<"  Color: "<<colorAcumulado.r<<" "<<colorAcumulado.g<<" "<<colorAcumulado.b<<endl;
             this->projection[i][j].r = colorAcumulado.r / numRaysPerPixel;
@@ -205,13 +198,9 @@ void RayTracing::shootingRays()
             this->projection[i][j].b = colorAcumulado.b / numRaysPerPixel;
         }
     }
-    cout << "100% of pixels processed" << endl;
-    cout <<"Rayos totales: "<<this->height*this->width*numRaysPerPixel<<endl;
-    cout<<"Rayos muertos: "<<muertos<<endl;
-    cout<<"Luces encontradas: "<<luces<<endl;
 };
 
-/*void RayTracing::shootingRays()
+void RayTracing::shootingRays()
 {
 
     // The info to use thread has been taken from https://www.bogotobogo.com/cplusplus/C11/1_C11_creating_thread.php
@@ -221,9 +210,14 @@ void RayTracing::shootingRays()
     int start = 0;
     int end = this->height / nThreadsSupported;
 
+    // initialize the bar
+    int limit = this->width * this->height;
+    progresscpp::ProgressBar progressBar(limit, 70); //This progressbar has been taken from https://github.com/prakhar1989/progress-cpp
+    
+    cout << "Starting ray tracing..." << endl;
     for (int i = 0; i < nThreadsSupported; i++)
     {
-        threads.push_back(thread(&RayTracing::shootingRaysAux, this, start, end));
+        threads.push_back(thread(&RayTracing::shootingRaysAux, this, start, end, ref(progressBar)));
         start = end;
         end = (i == nThreadsSupported - 2) ? this->height : end + this->height / nThreadsSupported;
     }
@@ -232,7 +226,14 @@ void RayTracing::shootingRays()
     {
         threads.at(i).join();
     }
-};*/
+        
+    cout << "100% of pixels processed" << endl;
+    cout <<"Rayos totales: "<<this->height*this->width*numRaysPerPixel<<endl;
+    cout<<"Rayos muertos: "<<0<<endl;
+    cout<<"Luces encontradas: "<<0<<endl;
+    progressBar.done();
+};
+
 void RayTracing::checkLights(Primitive* mas_cercano,Ray ray,float distancia,RGB raycolor,RGB* luzDirecta){
     float intensity = 4000;
     for (auto i : this->lights)

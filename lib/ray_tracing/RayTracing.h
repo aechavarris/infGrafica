@@ -6,6 +6,7 @@
 #include "../../lib/geometry/matrix/Matrix.h" 
 #include "../objects/figures/light/Light.h"
 #include "cameraModel/Camera.h"
+#include "../../lib/progressBar/ProgressBar.hpp"
 #include "../rgb/RGB.h"
 #include "ray/Ray.h"
 #include "../img_files/PPMFile.h"
@@ -48,7 +49,7 @@ class RayTracing {
          * Pre:
          * Post:
          */
-        void shootingRaysAux(int start, int end);
+        void shootingRaysAux(int start, int end, progresscpp::ProgressBar &progressBar);
 
         /*
          * Pre:
