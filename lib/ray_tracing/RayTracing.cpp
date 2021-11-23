@@ -153,7 +153,7 @@ void RayTracing::shootingRays()
                                 rayColor = rayColor * masCercano->matProperties.lambertianDiffuse;
                                 rayColor = rayColor * masCercano->emisionRGB;
                                 nRebotes++;
-                                this->checkLights(masCercano,auxRay,minDist,rayColor,colorLuzDirecta);
+                                //this->checkLights(masCercano,auxRay,minDist,rayColor,colorLuzDirecta);
                             }
                             else if (accion == "especular")
                             {
