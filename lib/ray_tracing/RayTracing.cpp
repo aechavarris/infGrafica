@@ -121,10 +121,24 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
                                                     actual_ray.origin.z + actual_ray.direction.z * minDist);
                                 float x = 0.0;
                                 float y = 0.0;
-                                x = abs(int(newOrigen.x *this->texture->width*0.6)) % this->texture->width;
-                                y = abs(int(newOrigen.z *this->texture->height*0.6)) % this->texture->height;
-                                // cout<<"Pixel de textura: "<<x<<" "<<y<<" Color "<<this->texture->RGBTuples[x][y].r
-                                // <<" "<<this->texture->RGBTuples[x][y].g<<" "<<this->texture->RGBTuples[x][y].b<<endl;
+                                Vector normal = masCercano->getNormal(actual_ray,minDist);
+                                if(normal.x !=0.0){
+                                        x = int(newOrigen.z *this->texture->width*0.6) % this->texture->width;
+                                        y = int(newOrigen.y *this->texture->height*0.6) % this->texture->height;
+                                    }else if (normal.y != 0.0){
+                                        x = int(newOrigen.x *this->texture->width*0.6) % this->texture->width;
+                                        y = int(newOrigen.z *this->texture->height*0.6) % this->texture->height;
+                                    }else if (normal.z != 0.0){
+                                        x = int(newOrigen.x *this->texture->width*0.6) % this->texture->width;
+                                        y = int(newOrigen.y *this->texture->height*0.6) % this->texture->height;
+                                        //cout<<"Pixel de textura: "<<x<<" "<<y<<" Color "<<this->texture->RGBTuples[x][y].r
+                                        //<<" "<<this->texture->RGBTuples[x][y].g<<" "<<this->texture->RGBTuples[x][y].b<<endl;
+                                    }
+                                if(x<0){
+                                    x = this->texture->width + x;
+                                }if(y<0){
+                                    y = this->texture->height + y;
+                                }
                                 
                                 rayColor = rayColor * this->texture->RGBTuples[y][x];
                             }else{
@@ -173,16 +187,22 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
                                     float x = 0.0;
                                     float y = 0.0;
                                     if(normal.x !=0.0){
-                                        x = abs(int(newOrigen.y *this->texture->width*0.6)) % this->texture->width;
-                                        y = abs(int(newOrigen.z *this->texture->height*0.6)) % this->texture->height;
+                                        x = int(newOrigen.z *this->texture->width*0.6) % this->texture->width;
+                                        y = int(newOrigen.y *this->texture->height*0.6) % this->texture->height;
                                     }else if (normal.y != 0.0){
-                                        x = abs(int(newOrigen.x *this->texture->width*0.6)) % this->texture->width;
-                                        y = abs(int(newOrigen.z *this->texture->height*0.6)) % this->texture->height;
+                                        x = int(newOrigen.x *this->texture->width*0.6) % this->texture->width;
+                                        y = int(newOrigen.z *this->texture->height*0.6) % this->texture->height;
                                     }else if (normal.z != 0.0){
-                                        x = abs(int(newOrigen.x *this->texture->width*0.6)) % this->texture->width;
-                                        y = abs(int(newOrigen.y *this->texture->height*0.6)) % this->texture->height;
+                                        x = int(newOrigen.x *this->texture->width*0.6) % this->texture->width;
+                                        y = int(newOrigen.y *this->texture->height*0.6) % this->texture->height;
                                         //cout<<"Pixel de textura: "<<x<<" "<<y<<" Color "<<this->texture->RGBTuples[x][y].r
                                         //<<" "<<this->texture->RGBTuples[x][y].g<<" "<<this->texture->RGBTuples[x][y].b<<endl;
+                                    }
+                                    if(x<0){
+                                        x = this->texture->width + x;
+                                       
+                                    }if(y<0){
+                                        y = this->texture->height + y;
                                     }
                                     rayColor = rayColor * this->texture->RGBTuples[y][x];
                                 }else{
@@ -313,18 +333,23 @@ void RayTracing::checkLights(Primitive* mas_cercano,Ray ray,float distancia,RGB 
                     float x = 0.0;
                     float y = 0.0;
                     if(normal.x !=0.0){
-                        x = abs(int(aux.y *this->texture->width*0.6)) % this->texture->width;
-                        y = abs(int(aux.z *this->texture->height*0.6)) % this->texture->height;
+                        x = int(aux.z *this->texture->width*0.6) % this->texture->width;
+                        y = int(aux.y *this->texture->height*0.6) % this->texture->height;
                     }else if (normal.y != 0.0){
-                        x = abs(int(aux.x *this->texture->width*0.6)) % this->texture->width;
-                        y = abs(int(aux.z *this->texture->height*0.6)) % this->texture->height;
+                        x = int(aux.x *this->texture->width*0.6) % this->texture->width;
+                        y = int(aux.z *this->texture->height*0.6) % this->texture->height;
                     }else if (normal.z != 0.0){
-                        x = abs(int(aux.x *this->texture->width*0.6)) % this->texture->width;
-                        y = abs(int(aux.y *this->texture->height*0.6)) % this->texture->height;
+                        x = int(aux.x *this->texture->width*0.6) % this->texture->width;
+                        y = int(aux.y *this->texture->height*0.6) % this->texture->height;
                         //cout<<"Pixel de textura: "<<x<<" "<<y<<" Color "<<this->texture->RGBTuples[x][y].r
                         //<<" "<<this->texture->RGBTuples[x][y].g<<" "<<this->texture->RGBTuples[x][y].b<<endl;
                     }
-                    
+                    if(x<0){
+                        x = this->texture->width + x;
+                                       
+                    }if(y<0){
+                        y = this->texture->height + y;
+                    }
                     *luzDirecta = *luzDirecta +  ( (lightIntensity / tCuadrado) *  this->texture->RGBTuples[y][x] * (mas_cercano->matProperties.lambertianDiffuse / PI) * cos);
                 }else{
                     *luzDirecta = *luzDirecta +  ( (lightIntensity / tCuadrado) *  mas_cercano->emisionRGB * (mas_cercano->matProperties.lambertianDiffuse / PI) * cos);
