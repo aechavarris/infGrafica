@@ -71,7 +71,7 @@ bool PPMFile::readFile(){
                                 
                                 // Loading from disk to memory
                                 RGB actual = RGB(r * this->HDR_RESOLUTION / this->potentialColor, g * this->HDR_RESOLUTION / this->potentialColor, b * this->HDR_RESOLUTION / this->potentialColor);             
-                                this->RGBTuples.at(n).at(m) = actual;    
+                                this->RGBTuples.at(n).at(m) = actual;   
                             }
                         }
                         break;

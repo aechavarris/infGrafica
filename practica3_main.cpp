@@ -54,7 +54,7 @@ int main(int argv,char* argc[]) {
     Property dielectrico=Property(0.0,0.25,0.5,1.0);
     Property difuso=Property(0.5,0.0,0.25,1.0);
 
-    Plane techo = Plane(Point(0.0, -20, 0.0), n_techo, color_w,color_w,color_w,aux,true,true);
+    Plane techo = Plane(Point(0.0, -20, 0.0), n_techo, color_w,color_w,color_w,aux,false,true);
     Plane suelo = Plane(Point(0.0, 20, 0.0), n_suelo, color_gris,color_gris,color_gris,aux,false,false);
     Plane pIz = Plane(Point(-20, 0.0, 0.0), n_pDe, color_r,color_r,color_r,aux,false,false);
     Plane pDe = Plane(Point(20, 0.0, 0.0), n_pIz, color_g,color_g,color_g,aux,false,false);

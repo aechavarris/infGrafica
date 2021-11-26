@@ -115,7 +115,22 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
                         // }
                         if (masCercano->isLight) // Se checkea si es luz de área
                         { 
-                            rayColor = rayColor * masCercano->emisionRGB;
+                            
+                            if(this->texture!=nullptr && masCercano->texture == true){
+                                Point newOrigen = Point(actual_ray.origin.x + actual_ray.direction.x * minDist,
+                                                    actual_ray.origin.y + actual_ray.direction.y * minDist,
+                                                    actual_ray.origin.z + actual_ray.direction.z * minDist);
+                                float x = 0.0;
+                                float y = 0.0;
+                                x = abs(int(newOrigen.x *this->texture->width*0.6)) % this->texture->width;
+                                y = abs(int(newOrigen.z *this->texture->height*0.6)) % this->texture->height;
+                                // cout<<"Pixel de textura: "<<x<<" "<<y<<" Color "<<this->texture->RGBTuples[x][y].r
+                                // <<" "<<this->texture->RGBTuples[x][y].g<<" "<<this->texture->RGBTuples[x][y].b<<endl;
+                                
+                                rayColor = rayColor * this->texture->RGBTuples[y][x];
+                            }else{
+                                rayColor = rayColor * masCercano->emisionRGB;
+                            }
                             //cout<<"Soy luz"<<endl;
                             luces++;
                             end = true;
@@ -153,8 +168,21 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
                                 //cout<<"Random: "<<*random<<endl;
                                 rayColor = rayColor * masCercano->matProperties.lambertianDiffuse;
                                 if(this->texture!=nullptr && masCercano->texture == true){
-                                    int x = j % this->texture->width;
-                                    int y = i % this->texture->height;
+                                    Vector normal = masCercano->getNormal(auxRay,minDist);
+                                    float x = 0.0;
+                                    float y = 0.0;
+                                    if(normal.x !=0.0){
+                                        x = abs(int(newOrigen.y *this->texture->width*0.6)) % this->texture->width;
+                                        y = abs(int(newOrigen.z *this->texture->height*0.6)) % this->texture->height;
+                                    }else if (normal.y != 0.0){
+                                        x = abs(int(newOrigen.x *this->texture->width*0.6)) % this->texture->width;
+                                        y = abs(int(newOrigen.z *this->texture->height*0.6)) % this->texture->height;
+                                    }else if (normal.z != 0.0){
+                                        x = abs(int(newOrigen.x *this->texture->width*0.6)) % this->texture->width;
+                                        y = abs(int(newOrigen.y *this->texture->height*0.6)) % this->texture->height;
+                                        //cout<<"Pixel de textura: "<<x<<" "<<y<<" Color "<<this->texture->RGBTuples[x][y].r
+                                        //<<" "<<this->texture->RGBTuples[x][y].g<<" "<<this->texture->RGBTuples[x][y].b<<endl;
+                                    }
                                     rayColor = rayColor * this->texture->RGBTuples[y][x];
                                 }else{
                                     rayColor = rayColor * masCercano->emisionRGB;
@@ -274,22 +302,26 @@ void RayTracing::checkLights(Primitive* mas_cercano,Ray ray,float distancia,RGB 
                 float tCuadrado = *t * *t;
                 Vector normal = mas_cercano->getNormal(ray,distancia);
                 float cos = abs(normal.dot(light_direction.normalize()));
+                
                 if(this->texture!=nullptr && mas_cercano->texture == true &&
                      (abs(normal.x)==1 || abs(normal.y) == 1 || abs(normal.z) == 1)){
+                         
                     Point aux = Point(ray.origin.x + ray.direction.x * distancia,
                         ray.origin.y + ray.direction.y * distancia,
                         ray.origin.z + ray.direction.z * distancia);
                     float x = 0.0;
                     float y = 0.0;
                     if(normal.x !=0.0){
-                        float x = int(aux.y) % this->texture->width;
-                        float y = int(aux.z) % this->texture->height;
+                        x = abs(int(aux.y *this->texture->width*0.6)) % this->texture->width;
+                        y = abs(int(aux.z *this->texture->height*0.6)) % this->texture->height;
                     }else if (normal.y != 0.0){
-                        float x = int(aux.x) % this->texture->width;
-                        float y = int(aux.z) % this->texture->height;
+                        x = abs(int(aux.x *this->texture->width*0.6)) % this->texture->width;
+                        y = abs(int(aux.z *this->texture->height*0.6)) % this->texture->height;
                     }else if (normal.z != 0.0){
-                        float x = int(aux.x) % this->texture->width;
-                        float y = int(aux.y) % this->texture->height;
+                        x = abs(int(aux.x *this->texture->width*0.6)) % this->texture->width;
+                        y = abs(int(aux.y *this->texture->height*0.6)) % this->texture->height;
+                        //cout<<"Pixel de textura: "<<x<<" "<<y<<" Color "<<this->texture->RGBTuples[x][y].r
+                        //<<" "<<this->texture->RGBTuples[x][y].g<<" "<<this->texture->RGBTuples[x][y].b<<endl;
                     }
                     
                     *luzDirecta = *luzDirecta +  ( (lightIntensity / tCuadrado) *  this->texture->RGBTuples[y][x] * (mas_cercano->matProperties.lambertianDiffuse / PI) * cos);
