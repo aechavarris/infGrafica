@@ -28,7 +28,6 @@ int main(int argv,char* argc[]) {
         cout <<"Textura cargada: "<<texture->name<<endl;
         cout<< "Tamaño: "<< texture->width <<" x "<<texture->height <<endl;
     }
-    cout<<"DEBUG"<<endl;
     int width = atoi(argc[1]);
     int height = atoi(argc[2]);
     int raysPerPixel = atoi(argc[3]);
