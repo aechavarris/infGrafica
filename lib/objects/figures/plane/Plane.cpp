@@ -2,7 +2,7 @@
 
 #include "Plane.h"
 
-Plane::Plane(Point p, Vector nor, RGB rgbE,RGB rgbEs,RGB rgbR, Property prop, bool light) {
+Plane::Plane(Point p, Vector nor, RGB rgbE,RGB rgbEs,RGB rgbR, Property prop, bool light,bool texture) {
     this->p = p;
     this->normal = nor;
     this->emisionRGB = rgbE;
@@ -12,6 +12,7 @@ Plane::Plane(Point p, Vector nor, RGB rgbE,RGB rgbEs,RGB rgbR, Property prop, bo
     this->isLight = light;
     this->minus=false;
     this->minus_normal = Vector(-nor.x,-nor.y,-nor.z);
+    this->texture = texture;
 };
 
 bool Plane::intersect(Ray ray, float* t,float* t2, Point backgroundLeft, Point frontRight) {

@@ -25,6 +25,7 @@ class Primitive {
         RGB emisionRGB;
         RGB especularRGB;
         RGB refraccionRGB;
+        bool texture;
         /*
          * Constructor de la clase Primitive
          */

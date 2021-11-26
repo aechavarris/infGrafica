@@ -16,6 +16,7 @@ RayTracing::RayTracing(Camera camera, int numRaysPerPixel, int width, int height
     {
         this->projection[i].resize(width);
     }
+    this->texture = texture;
 };
 
 void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &progressBar)
@@ -38,10 +39,10 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
     int progress = 0;
     int muertos = 0;
     int luces = 0;
-    for (float i = start; i < end; i++)
+    for (int i = start; i < end; i++)
     {
 
-        for (float j = 0; j < this->width; j++)
+        for (int j = 0; j < this->width; j++)
         {
 
             colorAcumulado = RGB(0.0, 0.0, 0.0);         //This variable save the final color of each pixel.    
@@ -151,7 +152,13 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
                                 //cout<<"Color: "<<masCercano->emisionRGB.r<<" "<<masCercano->emisionRGB.g<<" "<<masCercano->emisionRGB.b<<endl;
                                 //cout<<"Random: "<<*random<<endl;
                                 rayColor = rayColor * masCercano->matProperties.lambertianDiffuse;
-                                rayColor = rayColor * masCercano->emisionRGB;
+                                if(this->texture!=nullptr && masCercano->texture == true){
+                                    int x = j % this->texture->width;
+                                    int y = i % this->texture->height;
+                                    rayColor = rayColor * this->texture->RGBTuples[y][x];
+                                }else{
+                                    rayColor = rayColor * masCercano->emisionRGB;
+                                }
                                 nRebotes++;
                                 this->checkLights(masCercano,auxRay,minDist,rayColor,colorLuzDirecta);
                             }
@@ -226,16 +233,14 @@ void RayTracing::shootingRays()
     {
         threads.at(i).join();
     }
-        
-    cout << "100% of pixels processed" << endl;
+    progressBar.done();
     cout <<"Rayos totales: "<<this->height*this->width*numRaysPerPixel<<endl;
     cout<<"Rayos muertos: "<<0<<endl;
     cout<<"Luces encontradas: "<<0<<endl;
-    progressBar.done();
 };
 
 void RayTracing::checkLights(Primitive* mas_cercano,Ray ray,float distancia,RGB raycolor,RGB* luzDirecta){
-    float intensity = 4000;
+    float intensity = 6000;
     for (auto i : this->lights)
     {
         Point p = Point(ray.origin.x + ray.direction.x * distancia,
@@ -269,7 +274,29 @@ void RayTracing::checkLights(Primitive* mas_cercano,Ray ray,float distancia,RGB 
                 float tCuadrado = *t * *t;
                 Vector normal = mas_cercano->getNormal(ray,distancia);
                 float cos = abs(normal.dot(light_direction.normalize()));
-                *luzDirecta = *luzDirecta +  ( (lightIntensity / tCuadrado) *  mas_cercano->emisionRGB*(mas_cercano->matProperties.lambertianDiffuse / PI) * cos);
+                if(this->texture!=nullptr && mas_cercano->texture == true &&
+                     (abs(normal.x)==1 || abs(normal.y) == 1 || abs(normal.z) == 1)){
+                    Point aux = Point(ray.origin.x + ray.direction.x * distancia,
+                        ray.origin.y + ray.direction.y * distancia,
+                        ray.origin.z + ray.direction.z * distancia);
+                    float x = 0.0;
+                    float y = 0.0;
+                    if(normal.x !=0.0){
+                        float x = int(aux.y) % this->texture->width;
+                        float y = int(aux.z) % this->texture->height;
+                    }else if (normal.y != 0.0){
+                        float x = int(aux.x) % this->texture->width;
+                        float y = int(aux.z) % this->texture->height;
+                    }else if (normal.z != 0.0){
+                        float x = int(aux.x) % this->texture->width;
+                        float y = int(aux.y) % this->texture->height;
+                    }
+                    
+                    *luzDirecta = *luzDirecta +  ( (lightIntensity / tCuadrado) *  this->texture->RGBTuples[y][x] * (mas_cercano->matProperties.lambertianDiffuse / PI) * cos);
+                }else{
+                    *luzDirecta = *luzDirecta +  ( (lightIntensity / tCuadrado) *  mas_cercano->emisionRGB * (mas_cercano->matProperties.lambertianDiffuse / PI) * cos);
+                }
+                
             }
         }
         delete t2;

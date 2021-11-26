@@ -13,11 +13,21 @@
 using namespace std;
 
 int main(int argv,char* argc[]) {
+    PPMFile* texture=new PPMFile("","");
     if(argv < 3){
         cout <<"El numero de argumentos no es valido"<<endl;
         exit(1);
+    }if(argv >4){ 
+        string t = string(argc[4]);
+        
+        texture = new PPMFile(t + ".ppm","lib/textures/" + t + ".ppm");
+        if(!texture->readFile()){
+            cout <<": El archivo de textura no ha sido encontrado"<<endl;
+            exit(2);
+        }
+        cout <<"Textura cargada: "<<texture->name<<endl;
+        cout<< "Tamaño: "<< texture->width <<" x "<<texture->height <<endl;
     }
-
     int width = atoi(argc[1]);
     int height = atoi(argc[2]);
     int raysPerPixel = atoi(argc[3]);
@@ -44,14 +54,14 @@ int main(int argv,char* argc[]) {
     Property dielectrico=Property(0.0,0.25,0.5,1.0);
     Property difuso=Property(0.5,0.0,0.25,1.0);
 
-    Plane techo = Plane(Point(0.0, -20, 0.0), n_techo, color_w,color_w,color_w,aux,false);
-    Plane suelo = Plane(Point(0.0, 20, 0.0), n_suelo, color_gris,color_gris,color_gris,aux,false);
-    Plane pIz = Plane(Point(-20, 0.0, 0.0), n_pDe, color_r,color_r,color_r,aux,false);
-    Plane pDe = Plane(Point(20, 0.0, 0.0), n_pIz, color_g,color_g,color_g,aux,false);
-    Plane fondo = Plane(Point(0.0,0.0,-100.0), n_fondo, color_gris,color_gris,color_gris,aux,false);
-    Plane fondoCamara = Plane(Point(0.0,0.0,10.0), n_fondo_camara, color_n,color_n,color_n,aux,false);
-    Sphere esfera(Point(10,13,-70.0), 6.5, color_w,color_w,color_w,aux3,false);
-    Sphere esfera2(Point(-10,13,-80.0), 6.5, color_w,color_w,color_w,aux2,false);
+    Plane techo = Plane(Point(0.0, -20, 0.0), n_techo, color_w,color_w,color_w,aux,true,true);
+    Plane suelo = Plane(Point(0.0, 20, 0.0), n_suelo, color_gris,color_gris,color_gris,aux,false,false);
+    Plane pIz = Plane(Point(-20, 0.0, 0.0), n_pDe, color_r,color_r,color_r,aux,false,false);
+    Plane pDe = Plane(Point(20, 0.0, 0.0), n_pIz, color_g,color_g,color_g,aux,false,false);
+    Plane fondo = Plane(Point(0.0,0.0,-100.0), n_fondo, color_gris,color_gris,color_gris,aux,false,false);
+    Plane fondoCamara = Plane(Point(0.0,0.0,10.0), n_fondo_camara, color_n,color_n,color_n,aux,false,false);
+    Sphere esfera(Point(10,13,-70.0), 6.5, color_w,color_w,color_w,aux3,false,false);
+    Sphere esfera2(Point(-10,13,-80.0), 6.5, color_w,color_w,color_w,aux2,false,false);
     
 
     Point origin = Point(0, 0, 0);
@@ -64,6 +74,7 @@ int main(int argv,char* argc[]) {
     RayTracing escena = RayTracing(camera,  raysPerPixel, width, height);
     escena.backgroundLeft = Point(-20,-20,-100);
     escena.frontRight = Point(20,20,0.0);
+    escena.texture= texture;
     escena.primitives.push_back(&techo);
     escena.primitives.push_back(&suelo);
     escena.primitives.push_back(&pIz);

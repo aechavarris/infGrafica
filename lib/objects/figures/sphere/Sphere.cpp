@@ -4,7 +4,7 @@
 
 Sphere::Sphere(){};
 
-Sphere::Sphere(Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property prop,bool light) {
+Sphere::Sphere(Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property prop,bool light, bool texture) {
     this->center = center;
     this->radius = radius;
     this->emisionRGB = rgbE;
@@ -12,7 +12,7 @@ Sphere::Sphere(Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Propert
     this->emisionRGB = rgbR;
     this->matProperties = prop;
     this->isLight = light;
-
+    this->texture = texture;
 };
 
 bool Sphere::intersect(Ray ray, float* t, float *t2,Point backgroundLeft, Point frontRight) { 

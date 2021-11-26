@@ -19,7 +19,7 @@ class Sphere : public Primitive{
          * Constructor de la clase Sphere
          */
         Sphere();
-        Sphere (Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property propl,bool light);
+        Sphere (Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property propl,bool light,bool texture);
         
 
         // ---------------------------------------

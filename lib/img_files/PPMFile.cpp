@@ -1,7 +1,7 @@
 #pragma once
 
 #include "PPMFile.h"
-
+PPMFile::PPMFile(){}
 PPMFile::PPMFile(string name,string path){
     this->name = name;
     this->path = path;
@@ -15,11 +15,12 @@ void PPMFile::initializeVectorComponents() {
     }
 };
 
-void PPMFile::readFile(){
+bool PPMFile::readFile(){
     fstream my_file;
 	my_file.open(this->path, ios::in);
 	if (!my_file) {
 		cout << "No such file";
+        return false;
 	}
 	else {
         string line;
@@ -78,6 +79,7 @@ void PPMFile::readFile(){
         }
 	}
 	my_file.close();
+    return true;
 };
 
 float hdr_function(float v, float m){

@@ -21,7 +21,7 @@ class Plane :public Primitive{
          * Constructor de la clase Plane
          */
         Plane();
-        Plane (Point p, Vector nor, RGB rgb,RGB rgbEs,RGB rgbR, Property prop,bool light);
+        Plane (Point p, Vector nor, RGB rgb,RGB rgbEs,RGB rgbR, Property prop,bool light, bool texture);
         
 
         // ---------------------------------------

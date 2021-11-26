@@ -38,7 +38,7 @@ class PPMFile{
          * Pre:
          * Post:
          */
-        void readFile();
+        bool readFile();
 
         /*
          * Pre:
