@@ -1,7 +1,9 @@
 #pragma once
 
 #include "PPMFile.h"
-PPMFile::PPMFile(){}
+PPMFile::PPMFile(){
+    this->HDR_RESOLUTION=-1.0;
+}
 PPMFile::PPMFile(string name,string path){
     this->name = name;
     this->path = path;

@@ -70,7 +70,7 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
 
                 rayColor = RGB(1.0, 1.0, 1.0);          //This variable save the color of the actual ray.
                 *colorLuzDirecta = RGB(0.0, 0.0, 0.0);   //This variable save the color of the direct light.
-
+                
                 while (!end)
                 {
                     float *t1 = new float;
@@ -115,8 +115,7 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
                         // }
                         if (masCercano->isLight) // Se checkea si es luz de área
                         { 
-                            
-                            if(this->texture!=nullptr && masCercano->texture == true){
+                            if(masCercano->texture == true){
                                 Point newOrigen = Point(actual_ray.origin.x + actual_ray.direction.x * minDist,
                                                     actual_ray.origin.y + actual_ray.direction.y * minDist,
                                                     actual_ray.origin.z + actual_ray.direction.z * minDist);
@@ -137,13 +136,14 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
                         }
                         else
                         {
+                            
                             Ray auxRay = actual_ray;
                             float* random = new float;
                             string accion = masCercano->russianRoulette(nRebotes,random);
                             Point newOrigen = Point(actual_ray.origin.x + actual_ray.direction.x * minDist,
                                                     actual_ray.origin.y + actual_ray.direction.y * minDist,
                                                     actual_ray.origin.z + actual_ray.direction.z * minDist);
-
+                            
                             if (accion == "fin")
                             {
                                 // Color negro
@@ -167,7 +167,8 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
                                 //cout<<"Color: "<<masCercano->emisionRGB.r<<" "<<masCercano->emisionRGB.g<<" "<<masCercano->emisionRGB.b<<endl;
                                 //cout<<"Random: "<<*random<<endl;
                                 rayColor = rayColor * masCercano->matProperties.lambertianDiffuse;
-                                if(this->texture!=nullptr && masCercano->texture == true){
+                                if(masCercano->texture == true){
+                                    
                                     Vector normal = masCercano->getNormal(auxRay,minDist);
                                     float x = 0.0;
                                     float y = 0.0;
@@ -303,7 +304,7 @@ void RayTracing::checkLights(Primitive* mas_cercano,Ray ray,float distancia,RGB 
                 Vector normal = mas_cercano->getNormal(ray,distancia);
                 float cos = abs(normal.dot(light_direction.normalize()));
                 
-                if(this->texture!=nullptr && mas_cercano->texture == true &&
+                if(mas_cercano->texture == true &&
                      (abs(normal.x)==1 || abs(normal.y) == 1 || abs(normal.z) == 1)){
                          
                     Point aux = Point(ray.origin.x + ray.direction.x * distancia,
