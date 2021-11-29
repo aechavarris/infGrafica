@@ -62,7 +62,7 @@ class RayTracing {
          * Pre:
          * Post:
          */
-        void checkLights(Primitive* mas_cercano,Ray ray,float distancia, RGB raycolor,RGB* luzDirecta);
+        void checkLights(Primitive* mas_cercano,Ray ray,float distancia, RGB raycolor,RGB* luzDirecta,progresscpp::ProgressBar &progressBar);
 };
 
 #include  "RayTracing.cpp"

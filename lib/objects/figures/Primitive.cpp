@@ -7,7 +7,7 @@ Primitive::Primitive(){};
 bool Primitive::intersect(Ray ray, float *t,float* t2, Point backgroundLeft, Point frontRight) { return 0; };
 
 string Primitive::russianRoulette(int rebotes,float* random) {
-
+    //if(rebotes>1){return "fin";}
     float lambertianDiffuse = this->matProperties.lambertianDiffuse;
     float deltaBRDF = this->matProperties.deltaBRDF;
     float deltaBTDF = this->matProperties.deltaBTDF;
