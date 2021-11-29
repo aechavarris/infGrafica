@@ -29,13 +29,13 @@ public:
         unique_lock<mutex> lck(mtx);
         return ++ticks; }
 
-    unsigned int muertos() { 
-        unique_lock<mutex> lck(rays1);
-        return ++m; }
+    // unsigned int muertos() { 
+    //     unique_lock<mutex> lck(rays1);
+    //     return ++m; }
 
-    unsigned int luces() { 
-        unique_lock<mutex> lck(rays2);
-        return ++l; }
+    // unsigned int luces() { 
+    //     unique_lock<mutex> lck(rays2);
+    //     return ++l; }
 
     void display() const {
         float progress = (float) ticks / total_ticks;
@@ -60,8 +60,6 @@ public:
     void done() const {
         display();
         std::cout << std::endl;
-        cout<<"Rayos muertos: "<<this->m<<endl;
-        cout<<"Luces encontradas: "<<this->l<<endl;
     }
 };
 }
