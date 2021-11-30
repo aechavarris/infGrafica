@@ -55,7 +55,7 @@ int main(int argv,char* argc[]) {
     Property dielectrico=Property(0.0,0.25,0.5,1.0);
     Property difuso=Property(0.5,0.0,0.25,1.0);
 
-    Plane techo = Plane(Point(0.0, -20, 0.0), n_techo, color_w,color_w,color_w,aux,true,false);
+    Plane techo = Plane(Point(0.0, -20, 0.0), n_techo, color_w,color_w,color_w,aux,false,false);
     Plane suelo = Plane(Point(0.0, 20, 0.0), n_suelo, color_gris,color_gris,color_gris,aux,false,false);
     Plane pIz = Plane(Point(-20, 0.0, 0.0), n_pDe, color_r,color_r,color_r,aux,false,false);
     Plane pDe = Plane(Point(20, 0.0, 0.0), n_pIz, color_g,color_g,color_g,aux,false,false);
@@ -74,10 +74,10 @@ int main(int argv,char* argc[]) {
     //Creacion escena 1
     int i[7] ={1,5,10,20,50,100,150}; 
     //int i[7] ={1,1,1,1,1,1,1}; 
-    for (int n = 0; n < 7; n++) {
+    //for (int n = 0; n < 7; n++) {
 
-        cout << "Escena 1 " << i[n]<<" rayos"<<endl;
-        RayTracing escena1 = RayTracing(camera,  i[n], width, height);
+        //cout << "Escena 1 " << i[n]<<" rayos"<<endl;
+        RayTracing escena1 = RayTracing(camera,  raysPerPixel, width, height);
         escena1.backgroundLeft = Point(-20,-20,-100);
         escena1.frontRight = Point(20,20,0.0);
         escena1.texture = texture;
@@ -91,11 +91,11 @@ int main(int argv,char* argc[]) {
         escena1.primitives.push_back(&fondoCamara);
         
         Light luz(Point(0,-18,-50.0), color_w);
-        //escena1.lights.push_back(&luz);
+        escena1.lights.push_back(&luz);
         
         escena1.shootingRays();
 
-        PPMFile file = PPMFile("Escena1_"+to_string(i[n]), "");
+        PPMFile file = PPMFile("Escena1_"+to_string(raysPerPixel), "");
         ToneMapping mapping;
         file.width = width;
         file.height = height;
@@ -104,38 +104,38 @@ int main(int argv,char* argc[]) {
         file.format="P3";
         file.RGBTuples = escena1.projection; 
         file.writeFile("", "HDR"); 
-    }
+    //}
     //Creacion escena 2
-    techo = Plane(Point(0.0, -20, 0.0), n_techo, color_w,color_w,color_w,aux,false,false);
-    for (int n = 0; n < 7; n++) {
-        cout << "Escena 2 " << i[n]<<" rayos"<<endl;
-        RayTracing escena2 = RayTracing(camera,  i[n], width, height);
-        escena2.backgroundLeft = Point(-20,-20,-100);
-        escena2.frontRight = Point(20,20,0.0);
-        escena2.texture = texture;
-        escena2.primitives.push_back(&techo);
-        escena2.primitives.push_back(&suelo);
-        escena2.primitives.push_back(&pIz);
-        escena2.primitives.push_back(&pDe);
-        escena2.primitives.push_back(&fondo);
-        escena2.primitives.push_back(&esfera);
-        escena2.primitives.push_back(&esfera2);
-        escena2.primitives.push_back(&fondoCamara);
+    // techo = Plane(Point(0.0, -20, 0.0), n_techo, color_w,color_w,color_w,aux,false,false);
+    // for (int n = 0; n < 7; n++) {
+    //     cout << "Escena 2 " << i[n]<<" rayos"<<endl;
+    //     RayTracing escena2 = RayTracing(camera,  i[n], width, height);
+    //     escena2.backgroundLeft = Point(-20,-20,-100);
+    //     escena2.frontRight = Point(20,20,0.0);
+    //     escena2.texture = texture;
+    //     escena2.primitives.push_back(&techo);
+    //     escena2.primitives.push_back(&suelo);
+    //     escena2.primitives.push_back(&pIz);
+    //     escena2.primitives.push_back(&pDe);
+    //     escena2.primitives.push_back(&fondo);
+    //     escena2.primitives.push_back(&esfera);
+    //     escena2.primitives.push_back(&esfera2);
+    //     escena2.primitives.push_back(&fondoCamara);
         
-        Light luz(Point(0,-12,-70.0), color_w);
-        escena2.lights.push_back(&luz);
+    //     Light luz(Point(0,-12,-70.0), color_w);
+    //     escena2.lights.push_back(&luz);
 
-        escena2.shootingRays();
+    //     escena2.shootingRays();
 
-        PPMFile file = PPMFile("Escena2_"+to_string(i[n]), "");
-        ToneMapping mapping;
-        file.width = width;
-        file.height = height;
-        file.potentialColor = 255.0;
-        file.HDR_RESOLUTION = 1.0;
-        file.format="P3";
-        file.RGBTuples = escena2.projection; 
-        file.writeFile("", "HDR"); 
-    }
+    //     PPMFile file = PPMFile("Escena2_"+to_string(i[n]), "");
+    //     ToneMapping mapping;
+    //     file.width = width;
+    //     file.height = height;
+    //     file.potentialColor = 255.0;
+    //     file.HDR_RESOLUTION = 1.0;
+    //     file.format="P3";
+    //     file.RGBTuples = escena2.projection; 
+    //     file.writeFile("", "HDR"); 
+    // }
     return 0;
 }
