@@ -266,6 +266,7 @@ void RayTracing::shootingRays()
     cout << "Starting ray tracing..." << endl;
     for (int i = 0; i < nThreadsSupported; i++)
     {
+        
         threads.push_back(thread(&RayTracing::shootingRaysAux, this, start, end, ref(progressBar)));
         start = end;
         end = (i == nThreadsSupported - 2) ? this->height : end + this->height / nThreadsSupported;
