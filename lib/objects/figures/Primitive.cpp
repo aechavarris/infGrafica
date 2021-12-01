@@ -140,7 +140,7 @@ Vector Primitive::especular(Ray ray, float distancia,Matrix change_base)
     //cout << "Dir rebote: "<< dirRebote.x<<" "<<dirRebote.y<<" "<<dirRebote.z<<endl;
     return dirRebote;
 }
-
+//This funtion has been taken from here: https://stackoverflow.com/questions/21237905/how-do-i-generate-thread-safe-uniform-random-numbers
 float Primitive::floatRand(const float & min, const float & max) {
     static thread_local mt19937 generator;
     uniform_real_distribution<float> distribution(min,max);

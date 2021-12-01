@@ -90,7 +90,7 @@ int main(int argv,char* argc[]) {
         escena1.primitives.push_back(&esfera2);
         escena1.primitives.push_back(&fondoCamara);
         
-        Light luz(Point(0,-18,-50.0), color_w);
+        Light luz(Point(0,-18,-70.0), color_w);
         escena1.lights.push_back(&luz);
         
         escena1.shootingRays();
