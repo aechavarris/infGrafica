@@ -1,8 +1,19 @@
 #pragma once
 
 #include "Plane.h"
-
-Plane::Plane(Point p, Vector nor, RGB rgbE,RGB rgbEs,RGB rgbR, Property prop, bool light,bool texture) {
+Plane::Plane(Point p, Vector nor, RGB rgbE,RGB rgbEs,RGB rgbR, Property prop, bool light) {
+    this->p = p;
+    this->normal = nor;
+    this->emisionRGB = rgbE;
+    this->emisionRGB = rgbEs;
+    this->emisionRGB = rgbR;
+    this->matProperties=prop;
+    this->isLight = light;
+    this->minus=false;
+    this->minus_normal = Vector(-nor.x,-nor.y,-nor.z);
+    this->texture = new PPMFile();
+};
+Plane::Plane(Point p, Vector nor, RGB rgbE,RGB rgbEs,RGB rgbR, Property prop, bool light,PPMFile* texture) {
     this->p = p;
     this->normal = nor;
     this->emisionRGB = rgbE;

@@ -4,7 +4,18 @@
 
 Sphere::Sphere(){};
 
-Sphere::Sphere(Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property prop,bool light, bool texture) {
+Sphere::Sphere(Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property prop,bool light) {
+    this->center = center;
+    this->radius = radius;
+    this->emisionRGB = rgbE;
+    this->emisionRGB = rgbEs;
+    this->emisionRGB = rgbR;
+    this->matProperties = prop;
+    this->isLight = light;
+    this->texture = new PPMFile();
+};
+
+Sphere::Sphere(Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property prop,bool light, PPMFile* texture) {
     this->center = center;
     this->radius = radius;
     this->emisionRGB = rgbE;

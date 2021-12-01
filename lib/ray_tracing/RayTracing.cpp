@@ -16,7 +16,6 @@ RayTracing::RayTracing(Camera camera, int numRaysPerPixel, int width, int height
     {
         this->projection[i].resize(width);
     }
-    this->texture = texture;
 };
 
 void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &progressBar)
@@ -113,7 +112,7 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
                         // }
                         if (masCercano->isLight) // Se checkea si es luz de área
                         { 
-                            if(masCercano->texture == true){
+                            if(masCercano->texture->HDR_RESOLUTION!= -1.0){
                                 Point newOrigen = Point(actual_ray.origin.x + actual_ray.direction.x * minDist,
                                                     actual_ray.origin.y + actual_ray.direction.y * minDist,
                                                     actual_ray.origin.z + actual_ray.direction.z * minDist);
@@ -121,23 +120,23 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
                                 float y = 0.0;
                                 Vector normal = masCercano->getNormal(actual_ray,minDist);
                                 if(normal.x !=0.0){
-                                        x = int((newOrigen.z - this->frontRight.z) *10) % this->texture->width;
-                                        y = int((newOrigen.y - this->frontRight.y) *10) % this->texture->height;
+                                        x = int((newOrigen.z - this->frontRight.z) *10) % masCercano->texture->width;
+                                        y = int((newOrigen.y - this->frontRight.y) *10) % masCercano->texture->height;
                                     }else if (normal.y != 0.0){
-                                        x = int((newOrigen.x - this->backgroundLeft.x) *10) % this->texture->width;
-                                        y = int((-newOrigen.z - this->frontRight.z) *10) % this->texture->height;
+                                        x = int((newOrigen.x - this->backgroundLeft.x) *10) % masCercano->texture->width;
+                                        y = int((-newOrigen.z - this->frontRight.z) *10) % masCercano->texture->height;
                                     }else if (normal.z != 0.0){
-                                        x = int((newOrigen.x - this->backgroundLeft.x) *10) % this->texture->width;
-                                        y = int((newOrigen.y - this->frontRight.y) *10) % this->texture->height;
+                                        x = int((newOrigen.x - this->backgroundLeft.x) *10) % masCercano->texture->width;
+                                        y = int((newOrigen.y - this->frontRight.y) *10) % masCercano->texture->height;
                                     }
                                 if(x<0){
-                                    x = this->texture->width + x;
+                                    x = masCercano->texture->width + x;
                                 }if(y<0){
-                                    y = this->texture->height + y;
+                                    y = masCercano->texture->height + y;
                                 }
                                 
                                 
-                                rayColor = rayColor * this->texture->RGBTuples[y][x];
+                                rayColor = rayColor * masCercano->texture->RGBTuples[y][x];
                             }else{
                                 rayColor = rayColor * masCercano->emisionRGB;
                             }
@@ -177,28 +176,44 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
                                 //cout<<"Color: "<<masCercano->emisionRGB.r<<" "<<masCercano->emisionRGB.g<<" "<<masCercano->emisionRGB.b<<endl;
                                 //cout<<"Random: "<<*random<<endl;
                                 rayColor = rayColor * masCercano->matProperties.lambertianDiffuse;
-                                if(masCercano->texture == true){
+                                if(masCercano->texture->HDR_RESOLUTION != -1.0){
                                     
                                     Vector normal = masCercano->getNormal(auxRay,minDist);
                                     float x = 0.0;
                                     float y = 0.0;
                                     if(normal.x !=0.0){
-                                        x = int((newOrigen.z - this->frontRight.z) *10) % this->texture->width;
-                                        y = int((newOrigen.y - this->frontRight.y) *10) % this->texture->height;
-                                    }else if (normal.y != 0.0){
-                                        x = int((newOrigen.x - this->backgroundLeft.x) *10) % this->texture->width;
-                                        y = int((newOrigen.z - this->frontRight.z) *10) % this->texture->height;
-                                    }else if (normal.z != 0.0){
-                                        x = int((newOrigen.x - this->backgroundLeft.x) *10) % this->texture->width;
-                                        y = int((newOrigen.y - this->frontRight.y) *10) % this->texture->height;
-                                    }
-                                    if(x<0){
-                                        x = this->texture->width + x;
+                                        x = int((newOrigen.z - this->frontRight.z) *10) % masCercano->texture->width;
+                                        y = int((newOrigen.y - this->frontRight.y) *10) % masCercano->texture->height;
+                                        if(x<0){
+                                        x = masCercano->texture->width + x;
                                        
-                                    }if(y<0){
-                                        y = this->texture->height + y;
+                                        }if(y<0){
+                                            y = masCercano->texture->height + y;
+                                        }
+                                        rayColor = rayColor * masCercano->texture->RGBTuples[y][x];
+                                    }else if (normal.y != 0.0){
+                                        //cout<<"DEBUG"<<endl;
+                                        x = int((newOrigen.x - this->backgroundLeft.x) *10) % masCercano->texture->width;
+                                        y = int((newOrigen.z - this->frontRight.z) *10) % masCercano->texture->height;
+                                        if(x<0){
+                                        x = masCercano->texture->width + x;
+                                       
+                                        }if(y<0){
+                                            y = masCercano->texture->height + y;
+                                        }
+                                        rayColor = rayColor * masCercano->texture->RGBTuples[y][x];
+                                    }else if (normal.z != 0.0){
+                                        x = int((newOrigen.x - this->backgroundLeft.x) *10) % masCercano->texture->width;
+                                        y = int((newOrigen.y - this->frontRight.y) *10) % masCercano->texture->height;
+                                        if(x<0){
+                                        x = masCercano->texture->width + x;
+                                       
+                                        }if(y<0){
+                                            y = masCercano->texture->height + y;
+                                        }
+                                        rayColor = rayColor * masCercano->texture->RGBTuples[y][x];
                                     }
-                                    rayColor = rayColor * this->texture->RGBTuples[y][x];
+                                    
                                 }else{
                                     rayColor = rayColor * masCercano->emisionRGB;
                                 }
@@ -318,7 +333,7 @@ void RayTracing::checkLights(Primitive* mas_cercano,Ray ray,float distancia,RGB 
             
             float cos = fabs(normal.dot(light_direction.normalize()));
             
-            if(mas_cercano->texture == true &&
+            if(mas_cercano->texture->HDR_RESOLUTION != -1.0 &&
                     (fabs(normal.x)==1 || fabs(normal.y) == 1 || fabs(normal.z) == 1)){
                         
                 Point aux = Point(ray.origin.x + ray.direction.x * distancia,
@@ -327,22 +342,37 @@ void RayTracing::checkLights(Primitive* mas_cercano,Ray ray,float distancia,RGB 
                 float x = 0.0;
                 float y = 0.0;
                 if(normal.x !=0.0){
-                    x = int((aux.z - this->frontRight.z) *10) % this->texture->width;
-                    y = int((aux.y - this->frontRight.y) *10) % this->texture->height;
-                }else if (normal.y != 0.0){
-                    x = int((aux.x - this->backgroundLeft.x) *10) % this->texture->width;
-                    y = int((aux.z - this->frontRight.z) *10) % this->texture->height;
-                }else if (normal.z != 0.0){
-                    x = int((aux.x - this->backgroundLeft.x) *10) % this->texture->width;
-                    y = int((aux.y - this->frontRight.y) *10) % this->texture->height;
-                }
-                if(x<0){
-                    x = this->texture->width + x;
+                    x = int((aux.z - this->frontRight.z) *10) % mas_cercano->texture->width;
+                    y = int((aux.y - this->frontRight.y) *10) % mas_cercano->texture->height;
+                    if(x<0){
+                    x = mas_cercano->texture->width + x;
                                     
-                }if(y<0){
-                    y = this->texture->height + y;
+                    }if(y<0){
+                        y = mas_cercano->texture->height + y;
+                    }
+                    *luzDirecta = *luzDirecta +  ( (lightIntensity / tCuadrado) *  mas_cercano->texture->RGBTuples[y][x] * (mas_cercano->matProperties.lambertianDiffuse / PI) * cos);
+                }else if (normal.y != 0.0){
+                    x = int((aux.x - this->backgroundLeft.x) *10) % mas_cercano->texture->width;
+                    y = int((aux.z - this->frontRight.z) *10) % mas_cercano->texture->height;
+                    if(x<0){
+                    x = mas_cercano->texture->width + x;
+                                    
+                    }if(y<0){
+                        y = mas_cercano->texture->height + y;
+                    }
+                    *luzDirecta = *luzDirecta +  ( (lightIntensity / tCuadrado) *  mas_cercano->texture->RGBTuples[y][x] * (mas_cercano->matProperties.lambertianDiffuse / PI) * cos);
+
+                }else if (normal.z != 0.0){
+                    x = int((aux.x - this->backgroundLeft.x) *10) % mas_cercano->texture->width;
+                    y = int((aux.y - this->frontRight.y) *10) % mas_cercano->texture->height;
+                    if(x<0){
+                    x = mas_cercano->texture->width + x;
+                                    
+                    }if(y<0){
+                        y = mas_cercano->texture->height + y;
+                    }
+                    *luzDirecta = *luzDirecta +  ( (lightIntensity / tCuadrado) *  mas_cercano->texture->RGBTuples[y][x] * (mas_cercano->matProperties.lambertianDiffuse / PI) * cos);
                 }
-                *luzDirecta = *luzDirecta +  ( (lightIntensity / tCuadrado) *  this->texture->RGBTuples[y][x] * (mas_cercano->matProperties.lambertianDiffuse / PI) * cos);
             }else{
                 *luzDirecta = *luzDirecta +  ( (lightIntensity / tCuadrado) *  mas_cercano->emisionRGB * (mas_cercano->matProperties.lambertianDiffuse / PI) * cos);
             }

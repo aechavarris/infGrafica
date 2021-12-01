@@ -34,7 +34,6 @@ class RayTracing {
         int numRaysPerPixel;
         Point backgroundLeft;
         Point frontRight;
-        PPMFile* texture;
         /*
          * Constructor de la clase RayTracing
          */
