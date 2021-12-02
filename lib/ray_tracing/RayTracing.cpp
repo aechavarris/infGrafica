@@ -30,7 +30,7 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
     Primitive *masCercano;
 
     RGB colorAcumulado = RGB(0.0, 0.0, 0.0);
-    RGB* colorLuzDirecta =new RGB(0.0, 0.0, 0.0);
+    RGB* colorLuzDirecta = new RGB(0.0, 0.0, 0.0);
     RGB rayColor = RGB(1.0, 1.0, 1.0);
 
     const int limit = this->width * this->height ;
@@ -110,15 +110,17 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
                                 float y = 0.0;
                                 Vector normal = masCercano->getNormal(actual_ray,minDist);
                                 if(normal.x != 0.0) {
-                                        x = int((newOrigen.z - this->frontRight.z) *10) % masCercano->texture->width;
-                                        y = int((newOrigen.y - this->frontRight.y) *10) % masCercano->texture->height;
-                                    }else if (normal.y != 0.0) {
-                                        x = int((newOrigen.x - this->backgroundLeft.x) *10) % masCercano->texture->width;
-                                        y = int((-newOrigen.z - this->frontRight.z) *10) % masCercano->texture->height;
-                                    }else if (normal.z != 0.0) {
-                                        x = int((newOrigen.x - this->backgroundLeft.x) *10) % masCercano->texture->width;
-                                        y = int((newOrigen.y - this->frontRight.y) *10) % masCercano->texture->height;
-                                    }
+                                    x = int((newOrigen.z - this->frontRight.z) *10) % masCercano->texture->width;
+                                    y = int((newOrigen.y - this->frontRight.y) *10) % masCercano->texture->height;
+                                }
+                                else if (normal.y != 0.0) {
+                                    x = int((newOrigen.x - this->backgroundLeft.x) *10) % masCercano->texture->width;
+                                    y = int((-newOrigen.z - this->frontRight.z) *10) % masCercano->texture->height;
+                                }
+                                else if (normal.z != 0.0) {
+                                    x = int((newOrigen.x - this->backgroundLeft.x) *10) % masCercano->texture->width;
+                                    y = int((newOrigen.y - this->frontRight.y) *10) % masCercano->texture->height;
+                                }
 
                                 if(x < 0) x = masCercano->texture->width + x;
                                 if(y < 0) y = masCercano->texture->height + y;
