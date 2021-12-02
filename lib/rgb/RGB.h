@@ -1,3 +1,10 @@
+/*****************************************************************
+ * File:    RGB.h
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Implementa los colores RGB mediante una tupla (R, G, B),
+ *          done cada valor float indica el tono rojo, verde y azul.
+ *****************************************************************/
+
 #pragma once
 
 #include <iostream>
@@ -47,19 +54,7 @@ class RGB{
 
         RGB operator/(float num) const{
             return RGB(this->r / num, this->g / num, this->b / num);
-        }
-
-
-        // ---------------------------------------
-        // ------------- OPERACIONES -------------
-        // ---------------------------------------
-
-        /*
-         * Pre:
-         * Post:
-         */
-        
-    
+        }  
 };
 
 #include  "RGB.cpp"

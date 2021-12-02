@@ -1,3 +1,10 @@
+/*****************************************************************
+ * File:    Sphere.h
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Implementa el objeto esfera mediante su centro y su radio 
+ *          y sus posibles operaciones.
+ *****************************************************************/
+
 #pragma once
 
 #include <iostream>
@@ -15,12 +22,13 @@ class Sphere : public Primitive{
     public:
         Point center;
         float radius;
+
         /*
          * Constructor de la clase Sphere
          */
         Sphere();
-        Sphere (Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property propl,bool light);
-        Sphere (Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property propl,bool light,PPMFile* texture);
+        Sphere(Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property propl, bool light);
+        Sphere(Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property propl, bool light, PPMFile* texture);
         
 
         // ---------------------------------------
@@ -30,14 +38,13 @@ class Sphere : public Primitive{
         /*
          * To program this function, we have been inspired from https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
          */
-        bool intersect(Ray ray, float* t,float* t2,Point backgroundLeft, Point frontRight) override;
+        bool intersect(Ray ray, float* t, float* t2, Point backgroundLeft, Point frontRight) override;
 
         /*
          * Pre:
          * Post:
          */
         Vector getNormal(Ray ray, float distancia) override;
-
 };
 
 #include  "Sphere.cpp"

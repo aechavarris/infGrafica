@@ -1,10 +1,16 @@
+/*****************************************************************
+ * File:    Sphere.cpp
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Fichero de la implementación de la clase Sphere 
+ *****************************************************************/
+
 #pragma once
 
 #include "Sphere.h"
 
 Sphere::Sphere(){};
 
-Sphere::Sphere(Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property prop,bool light) {
+Sphere::Sphere(Point center, float radius, RGB rgbE, RGB rgbEs, RGB rgbR, Property prop, bool light) {
     this->center = center;
     this->radius = radius;
     this->emisionRGB = rgbE;
@@ -15,7 +21,7 @@ Sphere::Sphere(Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Propert
     this->texture = new PPMFile();
 };
 
-Sphere::Sphere(Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Property prop,bool light, PPMFile* texture) {
+Sphere::Sphere(Point center, float radius, RGB rgbE, RGB rgbEs, RGB rgbR, Property prop, bool light, PPMFile* texture) {
     this->center = center;
     this->radius = radius;
     this->emisionRGB = rgbE;
@@ -26,7 +32,7 @@ Sphere::Sphere(Point center, float radius, RGB rgbE,RGB rgbEs, RGB rgbR, Propert
     this->texture = texture;
 };
 
-bool Sphere::intersect(Ray ray, float* t, float *t2,Point backgroundLeft, Point frontRight) { 
+bool Sphere::intersect(Ray ray, float* t, float *t2, Point backgroundLeft, Point frontRight) { 
 
         float t0, t1; // solutions for t if the ray intersects 
 
@@ -53,7 +59,7 @@ bool Sphere::intersect(Ray ray, float* t, float *t2,Point backgroundLeft, Point 
         return true; 
 } 
 
-Vector Sphere::getNormal(Ray ray,float distancia){
+Vector Sphere::getNormal(Ray ray, float distancia){
     Point p = Point(ray.origin.x + ray.direction.x * distancia,
                     ray.origin.y + ray.direction.y * distancia,
                     ray.origin.z + ray.direction.z * distancia);

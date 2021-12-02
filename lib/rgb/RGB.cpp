@@ -1,3 +1,9 @@
+/*****************************************************************
+ * File:    RGB.cpp
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Fichero de la implementación de la clase RGB
+ *****************************************************************/
+
 #pragma once
 
 #include "RGB.h"

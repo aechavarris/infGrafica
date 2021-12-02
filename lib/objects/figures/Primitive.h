@@ -1,3 +1,10 @@
+/*****************************************************************
+ * File:    Primitive.h
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Implementa la clase padre de la que heredan todos los 
+ *          objetos de la escena y sus posible operaciones
+ *****************************************************************/
+
 #pragma once
 
 #include <iostream>
@@ -26,6 +33,7 @@ class Primitive {
         RGB especularRGB;
         RGB refraccionRGB;
         PPMFile* texture;
+
         /*
          * Constructor de la clase Primitive
          */
@@ -40,19 +48,19 @@ class Primitive {
          * Pre:
          * Post:
          */
-        virtual bool intersect(Ray ray, float* t,float* t2, Point backgroundLeft, Point frontRight) = 0;
+        virtual bool intersect(Ray ray, float* t, float* t2, Point backgroundLeft, Point frontRight) = 0;
 
         /*
          * Pre:
          * Post:
          */
-        string russianRoulette(int rebotes,float* random);
+        string russianRoulette(int rebotes, float* random);
 
         /*
          * Pre:
          * Post:
          */
-        Vector difusion(Ray ray, float distancia, Point p,Matrix change_base);
+        Vector difusion(Ray ray, float distancia, Point p, Matrix change_base);
 
         /*
          * Pre:
@@ -64,13 +72,13 @@ class Primitive {
          * Pre:
          * Post:
          */
-        Vector especular(Ray ray, float distancia,Matrix change_base);
+        Vector especular(Ray ray, float distancia, Matrix change_base);
 
         /*
          * Pre:
          * Post:
          */
-        virtual Vector getNormal(Ray ray,float distancia) = 0;
+        virtual Vector getNormal(Ray ray, float distancia) = 0;
 
         float floatRand(const float & min, const float & max);
 };

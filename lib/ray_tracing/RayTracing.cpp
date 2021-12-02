@@ -1,3 +1,9 @@
+/*****************************************************************
+ * File:    RayTracing.cpp
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Fichero de la implementación de la clase RayTracing 
+ *****************************************************************/
+
 #pragma once
 
 #include "RayTracing.h"
@@ -75,7 +81,7 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
                     for (int m = 0; m < this->primitives.size(); m++)
                     {
 
-                        if (this->primitives[m]->intersect(actual_ray, t1,t2,this->backgroundLeft,this->frontRight) )
+                        if (this->primitives[m]->intersect(actual_ray, t1, t2, this->backgroundLeft, this->frontRight) )
                         {   
                                 if (*t1 < minDist)
                                 {
@@ -91,38 +97,35 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
                     }
                     delete t1;
                     delete t2;
+
                     if (isIntersect)
                     {
                         if (masCercano->isLight) // Se checkea si es luz de área
                         { 
-                            if(masCercano->texture->HDR_RESOLUTION!= -1.0){
+                            if(masCercano->texture->HDR_RESOLUTION!= -1.0) {
                                 Point newOrigen = Point(actual_ray.origin.x + actual_ray.direction.x * minDist,
                                                     actual_ray.origin.y + actual_ray.direction.y * minDist,
                                                     actual_ray.origin.z + actual_ray.direction.z * minDist);
                                 float x = 0.0;
                                 float y = 0.0;
                                 Vector normal = masCercano->getNormal(actual_ray,minDist);
-                                if(normal.x !=0.0){
+                                if(normal.x != 0.0) {
                                         x = int((newOrigen.z - this->frontRight.z) *10) % masCercano->texture->width;
                                         y = int((newOrigen.y - this->frontRight.y) *10) % masCercano->texture->height;
-                                    }else if (normal.y != 0.0){
+                                    }else if (normal.y != 0.0) {
                                         x = int((newOrigen.x - this->backgroundLeft.x) *10) % masCercano->texture->width;
                                         y = int((-newOrigen.z - this->frontRight.z) *10) % masCercano->texture->height;
-                                    }else if (normal.z != 0.0){
+                                    }else if (normal.z != 0.0) {
                                         x = int((newOrigen.x - this->backgroundLeft.x) *10) % masCercano->texture->width;
                                         y = int((newOrigen.y - this->frontRight.y) *10) % masCercano->texture->height;
                                     }
-                                if(x<0){
-                                    x = masCercano->texture->width + x;
-                                }if(y<0){
-                                    y = masCercano->texture->height + y;
-                                }
-                                
-                                
+
+                                if(x < 0) x = masCercano->texture->width + x;
+                                if(y < 0) y = masCercano->texture->height + y;
+
                                 rayColor = rayColor * masCercano->texture->RGBTuples[y][x];
-                            }else{
-                                rayColor = rayColor * masCercano->emisionRGB;
                             }
+                            else rayColor = rayColor * masCercano->emisionRGB;
                             
                             end = true;
                         }
@@ -146,7 +149,7 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
                             }
                             else if (accion == "difusion")
                             {
-                                dir = masCercano->difusion(actual_ray, minDist, newOrigen,this->baseChange);
+                                dir = masCercano->difusion(actual_ray, minDist, newOrigen, this->baseChange);
                                 actual_ray = Ray(newOrigen, dir);
                                 rayColor = rayColor * masCercano->matProperties.lambertianDiffuse;
                                 if(masCercano->texture->HDR_RESOLUTION != -1.0){
@@ -157,51 +160,44 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
                                     if(normal.x !=0.0){
                                         x = int((newOrigen.z - this->frontRight.z) *10) % masCercano->texture->width;
                                         y = int((newOrigen.y - this->frontRight.y) *10) % masCercano->texture->height;
-                                        if(x<0){
-                                        x = masCercano->texture->width + x;
-                                       
-                                        }if(y<0){
-                                            y = masCercano->texture->height + y;
-                                        }
+                                        if(x < 0) x = masCercano->texture->width + x;
+                                        if(y < 0) y = masCercano->texture->height + y;
+
                                         rayColor = rayColor * masCercano->texture->RGBTuples[y][x];
-                                    }else if (normal.y != 0.0){
+                                    }
+                                    else if (normal.y != 0.0) {
                                         x = int((newOrigen.x - this->backgroundLeft.x) *10) % masCercano->texture->width;
                                         y = int((newOrigen.z - this->frontRight.z) *10) % masCercano->texture->height;
-                                        if(x<0){
-                                        x = masCercano->texture->width + x;
-                                       
-                                        }if(y<0){
-                                            y = masCercano->texture->height + y;
-                                        }
+                                        if(x < 0) x = masCercano->texture->width + x;
+                                        if(y < 0) y = masCercano->texture->height + y;
+                                        
                                         rayColor = rayColor * masCercano->texture->RGBTuples[y][x];
-                                    }else if (normal.z != 0.0){
+                                    }
+                                    else if (normal.z != 0.0) {
                                         x = int((newOrigen.x - this->backgroundLeft.x) *10) % masCercano->texture->width;
                                         y = int((newOrigen.y - this->frontRight.y) *10) % masCercano->texture->height;
-                                        if(x<0){
-                                        x = masCercano->texture->width + x;
-                                       
-                                        }if(y<0){
-                                            y = masCercano->texture->height + y;
-                                        }
+                                        if(x < 0) x = masCercano->texture->width + x;
+                                        if(y < 0) y = masCercano->texture->height + y;
+                                        
                                         rayColor = rayColor * masCercano->texture->RGBTuples[y][x];
                                     }
                                     
-                                }else{
-                                    rayColor = rayColor * masCercano->emisionRGB;
                                 }
+                                else rayColor = rayColor * masCercano->emisionRGB;
+        
                                 nRebotes++;
-                                this->checkLights(masCercano,auxRay,minDist,rayColor,colorLuzDirecta,progressBar);
+                                this->checkLights(masCercano, auxRay, minDist, rayColor, colorLuzDirecta, progressBar);
                             }
                             else if (accion == "especular")
                             {
-                                dir = masCercano->especular(actual_ray, minDist,this->baseChange);
+                                dir = masCercano->especular(actual_ray, minDist, this->baseChange);
                                 actual_ray = Ray(newOrigen, dir);
                                 rayColor = rayColor * masCercano->matProperties.deltaBRDF ;
                                 nRebotes++;
                             }
                             else if (accion == "refraccion")
                             {
-                                actual_ray = masCercano->refraccion(actual_ray, minDist,this->baseChange,this->backgroundLeft,this->frontRight);
+                                actual_ray = masCercano->refraccion(actual_ray, minDist, this->baseChange, this->backgroundLeft, this->frontRight);
                                 rayColor = rayColor * masCercano->matProperties.deltaBTDF ;
                             }
                             delete random;
@@ -220,9 +216,8 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
 
             ++progressBar;
             total++;
-            if(total % 100 == 0){
-                progressBar.display();
-            }
+            if(total % 100 == 0) progressBar.display();
+
             this->projection[i][j].r = colorAcumulado.r / numRaysPerPixel;
             this->projection[i][j].g = colorAcumulado.g / numRaysPerPixel;
             this->projection[i][j].b = colorAcumulado.b / numRaysPerPixel;
@@ -232,10 +227,9 @@ void RayTracing::shootingRaysAux(int start, int end,progresscpp::ProgressBar &pr
 
 void RayTracing::shootingRays()
 {
-
     // The info to use thread has been taken from https://www.bogotobogo.com/cplusplus/C11/1_C11_creating_thread.php
     int nThreadsSupported = (int)std::thread::hardware_concurrency();
-    vector<thread> threads=vector<thread>();
+    vector<thread> threads = vector<thread>();
 
     int start = 0;
     int end = this->height / nThreadsSupported;
@@ -246,8 +240,7 @@ void RayTracing::shootingRays()
     
     cout << "Starting ray tracing..." << endl;
     for (int i = 0; i < nThreadsSupported; i++)
-    {
-        
+    {   
         threads.push_back(thread(&RayTracing::shootingRaysAux, this, start, end, ref(progressBar)));
         start = end;
         end = (i == nThreadsSupported - 2) ? this->height : end + this->height / nThreadsSupported;
@@ -262,7 +255,7 @@ void RayTracing::shootingRays()
     
 };
 
-void RayTracing::checkLights(Primitive* mas_cercano,Ray ray,float distancia,RGB raycolor,RGB* luzDirecta,progresscpp::ProgressBar &progressBar){
+void RayTracing::checkLights(Primitive* mas_cercano, Ray ray, float distancia, RGB raycolor, RGB* luzDirecta, progresscpp::ProgressBar &progressBar){
     float intensity = 4000;
     for (auto i : this->lights)
     {
@@ -278,8 +271,7 @@ void RayTracing::checkLights(Primitive* mas_cercano,Ray ray,float distancia,RGB 
 
         for (auto n : this->primitives)
         {
-
-            if (n->intersect(lightRay, t1,t2,this->backgroundLeft,this->frontRight) )
+            if (n->intersect(lightRay, t1, t2, this->backgroundLeft, this->frontRight) )
             {
                     if (*t1 < light_distance)
                     {
@@ -289,65 +281,52 @@ void RayTracing::checkLights(Primitive* mas_cercano,Ray ray,float distancia,RGB 
             }
         }
     
-        if(puntual){
-
+        if(puntual) {
             RGB lightIntensity = i->color * intensity;
             float tCuadrado = light_distance * light_distance;
             if(tCuadrado < 1.0) tCuadrado = 1.0;
+
             Vector normal = mas_cercano->getNormal(ray,distancia);
-            
             float cos = fabs(normal.dot(light_direction.normalize()));
             
             if(mas_cercano->texture->HDR_RESOLUTION != -1.0 &&
-                    (fabs(normal.x)==1 || fabs(normal.y) == 1 || fabs(normal.z) == 1)){
+                    (fabs(normal.x)==1 || fabs(normal.y) == 1 || fabs(normal.z) == 1)) {
                         
                 Point aux = Point(ray.origin.x + ray.direction.x * distancia,
                     ray.origin.y + ray.direction.y * distancia,
                     ray.origin.z + ray.direction.z * distancia);
+
                 float x = 0.0;
                 float y = 0.0;
-                if(normal.x !=0.0){
+                if(normal.x != 0.0) {
                     x = int((aux.z - this->frontRight.z) *10) % mas_cercano->texture->width;
                     y = int((aux.y - this->frontRight.y) *10) % mas_cercano->texture->height;
-                    if(x<0){
-                    x = mas_cercano->texture->width + x;
-                                    
-                    }if(y<0){
-                        y = mas_cercano->texture->height + y;
-                    }
-                    *luzDirecta = *luzDirecta +  ( (lightIntensity / tCuadrado) *  mas_cercano->texture->RGBTuples[y][x] * (mas_cercano->matProperties.lambertianDiffuse / PI) * cos);
-                }else if (normal.y != 0.0){
-                    x = int((aux.x - this->backgroundLeft.x) *10) % mas_cercano->texture->width;
-                    y = int((aux.z - this->frontRight.z) *10) % mas_cercano->texture->height;
-                    if(x<0){
-                    x = mas_cercano->texture->width + x;
-                                    
-                    }if(y<0){
-                        y = mas_cercano->texture->height + y;
-                    }
-                    *luzDirecta = *luzDirecta +  ( (lightIntensity / tCuadrado) *  mas_cercano->texture->RGBTuples[y][x] * (mas_cercano->matProperties.lambertianDiffuse / PI) * cos);
+                    if(x < 0) x = mas_cercano->texture->width + x;
+                    if(y < 0) y = mas_cercano->texture->height + y;
 
-                }else if (normal.z != 0.0){
-                    x = int((aux.x - this->backgroundLeft.x) *10) % mas_cercano->texture->width;
-                    y = int((aux.y - this->frontRight.y) *10) % mas_cercano->texture->height;
-                    if(x<0){
-                    x = mas_cercano->texture->width + x;
-                                    
-                    }if(y<0){
-                        y = mas_cercano->texture->height + y;
-                    }
                     *luzDirecta = *luzDirecta +  ( (lightIntensity / tCuadrado) *  mas_cercano->texture->RGBTuples[y][x] * (mas_cercano->matProperties.lambertianDiffuse / PI) * cos);
                 }
-            }else{
-                *luzDirecta = *luzDirecta +  ( (lightIntensity / tCuadrado) *  mas_cercano->emisionRGB * (mas_cercano->matProperties.lambertianDiffuse / PI) * cos);
-            }
-            
-        }
+                else if (normal.y != 0.0) {
+                    x = int((aux.x - this->backgroundLeft.x) *10) % mas_cercano->texture->width;
+                    y = int((aux.z - this->frontRight.z) *10) % mas_cercano->texture->height;
+                    if(x < 0) x = mas_cercano->texture->width + x;
+                    if(y < 0) y = mas_cercano->texture->height + y;
+
+                    *luzDirecta = *luzDirecta +  ( (lightIntensity / tCuadrado) *  mas_cercano->texture->RGBTuples[y][x] * (mas_cercano->matProperties.lambertianDiffuse / PI) * cos);
+
+                }
+                else if (normal.z != 0.0) {
+                    x = int((aux.x - this->backgroundLeft.x) *10) % mas_cercano->texture->width;
+                    y = int((aux.y - this->frontRight.y) *10) % mas_cercano->texture->height;
+                    if(x < 0) x = mas_cercano->texture->width + x;
+                    if(y < 0) y = mas_cercano->texture->height + y;
         
-    
+                    *luzDirecta = *luzDirecta +  ( (lightIntensity / tCuadrado) *  mas_cercano->texture->RGBTuples[y][x] * (mas_cercano->matProperties.lambertianDiffuse / PI) * cos);
+                }
+            }
+            else *luzDirecta = *luzDirecta +  ( (lightIntensity / tCuadrado) *  mas_cercano->emisionRGB * (mas_cercano->matProperties.lambertianDiffuse / PI) * cos);     
+        }
     delete t2;
     delete t1;
-
-    }
-    
+    }   
 }

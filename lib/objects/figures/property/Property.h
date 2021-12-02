@@ -1,3 +1,10 @@
+/*****************************************************************
+ * File:    Property.h
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Recoge las propiedades de cada material (coeficientes 
+ *          de difusion, refraccion, ...)
+ *****************************************************************/
+
 #pragma once
 
 #include <iostream>
@@ -13,11 +20,12 @@ class Property {
         float deltaBRDF;
         float deltaBTDF;
         float snell;
+
         /*
          * Constructor de la clase Property
          */
         Property();
-        Property(float lambertian, float deltaBRDF, float deltaBTDF,float snell);
+        Property(float lambertian, float deltaBRDF, float deltaBTDF, float snell);
 };
 
 #include  "Property.cpp"

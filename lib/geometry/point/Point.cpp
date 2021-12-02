@@ -1,3 +1,9 @@
+/*****************************************************************
+ * File:    Point.cpp
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Fichero de la implementación de la clase Point
+ *****************************************************************/
+
 #pragma once
 
 #include "Point.h"

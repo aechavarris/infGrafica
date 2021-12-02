@@ -1,3 +1,9 @@
+/*****************************************************************
+ * File:    Matrix.cpp
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Fichero de la implementación de la clase Matrix 
+ *****************************************************************/
+
 #pragma once
 
 #include "Matrix.h"

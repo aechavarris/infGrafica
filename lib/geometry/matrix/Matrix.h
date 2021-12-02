@@ -1,3 +1,10 @@
+/*****************************************************************
+ * File:    Matrix.h
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Representa una matriz de 4x4 y todas sus operaciones 
+ *          posibles
+ *****************************************************************/
+
 #pragma once
 
 #include <iostream>

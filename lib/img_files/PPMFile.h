@@ -1,3 +1,10 @@
+/*****************************************************************
+ * File:    PPMFile.h
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Implementa la lectura y escritura de ficheros .ppm 
+ *          (en LDR y HDR)
+ *****************************************************************/
+
 #pragma once
 
 #include <iostream>

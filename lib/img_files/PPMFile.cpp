@@ -1,10 +1,18 @@
+/*****************************************************************
+ * File:    PPMFile.cpp
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Fichero de la implementación de la clase PPMFile
+ *****************************************************************/
+
 #pragma once
 
 #include "PPMFile.h"
+
 PPMFile::PPMFile(){
-    this->HDR_RESOLUTION=-1.0;
+    this->HDR_RESOLUTION = -1.0;
 }
-PPMFile::PPMFile(string name,string path){
+
+PPMFile::PPMFile(string name, string path){
     this->name = name;
     this->path = path;
     this->HDR_RESOLUTION = 1.0;
@@ -27,7 +35,7 @@ bool PPMFile::readFile(){
 	else {
         string line;
         string tmp;
-        int w,h;
+        int w, h;
         for (int i = 0; i < 5; i++ ){
                 switch (i)
                 {
@@ -85,12 +93,8 @@ bool PPMFile::readFile(){
 };
 
 float hdr_function(float v, float m){
-    if (v / m < 1.0){
-        return v / m;
-    }
-    else{
-        return 1.0;
-    }
+    if (v / m < 1.0) return v / m;
+    else return 1.0;
 }
    
 void PPMFile::writeFile(string path, string format){
@@ -99,22 +103,15 @@ void PPMFile::writeFile(string path, string format){
 
     my_file << this->format << endl;
 
-    if(this->HDR_RESOLUTION != 1.0){
-        my_file << "#MAX=" << this->HDR_RESOLUTION << endl;
-    }
+    if(this->HDR_RESOLUTION != 1.0) my_file << "#MAX=" << this->HDR_RESOLUTION << endl;
 
     my_file << "# " << this->name << ".ppm" << endl;
     my_file << this->width << " " << this->height << endl;
 
-    if (format == "LDR") {
-        my_file << LDR_RESOLUTION << endl;
-    }
+    if (format == "LDR") my_file << LDR_RESOLUTION << endl;
     else {
-        if(this->potentialColor > 65535){
-            my_file << 65535 << endl;
-        }else{
-            my_file << this->potentialColor << endl;
-        }
+        if(this->potentialColor > 65535) my_file << 65535 << endl;
+        else my_file << this->potentialColor << endl;  
     }
 
     float final_r = 0.0;
@@ -147,6 +144,5 @@ void PPMFile::writeFile(string path, string format){
         }
         my_file << '\n';
     }
-
 	my_file.close();
 };

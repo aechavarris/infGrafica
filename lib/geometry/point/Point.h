@@ -1,3 +1,10 @@
+/*****************************************************************
+ * File:    Point.h
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Representa un punto con coordenadas x, y, z y sus 
+ *          posibles operaciones
+ *****************************************************************/
+
 #pragma once
 
 #include <iostream>

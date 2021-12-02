@@ -1,3 +1,10 @@
+/*****************************************************************
+ * File:    Light.h
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Implementa las luces puntuales con sus coordenadas 
+ *          Point()  
+ *****************************************************************/
+
 #pragma once
 
 #include <iostream>
@@ -15,17 +22,12 @@ class Light {
     public:
         Point center;
         RGB color;
+
         /*
          * Constructor de la clase Light
          */
         Light();
         Light (Point center, RGB color);
-        
-
-        // ---------------------------------------
-        // ------------- OPERACIONES -------------
-        // ---------------------------------------
-
 };
 
 #include  "Light.cpp"

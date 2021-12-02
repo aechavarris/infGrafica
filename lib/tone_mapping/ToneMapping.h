@@ -1,3 +1,9 @@
+/*****************************************************************
+ * File:    ToneMapping.h
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Implementa las estrategias de mapeo de tonos
+ *****************************************************************/
+
 #pragma once
 
 #include <iostream>
@@ -38,7 +44,7 @@ class ToneMapping{
          * Pre:
          * Post:
          */
-        void gammaCurve(PPMFile &f,float gamma,float maxValue);   
+        void gammaCurve(PPMFile &f, float gamma, float maxValue);   
 };
 
 #include  "ToneMapping.cpp"

@@ -1,3 +1,11 @@
+/*****************************************************************
+ * File:    Camera.h
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Implementa la camara de la escena mediante su punto de 
+ *          origen y los 3 vectores que definen su sistema de 
+ *          coordenadas local.
+ *****************************************************************/
+
 #pragma once
 
 #include <iostream>

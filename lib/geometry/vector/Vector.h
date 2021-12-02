@@ -1,3 +1,9 @@
+/*****************************************************************
+ * File:    Vector.h
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Representa un vector con coordenadas x, y, z y sus posibles operaciones
+ *****************************************************************/
+
 #pragma once
 
 #include <iostream>

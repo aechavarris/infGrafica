@@ -1,3 +1,10 @@
+/*****************************************************************
+ * File:    RayTracing.h
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Clase principal del proyecto, implementa el trazado de rayos y 
+ *          la revision de sombras de la luz Puntual.
+ *****************************************************************/
+
 #pragma once
 
 #include <iostream>
@@ -23,14 +30,12 @@ using namespace std;
 
 class RayTracing {
     public:
-        const Point ZERO = Point(0.0, 0.0, 0.0);
         Camera camera;
         Matrix baseChange;
         vector<Primitive*> primitives;
         vector<Light*> lights;
         int width, height;
         vector<vector<RGB> > projection;
-        vector<vector<Ray> > rays;
         int numRaysPerPixel;
         Point backgroundLeft;
         Point frontRight;

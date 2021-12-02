@@ -1,3 +1,10 @@
+/*****************************************************************
+ * File:    Ray.h
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Clase simple que define un rayo como el punto del que 
+ *          sale y su direccion.
+ *****************************************************************/
+
 #pragma once
 
 #include <iostream>
@@ -18,6 +25,7 @@ class Ray {
          */
         Ray();
         Ray(Point origin, Vector dir);
+
 
         // ---------------------------------------
         // ------------- OPERACIONES -------------

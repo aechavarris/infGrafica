@@ -1,3 +1,9 @@
+/*****************************************************************
+ * File:    Camera.cpp
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Fichero de la implementación de la clase Camera 
+ *****************************************************************/
+
 #pragma once
 
 #include "Camera.h"

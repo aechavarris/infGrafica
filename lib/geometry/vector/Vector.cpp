@@ -1,3 +1,9 @@
+/*****************************************************************
+ * File:    Vector.cpp
+ * Authors: Marcos Nuez Martinez & Álvaro Echavarri Sola
+ * Coms:    Fichero de la implementación de la clase Vector
+ *****************************************************************/
+
 #pragma once
 
 #include "Vector.h"
@@ -13,11 +19,13 @@ Vector::Vector(float x, float y, float z){
     this->y = y;
     this->z = z;
 }
+
 Vector::Vector(Point p){
     this->x = p.x;
     this->y = p.y;
     this->z = p.z;
 }
+
 float Vector::module() {
     return sqrt(this->x * this->x + this->y * this->y + this->z * this->z);
 }
@@ -29,9 +37,9 @@ float Vector::dot(Vector v) {
 float Vector::dot(Point p) {
     return (this->x * p.x + this->y * p.y + this->z * p.z);
 }
+
 Vector Vector::normalize() {
     float module = this->module();
-
     return Vector(this->x / module,this->y / module,this->z / module);
 }
 
