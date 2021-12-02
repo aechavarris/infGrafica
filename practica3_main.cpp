@@ -61,8 +61,8 @@ int main(int argv,char* argc[]) {
 
     Plane techo = Plane(Point(0.0, -20, 0.0), n_techo, color_w,color_w,color_w,aux,false);
     Plane suelo = Plane(Point(0.0, 20, 0.0), n_suelo, color_gris,color_gris,color_gris,aux,false);
-    Plane pIz = Plane(Point(-20, 0.0, 0.0), n_pDe, color_pared_xokas,color_pared_xokas,color_pared_xokas,aux,false);
-    Plane pDe = Plane(Point(20, 0.0, 0.0), n_pIz, color_pared_xokas,color_pared_xokas,color_pared_xokas,aux,false);
+    Plane pIz = Plane(Point(-20, 0.0, 0.0), n_pDe, color_r,color_r,color_r,aux,false);
+    Plane pDe = Plane(Point(20, 0.0, 0.0), n_pIz, color_g,color_g,color_g,aux,false);
     Plane fondo = Plane(Point(0.0,0.0,-100.0), n_fondo, color_gris,color_gris,color_gris,aux,false);
     Plane fondoCamara = Plane(Point(0.0,0.0,10.0), n_fondo_camara, color_n,color_n,color_n,aux,false);
     Sphere esfera(Point(10,13,-70.0), 6.5, color_w,color_w,color_w,aux3,false);
@@ -71,43 +71,43 @@ int main(int argv,char* argc[]) {
     for(int i = 0; i<textures.size();i++){
         switch(i){
             case 0:
-                Plane fondo = 
+                fondo = 
                     Plane(Point(0.0,0.0,-100.0), n_fondo, color_gris,color_gris,
                                 color_gris,aux,false,textures.at(i));
                 break;
             case 1:
-                Plane suelo = 
+                suelo = 
                     Plane(Point(0.0, 20, 0.0), n_suelo, color_gris,color_gris,
                                 color_gris,aux,false,textures.at(i));
                 break;
             case 2:
-                Plane pIz = 
+                pIz = 
                     Plane(Point(-20, 0.0, 0.0), n_pDe, color_pared_xokas,
                                 color_pared_xokas,color_pared_xokas,aux,false,textures.at(i));
                 break;
             case 3:
-                Plane pDe = 
+                pDe = 
                     Plane(Point(20, 0.0, 0.0), n_pIz, color_pared_xokas,
                                 color_pared_xokas,color_pared_xokas,aux,false,textures.at(i));
                 break;
             case 4:
-                Plane fondoCamara =
-                    Plane(Point(0.0,0.0,10.0), n_fondo_camara, color_n,
-                                color_n,color_n,aux,false,textures.at(i));
-                break;
-            case 5:
-                Plane techo = 
+                techo = 
                     Plane(Point(0.0, -20, 0.0), n_techo, color_w,
                                 color_w,color_w,aux,false,textures.at(i));
                 break;
+            case 5:
+                fondoCamara =
+                    Plane(Point(0.0,0.0,10.0), n_fondo_camara, color_n,
+                                color_n,color_n,aux,false,textures.at(i));
+                break;
             case 6:
-                Sphere esfera = Sphere(Point(10,13,-70.0), 6.5, color_w,
-                                            color_w,color_w,aux3,false,textures.at(i));
+                esfera = Sphere(Point(10,13,-70.0), 6.5, color_w,
+                                            color_w,color_w,aux,false,textures.at(i));
                 break;
             case 7:
-                Sphere esfera2= Sphere(Point(-10,13,-80.0), 6.5, color_w,
+                esfera2= Sphere(Point(-10,13,-80.0), 6.5, color_w,
                                             color_w,color_w,aux2,false,textures.at(i));
-
+                break;
         }
     }
     
@@ -137,7 +137,7 @@ int main(int argv,char* argc[]) {
     escena1.primitives.push_back(&esfera2);
     escena1.primitives.push_back(&fondoCamara);
     
-    Light luz(Point(0,-12,-70.0), color_w);
+    Light luz(Point(0,-12,-90.0), color_w);
     escena1.lights.push_back(&luz);
     
     escena1.shootingRays();

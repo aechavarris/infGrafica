@@ -11,8 +11,6 @@ private:
     unsigned int m = 0;
     unsigned int l= 0;
     mutable std::mutex mtx;
-    mutable std::mutex rays1;
-    mutable std::mutex rays2;
     const unsigned int total_ticks;
     const unsigned int bar_width;
     const char complete_char = '=';
@@ -28,15 +26,6 @@ public:
     unsigned int operator++() { 
         unique_lock<mutex> lck(mtx);
         return ++ticks; }
-
-    // unsigned int muertos() { 
-    //     unique_lock<mutex> lck(rays1);
-    //     return ++m; }
-
-    // unsigned int luces() { 
-    //     unique_lock<mutex> lck(rays2);
-    //     return ++l; }
-
     void display() const {
         float progress = (float) ticks / total_ticks;
         int pos = (int) (bar_width * progress);
