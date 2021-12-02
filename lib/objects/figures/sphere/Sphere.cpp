@@ -58,6 +58,5 @@ Vector Sphere::getNormal(Ray ray,float distancia){
                     ray.origin.y + ray.direction.y * distancia,
                     ray.origin.z + ray.direction.z * distancia);
     Vector normal = Vector(p.x - this->center.x, p.y - this->center.y, p.z - this->center.z);
-    //cout<<"Normal:" <<normal.x<<" "<<normal.y<<" "<<normal.z<<" "<<endl;
     return normal.normalize();
 }

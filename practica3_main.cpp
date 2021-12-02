@@ -111,20 +111,12 @@ int main(int argv,char* argc[]) {
         }
     }
     
-    
-
     Point origin = Point(0, 0, 0);
     Vector f = Vector(0, 0, 1.5);
     Vector u = Vector(0, 1, 0);
     Vector r = Vector(1, 0, 0);
 
     Camera camera = Camera(origin, f, u, r); 
-    //Creacion escena 1
-    int i[1] ={150}; 
-    // //int i[7] ={1,1,1,1,1,1,1}; 
-    // //for (int n = 0; n < 7; n++) {
-
-    //cout << "Escena 1 " << i[n]<<" rayos"<<endl;
     RayTracing escena1 = RayTracing(camera,  raysPerPixel, width, height);
     escena1.backgroundLeft = Point(-20,-20,-100);
     escena1.frontRight = Point(20,20,0.0);
@@ -151,38 +143,5 @@ int main(int argv,char* argc[]) {
     file.format="P3";
     file.RGBTuples = escena1.projection; 
     file.writeFile("", "HDR"); 
-    // //}
-    //Creacion escena 2
-    // techo = Plane(Point(0.0, -20, 0.0), n_techo, color_w,color_w,color_w,aux,false,false);
-    // for (int n = 0; n < 7; n++) {
-    //     cout << "Escena 2 " << i[n]<<" rayos"<<endl;
-    //     RayTracing escena2 = RayTracing(camera,  i[n], width, height);
-    //     escena2.backgroundLeft = Point(-20,-20,-100);
-    //     escena2.frontRight = Point(20,20,0.0);
-    //     escena2.texture = texture;
-    //     escena2.primitives.push_back(&techo);
-    //     escena2.primitives.push_back(&suelo);
-    //     escena2.primitives.push_back(&pIz);
-    //     escena2.primitives.push_back(&pDe);
-    //     escena2.primitives.push_back(&fondo);
-    //     escena2.primitives.push_back(&esfera);
-    //     escena2.primitives.push_back(&esfera2);
-    //     escena2.primitives.push_back(&fondoCamara);
-        
-    //     Light luz(Point(0,-12,-70.0), color_w);
-    //     escena2.lights.push_back(&luz);
-
-    //     escena2.shootingRays();
-
-    //     PPMFile file = PPMFile("Escena2_"+to_string(i[n]), "");
-    //     ToneMapping mapping;
-    //     file.width = width;
-    //     file.height = height;
-    //     file.potentialColor = 255.0;
-    //     file.HDR_RESOLUTION = 1.0;
-    //     file.format="P3";
-    //     file.RGBTuples = escena2.projection; 
-    //     file.writeFile("", "HDR"); 
-    // }
     return 0;
 }

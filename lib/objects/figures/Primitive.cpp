@@ -7,7 +7,7 @@ Primitive::Primitive(){};
 bool Primitive::intersect(Ray ray, float *t,float* t2, Point backgroundLeft, Point frontRight) { return 0; };
 
 string Primitive::russianRoulette(int rebotes,float* random) {
-    //if(rebotes>1){return "fin";}
+
     float lambertianDiffuse = this->matProperties.lambertianDiffuse;
     float deltaBRDF = this->matProperties.deltaBRDF;
     float deltaBTDF = this->matProperties.deltaBTDF;
@@ -53,18 +53,15 @@ Vector Primitive::difusion(Ray ray, float distancia, Point p,Matrix change_base)
     
     Vector z = this->getNormal(ray, distancia);
     
-    //cout<<"Normal: "<<z.x<<" "<<z.y<<" "<<z.z<<endl;
-    Vector y = z.cross(Vector(z.z,z.x,z.y)).normalize();//ray.direction);
+    Vector y = z.cross(Vector(z.z,z.x,z.y)).normalize();
     Vector x = z.cross(y).normalize();
 
-    //cout <<"Rayo direccion: "<< ray.direction.x<<" "<<ray.direction.y<<" "<<ray.direction.z<<endl;
-    //cout <<"Normal: "<< z.x<<" "<<z.y<<" "<<z.z<<endl;
     Matrix baseChange = Matrix(x, y, z, p);
     
     dirRebote = baseChange.productMatrixVector(dirRebote);
-    //cout <<"Rayo rebote: "<< dirRebote.x<<" "<<dirRebote.y<<" "<<dirRebote.z<<endl;
+
     float tmp = dirRebote.dot(z);
-    //cout << tmp << " "<< inclination << endl;
+
     return dirRebote.normalize();
 }
 
@@ -74,7 +71,7 @@ Ray Primitive::refraccion(Ray ray, float distancia,Matrix change_base, Point bac
     const float int_refraction = this->matProperties.snell;
     Vector z = this->getNormal(ray, distancia);
     
-    //cout<<"Normal: "<<z.x<<" "<<z.y<<" "<<z.z<<endl;
+
     Vector normal = this->getNormal(ray, distancia);
     float cos1 = -ray.direction.dot(normal);
     float sin1 = 1.0 - cos1 * cos1;
@@ -104,7 +101,7 @@ Ray Primitive::refraccion(Ray ray, float distancia,Matrix change_base, Point bac
 
     z = this->getNormal(internal_ray, *t2);
     
-    //cout<<"Normal: "<<z.x<<" "<<z.y<<" "<<z.z<<endl;
+
     normal.x = -z.x;
     normal.y = -z.y;
     normal.z = -z.z;
@@ -135,9 +132,6 @@ Vector Primitive::especular(Ray ray, float distancia,Matrix change_base)
 
     Vector dirRebote = (ray.direction - aux).normalize();
 
-    //cout <<"Normal: "<< normal.x<<" "<<normal.y<<" "<<normal.z<<endl;
-    //cout <<"Ray * normal: "<< dotRayNormal<<endl;
-    //cout << "Dir rebote: "<< dirRebote.x<<" "<<dirRebote.y<<" "<<dirRebote.z<<endl;
     return dirRebote;
 }
 //This funtion has been taken from here: https://stackoverflow.com/questions/21237905/how-do-i-generate-thread-safe-uniform-random-numbers
