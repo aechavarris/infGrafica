@@ -258,9 +258,10 @@ void RayTracing::shootingRays()
 };
 
 void RayTracing::checkLights(Primitive* mas_cercano, Ray ray, float distancia, RGB raycolor, RGB* luzDirecta, progresscpp::ProgressBar &progressBar){
-    float intensity = 4000;
+    float intensity = 8000;
     for (auto i : this->lights)
     {
+        intensity = i->intensity;
         Point p = Point(ray.origin.x + ray.direction.x * distancia,
                     ray.origin.y + ray.direction.y * distancia,
                     ray.origin.z + ray.direction.z * distancia);

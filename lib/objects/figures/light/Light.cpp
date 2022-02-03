@@ -10,7 +10,8 @@
 
 Light::Light(){};
 
-Light::Light(Point center, RGB c) {
+Light::Light(Point center, RGB c,int i) {
     this->center = center;
     this->color = c;
+    this->intensity = i;
 }

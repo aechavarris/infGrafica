@@ -22,12 +22,13 @@ class Light {
     public:
         Point center;
         RGB color;
+        int intensity;
 
         /*
          * Constructor de la clase Light
          */
         Light();
-        Light (Point center, RGB color);
+        Light (Point center, RGB color,int i);
 };
 
 #include  "Light.cpp"
